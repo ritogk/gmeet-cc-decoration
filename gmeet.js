@@ -31,3 +31,13 @@ const observer = new MutationObserver(callback)
 
 // 対象ノードの設定された変更の監視を開始
 observer.observe(targetNode, config)
+
+// meetの映像一覧
+videoArea = document.querySelector(
+  "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf"
+).children
+videoArea = Array.from(videoArea)
+// 先頭文字列一致
+targetVideoArea = videoArea.find((element) =>
+  element.innerText.startsWith("あなた")
+)
