@@ -1,4 +1,4 @@
-const usersSpeeches = []
+let displayUsersSpeash = []
 
 // 変更を監視するノードを選択
 const targetNode = document.querySelector(".K6EKFb")
@@ -91,7 +91,29 @@ const setSpeach = (userName, userSpeach) => {
     }
     speachArea.textContent = userSpeach
   }
+
+  displayUsersSpeash = displayUsersSpeash.filter(
+    (displayUserSpeash) => displayUserSpeash.userName !== userName
+  )
+  displayUsersSpeash.push({
+    userName: userName,
+    time: new Date().getTime(),
+    element: speachArea,
+  })
 }
+
+// 古い字幕を消す
+const intervalId = setInterval(() => {
+  oldUsersSpeach = displayUsersSpeash.filter(
+    (displayUserSpeash) =>
+      (new Date().getTime() - displayUserSpeash.time) / 1000 > 10
+  )
+
+  console.log(oldUsersSpeach)
+  oldUsersSpeach.forEach((x) => {
+    x.element.remove()
+  })
+}, 3000)
 
 // 仮想DOMについて何もわかってない。
 
