@@ -33,6 +33,15 @@ const observer = new MutationObserver(callback)
 // 対象ノードの設定された変更の監視を開始
 observer.observe(targetNode, config)
 
+// システム停止
+const stopSystem = () => {
+  observer.disconnect()
+  clearInterval(intervalId)
+  displayUsersSpeash.forEach((x) => {
+    removeFadeOut(x.element, 2000)
+  })
+}
+
 const setSpeach = (userName, userSpeach) => {
   // meetの映像一覧
   userAreasElement = document.querySelector(
