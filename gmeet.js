@@ -61,7 +61,6 @@ const setSpeach = (userName, userSpeach) => {
     newElement.style.zIndex = "1000000"
     newElement.textContent = userSpeach
     newElement.className = "speachArea"
-    // newElement.style.fontSize = "clamp(18px, calc(100cqw/30), 29px)"
     newElement.style.fontWeight = "700"
     newElement.style.pointerEvents = "none"
     if (fontSize < 27) {
