@@ -50,6 +50,7 @@ const setSpeach = (userName, userSpeach) => {
   // 古い字幕は消す
   speachArea = targetUserArea.querySelector(".speachArea")
   if (speachArea === null) {
+    // 新規
     const newElement = document.createElement("div")
     newElement.style.color = "white"
     newElement.style.position = "absolute"
@@ -76,6 +77,7 @@ const setSpeach = (userName, userSpeach) => {
     }
     speachArea = targetVideoArea.parentNode.after(newElement)
   } else {
+    // 書き換え
     if (fontSize < 27) {
       speachArea.style.webkitTextStroke = "1px #000"
     } else {
