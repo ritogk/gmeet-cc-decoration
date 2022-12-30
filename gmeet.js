@@ -63,6 +63,7 @@ const setSpeach = (userName, userSpeach) => {
     newElement.style.webkitTextStroke = "2px #000"
     newElement.style.fontWeight = "bold"
     newElement.style.fontSize = "xx-large"
+    newElement.style.pointerEvents = "none"
     speachArea = targetVideoArea.parentNode.after(newElement)
   }
   speachArea.textContent = userSpeach
