@@ -16,19 +16,10 @@ const callback = function (mutationsList, observer) {
         speachUserAreaChildren = speachUserArea.children
         userImage = speachUserAreaChildren[0]
         userName = speachUserAreaChildren[1].innerText
-        userSpeach = speechArea.innerText
-
-        if (userSpeach === "") continue
+        userSpeach = speechArea.parentNode.innerText
         console.log(userName)
-        // spanが追加されずに更新される時があるからその対応がいる。
         console.log(userSpeach)
-
-        usersSpeeches.push({
-          name: userName,
-          time: new Date().getTime(),
-          speach: userSpeach,
-        })
-        console.log(usersSpeeches)
+        setSpeach(userName, userSpeach)
       }
     } else if (mutation.type === "attributes") {
       //   console.log(mutation)
@@ -43,44 +34,48 @@ const observer = new MutationObserver(callback)
 // 対象ノードの設定された変更の監視を開始
 observer.observe(targetNode, config)
 
-// meetの映像一覧
-userAreas = document.querySelector(
-  "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf"
-).children
-userAreas = Array.from(userAreas)
-// 先頭文字列一致
-targetUserArea = userAreas.find((element) =>
-  element.querySelector("[data-self-name]").innerText.startsWith("あなた")
-)
+const setSpeach = (userName, userSpeach) => {
+  // meetの映像一覧
+  userAreasElement = document.querySelector(
+    "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf"
+  )
+  userAreas = Array.from(userAreasElement.children)
+  // 先頭文字列一致
+  targetUserArea = userAreas.find((element) =>
+    element.querySelector("[data-self-name]").innerText.startsWith(userName)
+  )
+  // video要素取得
+  targetVideoArea = targetUserArea.querySelector("video")
 
-// video要素取得
-targetVideoArea = targetUserArea.querySelector("video")
+  // 古い字幕は消す
+  speachArea = targetUserArea.querySelector(".speachArea")
+  if (speachArea === null) {
+    const newElement = document.createElement("div")
+    newElement.style.color = "white"
+    newElement.style.position = "absolute"
+    newElement.style.bottom = "0"
+    newElement.style.width = "100%"
+    newElement.style.backgroundColor = "rgba(0,0,0,0.25)"
+    newElement.style.margin = "0"
+    newElement.style.zIndex = "1000000"
+    // newElement.textContent = userSpeach
+    newElement.className = "speachArea"
+    speachArea = targetVideoArea.parentNode.after(newElement)
+  }
+  speachArea.textContent = userSpeach
 
-// if (targetVideoArea === null) {
-//   // 動画なし
-//   targetImgArea = targetUserArea.querySelector("img")
-//   photoArea = targetImgArea.parentNode.parentNode
-// } else {
-//   // 動画あり
-// }
-
-// document.querySelector("#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.cZXVke.P9KVBf > div.dkjMxf > div > div.koV58.Zi94Db.S7urwe > div.LBDzPb > div")
-
-// // relativeの要素
-// node = document.querySelector(
-//   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf > div.dkjMxf > div > div.koV58.Zi94Db"
-// )
-const newElement = document.createElement("div")
-newElement.style.color = "white"
-newElement.style.position = "absolute"
-newElement.style.bottom = "0"
-newElement.style.width = "100%"
-newElement.style.backgroundColor = "rgba(0,0,0,0.25)"
-newElement.style.margin = "0"
-newElement.style.zIndex = "1000000"
-newElement.textContent = "たちつてと"
-newElement.className = "speachArea"
-a = targetVideoArea.parentNode.after(newElement)
+  // const newElement = document.createElement("div")
+  // newElement.style.color = "white"
+  // newElement.style.position = "absolute"
+  // newElement.style.bottom = "0"
+  // newElement.style.width = "100%"
+  // newElement.style.backgroundColor = "rgba(0,0,0,0.25)"
+  // newElement.style.margin = "0"
+  // newElement.style.zIndex = "1000000"
+  // newElement.textContent = userSpeach
+  // newElement.className = "speachArea"
+  // speachArea = targetVideoArea.parentNode.after(newElement)
+}
 
 // 仮想DOMについて何もわかってない。
 
@@ -88,3 +83,5 @@ a = targetVideoArea.parentNode.after(newElement)
 // 名前で絞り込んで、その中のvideoタグを取得してその隣に要素を追加するようにする
 
 // 親要素(absolute)にoverflow: hidden;
+
+// 議事録は、spa
