@@ -60,21 +60,12 @@ const setSpeach = (userName, userSpeach) => {
     newElement.style.zIndex = "1000000"
     // newElement.textContent = userSpeach
     newElement.className = "speachArea"
+    newElement.style.webkitTextStroke = "2px #000"
+    newElement.style.fontWeight = "bold"
+    newElement.style.fontSize = "xx-large"
     speachArea = targetVideoArea.parentNode.after(newElement)
   }
   speachArea.textContent = userSpeach
-
-  // const newElement = document.createElement("div")
-  // newElement.style.color = "white"
-  // newElement.style.position = "absolute"
-  // newElement.style.bottom = "0"
-  // newElement.style.width = "100%"
-  // newElement.style.backgroundColor = "rgba(0,0,0,0.25)"
-  // newElement.style.margin = "0"
-  // newElement.style.zIndex = "1000000"
-  // newElement.textContent = userSpeach
-  // newElement.className = "speachArea"
-  // speachArea = targetVideoArea.parentNode.after(newElement)
 }
 
 // 仮想DOMについて何もわかってない。
