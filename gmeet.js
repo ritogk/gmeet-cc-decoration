@@ -1,3 +1,5 @@
+const usersSpeeches = []
+
 let beforeCC = ""
 // 変更を監視するノードを選択
 const targetNode = document.querySelector(".K6EKFb")
@@ -14,10 +16,19 @@ const callback = function (mutationsList, observer) {
         speachUserAreaChildren = speachUserArea.children
         userImage = speachUserAreaChildren[0]
         userName = speachUserAreaChildren[1].innerText
-        speach = speechArea.innerText
+        userSpeach = speechArea.innerText
+
+        if (userSpeach === "") continue
         console.log(userName)
         // spanが追加されずに更新される時があるからその対応がいる。
-        console.log(speach)
+        console.log(userSpeach)
+
+        usersSpeeches.push({
+          name: userName,
+          time: new Date().getTime(),
+          speach: userSpeach,
+        })
+        console.log(usersSpeeches)
       }
     } else if (mutation.type === "attributes") {
       //   console.log(mutation)
