@@ -33,11 +33,47 @@ const observer = new MutationObserver(callback)
 observer.observe(targetNode, config)
 
 // meetの映像一覧
-videoArea = document.querySelector(
+userAreas = document.querySelector(
   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf"
 ).children
-videoArea = Array.from(videoArea)
+userAreas = Array.from(userAreas)
 // 先頭文字列一致
-targetVideoArea = videoArea.find((element) =>
-  element.innerText.startsWith("あなた")
+targetUserArea = userAreas.find((element) =>
+  element.querySelector("[data-self-name]").innerText.startsWith("あなた")
 )
+
+// video要素取得
+targetVideoArea = targetUserArea.querySelector("video")
+
+// if (targetVideoArea === null) {
+//   // 動画なし
+//   targetImgArea = targetUserArea.querySelector("img")
+//   photoArea = targetImgArea.parentNode.parentNode
+// } else {
+//   // 動画あり
+// }
+
+// document.querySelector("#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.cZXVke.P9KVBf > div.dkjMxf > div > div.koV58.Zi94Db.S7urwe > div.LBDzPb > div")
+
+// // relativeの要素
+// node = document.querySelector(
+//   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf > div.dkjMxf > div > div.koV58.Zi94Db"
+// )
+const newElement = document.createElement("div")
+newElement.style.color = "white"
+newElement.style.position = "absolute"
+newElement.style.bottom = "0"
+newElement.style.width = "100%"
+newElement.style.backgroundColor = "rgba(0,0,0,0.25)"
+newElement.style.margin = "0"
+newElement.style.zIndex = "1000000"
+newElement.textContent = "たちつてと"
+newElement.className = "speachArea"
+a = targetVideoArea.parentNode.after(newElement)
+
+// 仮想DOMについて何もわかってない。
+
+// videoタグのtop leftとか全部取得して videoタグのすぐそこにdom追加でabsoluteでOK
+// 名前で絞り込んで、その中のvideoタグを取得してその隣に要素を追加するようにする
+
+// 親要素(absolute)にoverflow: hidden;
