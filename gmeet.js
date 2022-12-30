@@ -1,6 +1,5 @@
 const usersSpeeches = []
 
-let beforeCC = ""
 // 変更を監視するノードを選択
 const targetNode = document.querySelector(".K6EKFb")
 const config = { attributes: true, childList: true, subtree: true }
