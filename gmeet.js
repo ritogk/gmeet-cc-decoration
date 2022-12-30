@@ -46,7 +46,7 @@ const setSpeach = (userName, userSpeach) => {
   )
   // video要素取得
   targetVideoArea = targetUserArea.querySelector("video")
-
+  const fontSize = Math.floor(targetUserArea.clientWidth / 35)
   // 古い字幕は消す
   speachArea = targetUserArea.querySelector(".speachArea")
   if (speachArea === null) {
@@ -58,15 +58,37 @@ const setSpeach = (userName, userSpeach) => {
     newElement.style.backgroundColor = "rgba(0,0,0,0.25)"
     newElement.style.margin = "0"
     newElement.style.zIndex = "1000000"
-    // newElement.textContent = userSpeach
+    newElement.textContent = userSpeach
     newElement.className = "speachArea"
-    newElement.style.webkitTextStroke = "2px #000"
-    newElement.style.fontWeight = "bold"
-    newElement.style.fontSize = "xx-large"
+    // newElement.style.fontSize = "clamp(18px, calc(100cqw/30), 29px)"
+    newElement.style.fontWeight = "700"
     newElement.style.pointerEvents = "none"
+    if (fontSize < 27) {
+      newElement.style.webkitTextStroke = "1px #000"
+    } else {
+      newElement.style.webkitTextStroke = "2px #000"
+    }
+
+    if (fontSize < 18) {
+      newElement.style.fontSize = "18px"
+    } else {
+      newElement.style.fontSize = `${fontSize}px`
+    }
     speachArea = targetVideoArea.parentNode.after(newElement)
+  } else {
+    if (fontSize < 27) {
+      speachArea.style.webkitTextStroke = "1px #000"
+    } else {
+      speachArea.style.webkitTextStroke = "2px #000"
+    }
+
+    if (fontSize < 18) {
+      speachArea.style.fontSize = "18px"
+    } else {
+      speachArea.style.fontSize = `${fontSize}px`
+    }
+    speachArea.textContent = userSpeach
   }
-  speachArea.textContent = userSpeach
 }
 
 // 仮想DOMについて何もわかってない。
@@ -77,3 +99,6 @@ const setSpeach = (userName, userSpeach) => {
 // 親要素(absolute)にoverflow: hidden;
 
 // 議事録は、spa
+
+// フォントサイズの変更はこいつを使えばよさそう。
+// https://kubogen.com/web-programing-233/
