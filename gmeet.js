@@ -61,7 +61,9 @@ const setSpeach = (userName, userSpeach) => {
     newElement.style.zIndex = "1000000"
     newElement.textContent = userSpeach
     newElement.className = "speachArea"
+    newElement.style.opacity = "0.5"
     newElement.style.fontWeight = "700"
+    newElement.style.textAlign = "center"
     newElement.style.pointerEvents = "none"
     if (fontSize < 27) {
       newElement.style.webkitTextStroke = "1px #000"
@@ -84,7 +86,7 @@ const setSpeach = (userName, userSpeach) => {
     }
 
     if (fontSize < 18) {
-      speachArea.style.fontSize = "18px"
+      speachArea.style.fontSize = "16px"
     } else {
       speachArea.style.fontSize = `${fontSize}px`
     }
