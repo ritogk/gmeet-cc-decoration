@@ -44,9 +44,15 @@ observer.observe(targetNode, config)
 const stopSystem = () => {
   observer.disconnect()
   clearInterval(intervalId)
-  displayUsersSpeash.forEach((x) => {
-    removeFadeOut(x.element, 2000)
+  clearCC()
+}
+
+// 字幕クリア
+const clearCC = () => {
+  document.querySelectorAll(".speachArea").forEach((x) => {
+    x.remove()
   })
+  displayUsersSpeash = []
 }
 
 const setSpeach = (userName, userSpeach) => {
@@ -56,9 +62,16 @@ const setSpeach = (userName, userSpeach) => {
   )
   userAreas = Array.from(userAreasElement.children)
   // 先頭文字列一致
-  targetUserArea = userAreas.find((element) =>
-    element.querySelector("[data-self-name]").innerText.startsWith(userName)
-  )
+  targetUserArea = userAreas.find((element) => {
+    // 画面共有ようのエリアはinnerTextが取得できないのでその対応
+    const userNameArea = element.querySelector("[data-self-name]")
+    if (!userNameArea) return false
+    if (userNameArea.innerText.startsWith(userName)) {
+      return element
+    }
+    return false
+  })
+  console.log(targetUserArea)
   // video要素取得
   targetVideoArea = targetUserArea.querySelector("video")
   const fontSize = Math.floor(targetUserArea.clientWidth / 35)
