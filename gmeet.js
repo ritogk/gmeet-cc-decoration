@@ -13,7 +13,6 @@ const config = { attributes: true, childList: true, subtree: true }
 
 // 変更が発見されたときに実行されるコールバック関数
 const callback = function (mutationsList, observer) {
-  console.log("[st]")
   for (const mutation of mutationsList) {
     if (mutation.type === "childList") {
       if (mutation.target.localName === "span") {
@@ -23,6 +22,7 @@ const callback = function (mutationsList, observer) {
         userImage = speachUserAreaChildren[0]
         userName = speachUserAreaChildren[1].innerText
         userSpeach = speechArea.parentNode.innerText
+        console.log("[字幕検知]")
         console.log(userName)
         console.log(userSpeach)
         setSpeach(userName, userSpeach)
@@ -31,7 +31,6 @@ const callback = function (mutationsList, observer) {
       //   console.log(mutation)
     }
   }
-  console.log("[ed]")
 }
 
 // コールバック関数に結びつけられたオブザーバーのインスタンスを生成
@@ -71,7 +70,6 @@ const setSpeach = (userName, userSpeach) => {
     }
     return false
   })
-  console.log(targetUserArea)
   // video要素取得
   targetVideoArea = targetUserArea.querySelector("video")
   const fontSize = Math.floor(targetUserArea.clientWidth / 35)
@@ -138,10 +136,16 @@ const intervalId = setInterval(() => {
       (new Date().getTime() - displayUserSpeash.time) / 1000 > 10
   )
 
-  console.log(oldUsersSpeach)
   oldUsersSpeach.forEach((x) => {
     removeFadeOut(x.element, 2000)
   })
+
+  displayUsersSpeash = displayUsersSpeash.filter(
+    (displayUserSpeash) =>
+      (new Date().getTime() - displayUserSpeash.time) / 1000 < 10
+  )
+  console.log("[表示中の字幕]")
+  console.log(displayUsersSpeash)
 }, 3000)
 
 // ふわっとelementを消す
