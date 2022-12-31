@@ -1,5 +1,12 @@
 let displayUsersSpeash = []
 
+// 字幕を非表示にする。
+// 単純にdisplay:noneだと変更が検知されない。
+ccArea = document.querySelector(".a4cQT")
+const hideCCArea = () => {
+  ccArea.style.opacity = "0"
+}
+
 // 変更を監視するノードを選択
 const targetNode = document.querySelector(".K6EKFb")
 const config = { attributes: true, childList: true, subtree: true }
