@@ -1,0 +1,24 @@
+{
+  "name": "gmeet-cc-decoration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc –watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ritogk/gmeet-cc-decoration.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ritogk/gmeet-cc-decoration/issues"
+  },
+  "homepage": "https://github.com/ritogk/gmeet-cc-decoration#readme",
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.4"
+  }
+}
