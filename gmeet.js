@@ -6,8 +6,9 @@ const stopSystem = () => {
   clearInterval(intervalId)
   clearCC()
 }
-
+// システム開始
 const startSystem = () => {}
+
 // 字幕を非表示にする。
 // 単純にdisplay:noneだと変更が検知されない。
 ccArea = document.querySelector(".a4cQT")
