@@ -1,5 +1,7 @@
 let displayUsersSpeash = []
 
+let intervalId = 0
+
 // システム停止
 const stopSystem = () => {
   observer.disconnect()
@@ -7,7 +9,76 @@ const stopSystem = () => {
   clearCC()
 }
 // システム開始
-const startSystem = () => {}
+const startSystem = () => {
+  // 対象ノードの設定された変更の監視を開始
+  observer.observe(targetNode, config)
+
+  // 古い字幕を消す
+  intervalId = setInterval(() => {
+    oldUsersSpeach = displayUsersSpeash.filter(
+      (displayUserSpeash) =>
+        (new Date().getTime() - displayUserSpeash.time) / 1000 > 10
+    )
+
+    oldUsersSpeach.forEach((x) => {
+      removeFadeOut(x.element, 2000)
+    })
+
+    displayUsersSpeash = displayUsersSpeash.filter(
+      (displayUserSpeash) =>
+        (new Date().getTime() - displayUserSpeash.time) / 1000 < 10
+    )
+    console.log("[表示中の字幕]")
+    console.log(displayUsersSpeash)
+  }, 3000)
+}
+
+// ボタンを追加
+// ボタン追加
+el = document.createElement("div")
+el.style.width = "40px"
+el.style.height = "40px"
+el.style.backgroundColor = "rgb(60, 64, 67)"
+el.style.borderRadius = "20px"
+el.style.paddingTop = "12px"
+el.style.paddingBottom = "12px"
+el.style.display = "inline-block"
+el.style.boxSizing = "border-box"
+el.innerText = "C2"
+
+function mouseOverStyle(e) {
+  if (!clicked) {
+    e.target.style.filter = "brightness(1.15)"
+  }
+}
+el.addEventListener("mouseover", mouseOverStyle)
+
+function mouseLeaveStyle(e) {
+  if (!clicked) {
+    e.target.style.filter = "brightness(1)"
+  }
+}
+el.addEventListener("mouseleave", mouseLeaveStyle)
+
+clicked = false
+function clickStyle(e) {
+  clicked = !clicked
+  if (clicked) {
+    e.target.style.color = "#000"
+    e.target.style.backgroundColor = "rgb(138,180,248)"
+    startSystem()
+  } else {
+    e.target.style.color = "#FFF"
+    e.target.style.backgroundColor = "rgb(60, 64, 67)"
+    stopSystem()
+  }
+}
+el.addEventListener("click", clickStyle)
+
+ccElement = document.querySelector(
+  "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div.UnvNgf.Sdwpn.P9KVBf.IYIJAc.BIBiNe > div.Tmb7Fd > div > div.juFBl"
+)
+ccElement.parentNode.insertBefore(el, ccElement.nextElementSibling)
 
 // 字幕を非表示にする。
 // 単純にdisplay:noneだと変更が検知されない。
@@ -44,9 +115,6 @@ const callback = function (mutationsList, observer) {
 
 // コールバック関数に結びつけられたオブザーバーのインスタンスを生成
 const observer = new MutationObserver(callback)
-
-// 対象ノードの設定された変更の監視を開始
-observer.observe(targetNode, config)
 
 // 字幕クリア
 const clearCC = () => {
@@ -131,25 +199,6 @@ const setSpeach = (userName, userSpeach) => {
   })
 }
 
-// 古い字幕を消す
-const intervalId = setInterval(() => {
-  oldUsersSpeach = displayUsersSpeash.filter(
-    (displayUserSpeash) =>
-      (new Date().getTime() - displayUserSpeash.time) / 1000 > 10
-  )
-
-  oldUsersSpeach.forEach((x) => {
-    removeFadeOut(x.element, 2000)
-  })
-
-  displayUsersSpeash = displayUsersSpeash.filter(
-    (displayUserSpeash) =>
-      (new Date().getTime() - displayUserSpeash.time) / 1000 < 10
-  )
-  console.log("[表示中の字幕]")
-  console.log(displayUsersSpeash)
-}, 3000)
-
 // ふわっとelementを消す
 function removeFadeOut(el, speed) {
   var seconds = speed / 1000
@@ -160,60 +209,3 @@ function removeFadeOut(el, speed) {
     el.parentNode.removeChild(el)
   }, speed)
 }
-
-// 仮想DOMについて何もわかってない。
-
-// videoタグのtop leftとか全部取得して videoタグのすぐそこにdom追加でabsoluteでOK
-// 名前で絞り込んで、その中のvideoタグを取得してその隣に要素を追加するようにする
-
-// 親要素(absolute)にoverflow: hidden;
-
-// 議事録は、spa
-
-// フォントサイズの変更はこいつを使えばよさそう。
-// https://kubogen.com/web-programing-233/
-
-el = document.createElement("div")
-el.style.width = "40px"
-el.style.height = "40px"
-el.style.backgroundColor = "rgb(60, 64, 67)"
-el.style.borderRadius = "20px"
-el.style.paddingTop = "12px"
-el.style.paddingBottom = "12px"
-el.style.display = "inline-block"
-el.style.boxSizing = "border-box"
-el.innerText = "C2"
-
-function mouseOverStyle(e) {
-  if (!clicked) {
-    e.target.style.filter = "brightness(1.15)"
-  }
-}
-el.addEventListener("mouseover", mouseOverStyle)
-
-function mouseLeaveStyle(e) {
-  if (!clicked) {
-    e.target.style.filter = "brightness(1)"
-  }
-}
-el.addEventListener("mouseleave", mouseLeaveStyle)
-
-clicked = false
-function clickStyle(e) {
-  clicked = !clicked
-  if (clicked) {
-    e.target.style.color = "#000"
-    e.target.style.backgroundColor = "rgb(138,180,248)"
-  } else {
-    e.target.style.color = "#FFF"
-    e.target.style.backgroundColor = "rgb(60, 64, 67)"
-  }
-}
-el.addEventListener("click", clickStyle)
-
-ccElement = document.querySelector(
-  "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div.UnvNgf.Sdwpn.P9KVBf.IYIJAc.BIBiNe > div.Tmb7Fd > div > div.juFBl"
-)
-ccElement.parentNode.insertBefore(el, ccElement.nextElementSibling)
-
-// width　と positionを設定したらどっちが優先される？
