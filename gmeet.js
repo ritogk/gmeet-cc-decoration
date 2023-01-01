@@ -1,5 +1,13 @@
 let displayUsersSpeash = []
 
+// システム停止
+const stopSystem = () => {
+  observer.disconnect()
+  clearInterval(intervalId)
+  clearCC()
+}
+
+const startSystem = () => {}
 // 字幕を非表示にする。
 // 単純にdisplay:noneだと変更が検知されない。
 ccArea = document.querySelector(".a4cQT")
@@ -38,13 +46,6 @@ const observer = new MutationObserver(callback)
 
 // 対象ノードの設定された変更の監視を開始
 observer.observe(targetNode, config)
-
-// システム停止
-const stopSystem = () => {
-  observer.disconnect()
-  clearInterval(intervalId)
-  clearCC()
-}
 
 // 字幕クリア
 const clearCC = () => {
@@ -170,3 +171,48 @@ function removeFadeOut(el, speed) {
 
 // フォントサイズの変更はこいつを使えばよさそう。
 // https://kubogen.com/web-programing-233/
+
+el = document.createElement("div")
+el.style.width = "40px"
+el.style.height = "40px"
+el.style.backgroundColor = "rgb(60, 64, 67)"
+el.style.borderRadius = "20px"
+el.style.paddingTop = "12px"
+el.style.paddingBottom = "12px"
+el.style.display = "inline-block"
+el.style.boxSizing = "border-box"
+el.innerText = "C2"
+
+function mouseOverStyle(e) {
+  if (!clicked) {
+    e.target.style.filter = "brightness(1.15)"
+  }
+}
+el.addEventListener("mouseover", mouseOverStyle)
+
+function mouseLeaveStyle(e) {
+  if (!clicked) {
+    e.target.style.filter = "brightness(1)"
+  }
+}
+el.addEventListener("mouseleave", mouseLeaveStyle)
+
+clicked = false
+function clickStyle(e) {
+  clicked = !clicked
+  if (clicked) {
+    e.target.style.color = "#000"
+    e.target.style.backgroundColor = "rgb(138,180,248)"
+  } else {
+    e.target.style.color = "#FFF"
+    e.target.style.backgroundColor = "rgb(60, 64, 67)"
+  }
+}
+el.addEventListener("click", clickStyle)
+
+ccElement = document.querySelector(
+  "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div.UnvNgf.Sdwpn.P9KVBf.IYIJAc.BIBiNe > div.Tmb7Fd > div > div.juFBl"
+)
+ccElement.parentNode.insertBefore(el, ccElement.nextElementSibling)
+
+// width　と positionを設定したらどっちが優先される？
