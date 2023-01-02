@@ -2,10 +2,10 @@
   "name": "gmeet-cc-decoration",
   "version": "1.0.0",
   "description": "",
-  "main": "test.ts",
+  "main": "main.ts",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc –watch"
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
