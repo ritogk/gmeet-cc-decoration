@@ -3,17 +3,18 @@ import { ccButton } from "@/selector/original"
 export interface ControlButtonInterface {
   createElement(): void
   deleteElement(): void
-  getElement(): HTMLDivElement | null
+  getElement(): HTMLElement | null
 }
 
 export class ControlButton implements ControlButtonInterface {
   private drawed = false
   private mouseOver = false
   private clicked = false
+  static ELEMENT_ID = "controlButton"
 
   createElement() {
     const element = document.createElement("div")
-    element.className = "controlButton"
+    element.id = ControlButton.ELEMENT_ID
     element.addEventListener("mouseover", this.overElement)
     element.addEventListener("mouseleave", this.leaveElement)
     element.addEventListener("click", this.clickElement)
@@ -30,14 +31,14 @@ export class ControlButton implements ControlButtonInterface {
   }
 
   deleteElement() {
-    document.querySelector(".controlButton")?.remove()
+    document.getElementById(ControlButton.ELEMENT_ID)?.remove()
     this.drawed = false
     this.mouseOver = false
     this.clicked = false
   }
 
-  getElement(): HTMLDivElement | null {
-    return document.querySelector(".controlButton")
+  getElement(): HTMLElement | null {
+    return document.getElementById(ControlButton.ELEMENT_ID)
   }
 
   private overElement: (e: any) => void = () => {
