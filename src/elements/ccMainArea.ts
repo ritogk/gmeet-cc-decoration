@@ -1,12 +1,12 @@
 import { selector } from "@/selector"
 
 export interface ccMainAreaInterface {
-  hideCcArea(): void
+  hideElement(): void
   getElement(): HTMLElement | null
 }
 
 export class CcMainArea implements ccMainAreaInterface {
-  hideCcArea(): void {
+  hideElement(): void {
     const element = this.getElement()
     if (element === null) return
     element.style.opacity = "0"
