@@ -4,6 +4,7 @@ module.exports = {
   mode: "development",
   // メインとなるJavaScriptファイル（エントリーポイント）
   entry: "./src/main.ts",
+  devtool: "cheap-module-source-map",
   // ファイルの出力設定
   output: {
     //  出力ファイルのディレクトリ名
