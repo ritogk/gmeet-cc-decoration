@@ -8,4 +8,11 @@ const ccArea = ".K6EKFb"
 const usersVideoArea =
   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf"
 
-export { ccButton, ccMainArea, ccArea, usersVideoArea }
+const selector = {
+  ccButton: ccButton,
+  ccMainArea: ccMainArea,
+  ccArea: ccArea,
+  usersVideoArea: usersVideoArea,
+}
+
+export { selector }

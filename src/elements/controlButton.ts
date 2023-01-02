@@ -1,4 +1,4 @@
-import { ccButton } from "@/selector/original"
+import { selector } from "@/selector"
 
 export interface ControlButtonInterface {
   createElement(): void
@@ -19,7 +19,7 @@ export class ControlButton implements ControlButtonInterface {
     element.addEventListener("mouseleave", this.leaveElement)
     element.addEventListener("click", this.clickElement)
 
-    const ccButtonElement = document.querySelector(ccButton)
+    const ccButtonElement = document.querySelector(selector.ccButton)
     if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
       ccButtonElement.parentNode.insertBefore(
         element,
