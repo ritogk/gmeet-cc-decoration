@@ -1,3 +1,4 @@
-import * as selector from "./selector/original"
+import { ControlButton } from "./elements/controlButton"
 
-console.log(selector.ccArea)
+const controlButton = new ControlButton()
+controlButton.createButton()
