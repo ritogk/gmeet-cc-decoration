@@ -10,12 +10,16 @@ const oveserverNode = new CcAreaElement().getElement()
 
 export class SpeachOveserver implements speachOveserverInterface {
   private observer: MutationObserver | null = null
-  private callback: (name: string, imagePath: string, speach: string) => void
+  private callbackObserver: (
+    name: string,
+    imagePath: string,
+    speach: string
+  ) => void
 
   constructor(
     callback: (name: string, imagePath: string, speach: string) => void
   ) {
-    this.callback = callback
+    this.callbackObserver = callback
   }
   start() {
     const mutationCallback: MutationCallback = (
@@ -31,7 +35,7 @@ export class SpeachOveserver implements speachOveserverInterface {
             if (!userAreaNode) return
             const userAreaNodeList = Array.from(userAreaNode.children)
             if (userAreaNodeList.length !== 3) return
-            this.callback(
+            this.callbackObserver(
               userAreaNodeList[1].textContent ?? "",
               (userAreaNodeList[0] as HTMLImageElement).src,
               userAreaNodeList[2].textContent ?? ""
