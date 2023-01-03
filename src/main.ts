@@ -20,8 +20,8 @@ const callbackFuncObserver = (
 }
 
 import { ControlButtonElement } from "@/elements/controlButtonElement"
-import { CcMainAreaElement } from "@/elements/ccMainAreaElement"
-const ccMainAreaElement = new CcMainAreaElement()
+import { CcAreaElement } from "@/elements/ccAreaElement"
+const ccAreaElement = new CcAreaElement()
 const callbackFuncClick = (clicked: boolean) => {
   console.log("click: controlButton")
   if (clicked) {
@@ -29,7 +29,7 @@ const callbackFuncClick = (clicked: boolean) => {
     console.log("start: observer")
     usersAreaElement.runInterval()
     console.log("run: interval")
-    ccMainAreaElement.opacateElement()
+    ccAreaElement.opacateElement()
   } else {
     // 字幕監視停止
     ccOveserver.stop()
@@ -38,7 +38,7 @@ const callbackFuncClick = (clicked: boolean) => {
     console.log("stop: interval")
     usersAreaElement.deleteUserCcElements()
     console.log("delete: cc elements")
-    ccMainAreaElement.showElement()
+    ccAreaElement.showElement()
   }
 }
 const ccOveserver = new CcOveserver(callbackFuncObserver)

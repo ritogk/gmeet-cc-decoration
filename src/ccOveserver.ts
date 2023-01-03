@@ -6,7 +6,7 @@ export interface ccOveserverInterface {
 }
 
 const config = { childList: true, subtree: true }
-const oveserverNode = new CcAreaElement().getElement()
+const oveserverNode = new CcAreaElement().getCcElement()
 
 export class CcOveserver implements ccOveserverInterface {
   private observer: MutationObserver | null = null
