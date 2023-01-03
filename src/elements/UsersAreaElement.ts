@@ -11,7 +11,7 @@ export interface usersAreaElementInterface {
 const userCcClassName = "user-cc-class-name"
 
 export class UsersAreaElement implements usersAreaElementInterface {
-  private displaySpeeches: {
+  private displayUserCcList: {
     name: string
     time: number
     element: HTMLElement
@@ -21,7 +21,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
   constructor() {
     // 古い字幕を消す
     this.observerintervalId = window.setInterval(() => {
-      const oldUsersSpeach = this.displaySpeeches.filter(
+      const oldUsersSpeach = this.displayUserCcList.filter(
         (displayUserSpeash) =>
           (new Date().getTime() - displayUserSpeash.time) / 1000 > 10
       )
@@ -30,12 +30,12 @@ export class UsersAreaElement implements usersAreaElementInterface {
         removeElement(x.element, 2000)
       })
 
-      this.displaySpeeches = this.displaySpeeches.filter(
+      this.displayUserCcList = this.displayUserCcList.filter(
         (displayUserSpeash) =>
           (new Date().getTime() - displayUserSpeash.time) / 1000 < 10
       )
       console.log("[表示中の字幕]")
-      console.log(this.displaySpeeches)
+      console.log(this.displayUserCcList)
     }, 3000)
   }
 
@@ -104,17 +104,17 @@ export class UsersAreaElement implements usersAreaElementInterface {
 
   // 字幕 削除
   deleteUserCcElement(name: string): void {
-    const displaySpeach = this.displaySpeeches.find((x) => x.name === name)
+    const displaySpeach = this.displayUserCcList.find((x) => x.name === name)
     if (!displaySpeach) return
     removeElement(displaySpeach.element, 2000)
   }
 
   // 表示した字幕を配列に追加する
   private appendDisplaySpeach(name: string, element: HTMLElement) {
-    this.displaySpeeches = this.displaySpeeches.filter(
+    this.displayUserCcList = this.displayUserCcList.filter(
       (displayUserSpeash) => displayUserSpeash.name !== name
     )
-    this.displaySpeeches.push({
+    this.displayUserCcList.push({
       name: name,
       time: new Date().getTime(),
       element: element,
