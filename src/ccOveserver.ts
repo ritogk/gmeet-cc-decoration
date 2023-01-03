@@ -1,6 +1,6 @@
 import { selector } from "./selector"
 import { CcAreaElement } from "@/elements/ccAreaElement"
-export interface speachOveserverInterface {
+export interface ccOveserverInterface {
   run: () => void
   stop: () => void
 }
@@ -8,7 +8,7 @@ export interface speachOveserverInterface {
 const config = { childList: true, subtree: true }
 const oveserverNode = new CcAreaElement().getElement()
 
-export class SpeachOveserver implements speachOveserverInterface {
+export class CcOveserver implements ccOveserverInterface {
   private observer: MutationObserver | null = null
   private callbackFuncObserver: (
     name: string,

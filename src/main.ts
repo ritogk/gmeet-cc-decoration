@@ -1,4 +1,4 @@
-import { SpeachOveserver } from "@/speachOveserver"
+import { CcOveserver } from "@/ccOveserver"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"
 
 const usersAreaElement = new UsersAreaElement()
@@ -25,14 +25,14 @@ const ccMainAreaElement = new CcMainAreaElement()
 const callbackFuncClick = (clicked: boolean) => {
   console.log("click: controlButton")
   if (clicked) {
-    speachOveserver.run()
+    ccOveserver.run()
     console.log("start: observer")
     usersAreaElement.runInterval()
     console.log("run: interval")
     ccMainAreaElement.opacateElement()
   } else {
     // 字幕監視停止
-    speachOveserver.stop()
+    ccOveserver.stop()
     console.log("stop: observer")
     usersAreaElement.stopInterval()
     console.log("stop: interval")
@@ -41,6 +41,6 @@ const callbackFuncClick = (clicked: boolean) => {
     ccMainAreaElement.showElement()
   }
 }
-const speachOveserver = new SpeachOveserver(callbackFuncObserver)
+const ccOveserver = new CcOveserver(callbackFuncObserver)
 const controlButtonElement = new ControlButtonElement(callbackFuncClick)
 controlButtonElement.createElement()
