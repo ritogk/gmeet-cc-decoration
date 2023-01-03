@@ -1,9 +1,12 @@
 import { SpeachOveserver } from "@/speachOveserver"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"
-import { CcMainAreaElement } from "@/elements/ccMainAreaElement"
 
 const usersAreaElement = new UsersAreaElement()
-const callbackObserver = (name: string, imagePath: string, speach: string) => {
+const callbackFuncObserver = (
+  name: string,
+  imagePath: string,
+  speach: string
+) => {
   console.log("mutate: speach")
   console.log(`name: ${name}`)
   console.log(`imagePath: ${imagePath}`)
@@ -16,12 +19,10 @@ const callbackObserver = (name: string, imagePath: string, speach: string) => {
   }
 }
 
-const ccMainAreaElement = new CcMainAreaElement()
-
-const speachOveserver = new SpeachOveserver(callbackObserver)
-
 import { ControlButtonElement } from "@/elements/controlButtonElement"
-const clickCallback = (clicked: boolean) => {
+import { CcMainAreaElement } from "@/elements/ccMainAreaElement"
+const ccMainAreaElement = new CcMainAreaElement()
+const callbackFuncClick = (clicked: boolean) => {
   console.log("click: controlButton")
   if (clicked) {
     speachOveserver.start()
@@ -40,5 +41,6 @@ const clickCallback = (clicked: boolean) => {
     ccMainAreaElement.showElement()
   }
 }
-const controlButtonElement = new ControlButtonElement(clickCallback)
+const speachOveserver = new SpeachOveserver(callbackFuncObserver)
+const controlButtonElement = new ControlButtonElement(callbackFuncClick)
 controlButtonElement.createElement()

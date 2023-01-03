@@ -20,9 +20,9 @@ export class ControlButtonElement implements ControlButtonElementInterface {
   createElement() {
     const element = document.createElement("div")
     element.id = ControlButtonElement.ELEMENT_ID
-    element.addEventListener("mouseover", this.overElement)
-    element.addEventListener("mouseleave", this.leaveElement)
-    element.addEventListener("click", this.clickElement)
+    element.addEventListener("mouseover", this.callbackFuncMouseOver)
+    element.addEventListener("mouseleave", this.callbackFuncMouseLeave)
+    element.addEventListener("click", this.callbackFuncClick)
 
     const ccButtonElement = document.querySelector(selector.controlCcButton)
     if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
@@ -46,17 +46,18 @@ export class ControlButtonElement implements ControlButtonElementInterface {
     return document.getElementById(ControlButtonElement.ELEMENT_ID)
   }
 
-  private overElement: (e: any) => void = () => {
+  // このへんのhandle処理から
+  private callbackFuncMouseOver: (e: any) => void = () => {
     this.mouseOver = true
     this.changeStyle()
   }
 
-  private leaveElement: (e: any) => void = () => {
+  private callbackFuncMouseLeave: (e: any) => void = () => {
     this.mouseOver = false
     this.changeStyle()
   }
 
-  private clickElement: (e: any) => void = () => {
+  private callbackFuncClick: (e: any) => void = () => {
     this.clicked = !this.clicked
     this.changeStyle()
     this.clickCallback(this.clicked)
