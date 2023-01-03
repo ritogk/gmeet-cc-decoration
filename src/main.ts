@@ -11,6 +11,7 @@ import { SpeachOveserver } from "@/speachOveserver"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"
 
 const usersAreaElement = new UsersAreaElement()
+usersAreaElement.runInterval()
 
 const callback = (name: string, imagePath: string, speach: string) => {
   console.log("[字幕変更検知]")
