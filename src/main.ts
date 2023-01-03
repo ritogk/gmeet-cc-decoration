@@ -1,7 +1,37 @@
-import { CcOveserver } from "@/core/ccOveserver"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"
+import { ControlButtonElement } from "@/elements/controlButtonElement"
+import { CcAreaElement } from "@/elements/ccAreaElement"
+import { CcOveserver } from "@/core/ccOveserver"
 
-const usersAreaElement = new UsersAreaElement()
+/**
+ * コントロールボタン押下後のコールバック関数
+ * @param clicked
+ */
+const callbackFuncClick = (clicked: boolean) => {
+  console.log("click: controlButton")
+  if (clicked) {
+    ccOveserver.run()
+    console.log("start: observer")
+    usersAreaElement.runInterval()
+    console.log("run: interval")
+    ccAreaElement.opacateElement()
+  } else {
+    ccOveserver.stop()
+    console.log("stop: observer")
+    usersAreaElement.stopInterval()
+    console.log("stop: interval")
+    usersAreaElement.deleteUserCcElements()
+    console.log("delete: cc elements")
+    ccAreaElement.showElement()
+  }
+}
+
+/**
+ * 字幕変更検知後のコールバック関数
+ * @param name
+ * @param imagePath
+ * @param speach
+ */
 const callbackFuncObserver = (
   name: string,
   imagePath: string,
@@ -19,28 +49,8 @@ const callbackFuncObserver = (
   }
 }
 
-import { ControlButtonElement } from "@/elements/controlButtonElement"
-import { CcAreaElement } from "@/elements/ccAreaElement"
+const usersAreaElement = new UsersAreaElement()
 const ccAreaElement = new CcAreaElement()
-const callbackFuncClick = (clicked: boolean) => {
-  console.log("click: controlButton")
-  if (clicked) {
-    ccOveserver.run()
-    console.log("start: observer")
-    usersAreaElement.runInterval()
-    console.log("run: interval")
-    ccAreaElement.opacateElement()
-  } else {
-    // 字幕監視停止
-    ccOveserver.stop()
-    console.log("stop: observer")
-    usersAreaElement.stopInterval()
-    console.log("stop: interval")
-    usersAreaElement.deleteUserCcElements()
-    console.log("delete: cc elements")
-    ccAreaElement.showElement()
-  }
-}
-const ccOveserver = new CcOveserver(callbackFuncObserver)
 const controlButtonElement = new ControlButtonElement(callbackFuncClick)
 controlButtonElement.createElement()
+const ccOveserver = new CcOveserver(callbackFuncObserver)
