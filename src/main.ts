@@ -8,12 +8,17 @@
 // ccMainArea.hideElement()
 
 import { SpeachOveserver } from "@/speachOveserver"
+import { VideoCcAreas } from "@/elements/videoCcAreas"
+
+const videoCcAreas = new VideoCcAreas()
 
 const callback = (name: string, imagePath: string, speach: string) => {
   console.log("[字幕変更検知]")
   console.log(name)
   console.log(imagePath)
   console.log(speach)
+
+  videoCcAreas.appendElement(name, speach)
 }
 
 const speachOveserver = new SpeachOveserver(callback)
