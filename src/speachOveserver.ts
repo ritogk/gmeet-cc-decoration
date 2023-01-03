@@ -9,6 +9,7 @@ const config = { childList: true, subtree: true }
 const oveserverNode = new CcAreaElement().getElement()
 
 export class SpeachOveserver implements speachOveserverInterface {
+  private observer: MutationObserver | null = null
   private callback: (name: string, imagePath: string, speach: string) => void
 
   constructor(
@@ -39,9 +40,12 @@ export class SpeachOveserver implements speachOveserverInterface {
         }
       }
     }
-    const observer = new MutationObserver(mutationCallback)
 
-    observer.observe(<Node>oveserverNode, config)
+    this.observer = new MutationObserver(mutationCallback)
+
+    this.observer.observe(<Node>oveserverNode, config)
   }
-  stop() {}
+  stop() {
+    this.observer?.disconnect()
+  }
 }

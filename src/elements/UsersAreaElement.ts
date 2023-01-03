@@ -160,8 +160,6 @@ export class UsersAreaElement implements usersAreaElementInterface {
       this.displayUserCcList = this.displayUserCcList.filter(
         (x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond
       )
-      console.log("[表示中の字幕]")
-      console.log(this.displayUserCcList)
     }, 3000)
   }
 
