@@ -1,11 +1,12 @@
 import { selector } from "./selector"
+import { CcArea } from "@/elements/ccArea"
 export interface speachOveserverInterface {
   start: () => void
   stop: () => void
 }
 
 const config = { childList: true, subtree: true }
-const oveserverNode = document.querySelector(selector.ccArea)
+const oveserverNode = new CcArea().getElement()
 
 export class SpeachOveserver implements speachOveserverInterface {
   private callback: (name: string, imagePath: string, speach: string) => void
