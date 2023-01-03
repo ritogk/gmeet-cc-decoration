@@ -10,6 +10,7 @@
 import { SpeachOveserver } from "@/speachOveserver"
 
 const callback = (name: string, imagePath: string, speach: string) => {
+  console.log("[字幕変更検知]")
   console.log(name)
   console.log(imagePath)
   console.log(speach)
