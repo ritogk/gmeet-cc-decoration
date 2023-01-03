@@ -1,4 +1,4 @@
-import { selector } from "@/selector"
+import { selector } from "@/core/selector"
 
 export interface ccAreaElementInterface {
   opacateElement(): void

@@ -1,4 +1,3 @@
-import { selector } from "./selector"
 import { CcAreaElement } from "@/elements/ccAreaElement"
 export interface ccOveserverInterface {
   run: () => void

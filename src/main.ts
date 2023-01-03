@@ -1,4 +1,4 @@
-import { CcOveserver } from "@/ccOveserver"
+import { CcOveserver } from "@/core/ccOveserver"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"
 
 const usersAreaElement = new UsersAreaElement()
