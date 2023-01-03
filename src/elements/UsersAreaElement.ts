@@ -128,6 +128,13 @@ export class UsersAreaElement implements usersAreaElementInterface {
     removeElement(displaySpeach.element, 2000)
   }
 
+  // 全字幕 削除
+  deleteUserCcElements(): void {
+    this.displayUserCcList.forEach((x) => {
+      removeElement(x.element, 2000)
+    })
+  }
+
   private displayUserCcList: {
     name: string
     time: number

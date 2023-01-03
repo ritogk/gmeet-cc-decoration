@@ -33,6 +33,8 @@ const clickCallback = (clicked: boolean) => {
     console.log("stop: observer")
     usersAreaElement.stopInterval()
     console.log("stop: interval")
+    usersAreaElement.deleteUserCcElements()
+    console.log("delete: cc elements")
   }
 }
 const controlButtonElement = new ControlButtonElement(clickCallback)
