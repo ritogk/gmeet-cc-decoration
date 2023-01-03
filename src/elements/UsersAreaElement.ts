@@ -1,9 +1,10 @@
 import { selector } from "@/selector"
+import { removeElement } from "@/core/dom"
 export interface usersAreaElementInterface {
   getElement(): HTMLElement | null
   appendUserCcElement: (name: string, speach: string) => void
   updateUserCcElement: (name: string, speach: string) => void
-  deleteAll: () => void
+  deleteUserCcElement: (name: string) => void
   findUserCcElement: (name: string) => Element | undefined
 }
 
@@ -26,7 +27,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
       )
 
       oldUsersSpeach.forEach((x) => {
-        this.removeFadeOut(x.element, 2000)
+        removeElement(x.element, 2000)
       })
 
       this.displaySpeeches = this.displaySpeeches.filter(
@@ -42,7 +43,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     return document.querySelector<HTMLElement>(selector.usersArea)
   }
 
-  // 字幕追加
+  // 字幕 追加
   appendUserCcElement(name: string, speach: string): void {
     const userAreaElement = this.findUserAreaElement(name)
     if (userAreaElement) return
@@ -79,7 +80,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     this.appendDisplaySpeach(name, userCcEmenet)
   }
 
-  // 更新
+  // 字幕 更新
   updateUserCcElement(name: string, speach: string): void {
     const userAreraElement = this.findUserAreaElement(name)
     if (!userAreraElement) return
@@ -100,17 +101,12 @@ export class UsersAreaElement implements usersAreaElementInterface {
     // ログに追加
     this.appendDisplaySpeach(name, userCcElement)
   }
-  deleteAll(): void {}
 
-  // ふわっとelementを消す
-  private removeFadeOut(el: HTMLElement, speed: number) {
-    var seconds = speed / 1000
-    el.style.transition = "opacity " + seconds + "s ease"
-
-    el.style.opacity = "0"
-    setTimeout(function () {
-      el.parentNode?.removeChild(el)
-    }, speed)
+  // 字幕 削除
+  deleteUserCcElement(name: string): void {
+    const displaySpeach = this.displaySpeeches.find((x) => x.name === name)
+    if (!displaySpeach) return
+    removeElement(displaySpeach.element, 2000)
   }
 
   // 表示した字幕を配列に追加する
