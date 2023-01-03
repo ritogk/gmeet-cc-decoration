@@ -23,6 +23,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
   findUserAreaElement(name: string): Element | undefined {
     const usersAreaElement = this.getElement()
     if (!usersAreaElement) return undefined
+
     const userAreaList = Array.from(usersAreaElement.children)
     return userAreaList.find((element) => {
       // 画面共有ようのエリアはinnerTextが取得できないのでその対応
@@ -38,7 +39,8 @@ export class UsersAreaElement implements usersAreaElementInterface {
   // ユーザーのvideo要素を取得
   findUserVideoElement(name: string): HTMLVideoElement | undefined {
     const userAreaElement = this.findUserAreaElement(name)
-    if (userAreaElement === undefined) return undefined
+    if (!userAreaElement) return undefined
+
     // 非表示のVideoタグが紛れる事があるのでその対応。
     const videoAreaElements = userAreaElement.querySelectorAll("video")
     let userVideoElement: HTMLVideoElement | null = null
@@ -56,7 +58,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
   // ユーザー字幕の取得
   findUserCcElement(name: string): HTMLDivElement | undefined {
     const userAreaElement = this.findUserAreaElement(name)
-    if (userAreaElement === undefined) return undefined
+    if (!userAreaElement) return undefined
 
     const userCcElement = userAreaElement.querySelector("." + userCcClassName)
     return userCcElement !== null ? <HTMLDivElement>userCcElement : undefined
@@ -65,7 +67,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
   // 字幕 追加
   appendUserCcElement(name: string, speach: string): void {
     const userAreaElement = this.findUserAreaElement(name)
-    if (userAreaElement) return
+    if (!userAreaElement) return
 
     const userVideoElement = this.findUserVideoElement(name)
     if (!userVideoElement) return
@@ -110,6 +112,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     const userCcElement = this.findUserCcElement(name)
     if (!userCcElement) return
 
+    userCcElement.textContent = speach
     const fontSize = Math.floor(userVideoElement.clientWidth / 35)
     fontSize < 18
       ? (userCcElement.style.fontSize = "18px")
