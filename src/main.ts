@@ -4,10 +4,10 @@ import { UsersAreaElement } from "@/elements/UsersAreaElement"
 const usersAreaElement = new UsersAreaElement()
 
 const callbackObserver = (name: string, imagePath: string, speach: string) => {
-  console.log("[字幕変更検知]")
-  console.log(name)
-  console.log(imagePath)
-  console.log(speach)
+  console.log("mutate: speach")
+  console.log(`name: ${name}`)
+  console.log(`imagePath: ${imagePath}`)
+  console.log(`speach: ${speach}`)
 
   if (usersAreaElement.findUserCcElement(name)) {
     usersAreaElement.appendUserCcElement(name, speach)
