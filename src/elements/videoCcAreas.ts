@@ -10,6 +10,56 @@ const videoCcAeraClassName = "speachArea"
 
 export class VideoCcAreas implements videoCcAreasInterface {
   private videoAreasElement = new videoAreas().getElement()
+  private displaySpeeches: {
+    name: string
+    time: number
+    element: HTMLElement
+  }[] = []
+  private observerintervalId: number = 0
+
+  constructor() {
+    // 古い字幕を消す
+    this.observerintervalId = window.setInterval(() => {
+      const oldUsersSpeach = this.displaySpeeches.filter(
+        (displayUserSpeash) =>
+          (new Date().getTime() - displayUserSpeash.time) / 1000 > 10
+      )
+
+      oldUsersSpeach.forEach((x) => {
+        this.removeFadeOut(x.element, 2000)
+      })
+
+      this.displaySpeeches = this.displaySpeeches.filter(
+        (displayUserSpeash) =>
+          (new Date().getTime() - displayUserSpeash.time) / 1000 < 10
+      )
+      console.log("[表示中の字幕]")
+      console.log(this.displaySpeeches)
+    }, 3000)
+  }
+
+  // ふわっとelementを消す
+  private removeFadeOut(el: HTMLElement, speed: number) {
+    var seconds = speed / 1000
+    el.style.transition = "opacity " + seconds + "s ease"
+
+    el.style.opacity = "0"
+    setTimeout(function () {
+      el.parentNode?.removeChild(el)
+    }, speed)
+  }
+
+  private appendDisplaySpeach(name: string, element: HTMLElement) {
+    this.displaySpeeches = this.displaySpeeches.filter(
+      (displayUserSpeash) => displayUserSpeash.name !== name
+    )
+    this.displaySpeeches.push({
+      name: name,
+      time: new Date().getTime(),
+      element: element,
+    })
+  }
+
   appendElement(name: string, speach: string): void {
     debugger
     if (!this.videoAreasElement) return
@@ -70,6 +120,12 @@ export class VideoCcAreas implements videoCcAreasInterface {
         newElement.style.fontSize = `${fontSize}px`
       }
       videoAreaElement.parentElement?.after(newElement)
+      this.appendDisplaySpeach(
+        name,
+        userAreaElement.getElementsByClassName(
+          videoCcAeraClassName
+        )[0] as HTMLElement
+      )
     } else {
       // 更新
       const videoSpeachElement = <HTMLElement>videoSpeachElements[0]
@@ -85,6 +141,7 @@ export class VideoCcAreas implements videoCcAreasInterface {
         videoSpeachElement.style.fontSize = `${fontSize}px`
       }
       videoSpeachElement.textContent = speach
+      this.appendDisplaySpeach(name, videoSpeachElement)
     }
   }
   updateElement(name: string, speach: string): void {}
