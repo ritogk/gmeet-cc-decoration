@@ -1,4 +1,4 @@
-const ccButton =
+const controlCcButton =
   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div.UnvNgf.Sdwpn.P9KVBf.IYIJAc.BIBiNe > div.Tmb7Fd > div > div.juFBl"
 const ccMainArea = ".a4cQT"
 const ccArea =
@@ -7,7 +7,7 @@ const usersArea =
   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf"
 
 const selector = {
-  ccButton: ccButton,
+  controlCcButton: controlCcButton,
   ccMainArea: ccMainArea,
   ccArea: ccArea,
   usersArea: usersArea,

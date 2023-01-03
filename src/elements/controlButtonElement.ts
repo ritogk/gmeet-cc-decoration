@@ -24,7 +24,7 @@ export class ControlButtonElement implements ControlButtonElementInterface {
     element.addEventListener("mouseleave", this.leaveElement)
     element.addEventListener("click", this.clickElement)
 
-    const ccButtonElement = document.querySelector(selector.ccButton)
+    const ccButtonElement = document.querySelector(selector.controlCcButton)
     if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
       ccButtonElement.parentNode.insertBefore(
         element,
