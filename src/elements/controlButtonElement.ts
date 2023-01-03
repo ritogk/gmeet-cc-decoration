@@ -6,6 +6,9 @@ export interface ControlButtonElementInterface {
   getElement(): HTMLElement | null
 }
 
+/**
+ * システムのコントロールボタンに関するクラス
+ */
 export class ControlButtonElement implements ControlButtonElementInterface {
   private drawed = false
   private mouseOver = false

@@ -6,6 +6,9 @@ export interface ccAreaElementInterface {
   getElement(): HTMLElement | null
 }
 
+/**
+ * 字幕エリアのElementに関するクラス
+ */
 export class CcAreaElement implements ccAreaElementInterface {
   opacate = false
   opacateElement(): void {

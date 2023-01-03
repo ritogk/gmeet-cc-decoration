@@ -1,3 +1,6 @@
+/**
+ * GoogleMeetのElementのセレクター
+ */
 const controlCcButton =
   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div.UnvNgf.Sdwpn.P9KVBf.IYIJAc.BIBiNe > div.Tmb7Fd > div > div.juFBl"
 const ccMainArea = ".a4cQT"

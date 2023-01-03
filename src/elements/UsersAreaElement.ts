@@ -14,6 +14,9 @@ export interface usersAreaElementInterface {
 
 const userCcClassName = "user-cc-class-name"
 
+/**
+ * ユーザーエリアのElementに関するクラス
+ */
 export class UsersAreaElement implements usersAreaElementInterface {
   getElement(): HTMLElement | null {
     return document.querySelector<HTMLElement>(selector.usersArea)

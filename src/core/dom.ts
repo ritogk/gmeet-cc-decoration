@@ -1,3 +1,8 @@
+/**
+ * Elementの削除を行います。
+ * @param el
+ * @param speed
+ */
 const removeElement = (el: HTMLElement, speed: number) => {
   var seconds = speed / 1000
   el.style.transition = "opacity " + seconds + "s ease"

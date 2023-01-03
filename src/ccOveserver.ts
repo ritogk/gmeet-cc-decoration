@@ -8,6 +8,9 @@ export interface ccOveserverInterface {
 const config = { childList: true, subtree: true }
 const oveserverNode = new CcAreaElement().getCcElement()
 
+/**
+ * 字幕の変更監視クラス
+ */
 export class CcOveserver implements ccOveserverInterface {
   private observer: MutationObserver | null = null
   private callbackFuncObserver: (
