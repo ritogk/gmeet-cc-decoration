@@ -3,14 +3,14 @@ const ccButton =
 const ccMainArea = ".a4cQT"
 const ccArea =
   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div.a4cQT > div:nth-child(1) > div:nth-child(1)"
-const videoAreas =
+const usersArea =
   "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf"
 
 const selector = {
   ccButton: ccButton,
   ccMainArea: ccMainArea,
   ccArea: ccArea,
-  videoAreas: videoAreas,
+  usersArea: usersArea,
 }
 
 export { selector }

@@ -8,9 +8,9 @@
 // ccMainArea.hideElement()
 
 import { SpeachOveserver } from "@/speachOveserver"
-import { UsersVideoElement } from "@/elements/usersVideoElement"
+import { UsersAreaElement } from "@/elements/UsersAreaElement"
 
-const usersVideoElement = new UsersVideoElement()
+const usersAreaElement = new UsersAreaElement()
 
 const callback = (name: string, imagePath: string, speach: string) => {
   console.log("[字幕変更検知]")
@@ -18,10 +18,10 @@ const callback = (name: string, imagePath: string, speach: string) => {
   console.log(imagePath)
   console.log(speach)
 
-  if (usersVideoElement.existCcElement(name)) {
-    usersVideoElement.appendUserCcElement(name, speach)
+  if (usersAreaElement.findUserCcElement(name)) {
+    usersAreaElement.appendUserCcElement(name, speach)
   } else {
-    usersVideoElement.updateElement(name, speach)
+    usersAreaElement.updateUserCcElement(name, speach)
   }
 }
 
