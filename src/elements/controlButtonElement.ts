@@ -1,12 +1,12 @@
 import { selector } from "@/selector"
 
-export interface ControlButtonInterface {
+export interface ControlButtonElementInterface {
   createElement(): void
   deleteElement(): void
   getElement(): HTMLElement | null
 }
 
-export class ControlButton implements ControlButtonInterface {
+export class ControlButtonElement implements ControlButtonElementInterface {
   private drawed = false
   private mouseOver = false
   private clicked = false
@@ -14,7 +14,7 @@ export class ControlButton implements ControlButtonInterface {
 
   createElement() {
     const element = document.createElement("div")
-    element.id = ControlButton.ELEMENT_ID
+    element.id = ControlButtonElement.ELEMENT_ID
     element.addEventListener("mouseover", this.overElement)
     element.addEventListener("mouseleave", this.leaveElement)
     element.addEventListener("click", this.clickElement)
@@ -31,14 +31,14 @@ export class ControlButton implements ControlButtonInterface {
   }
 
   deleteElement() {
-    document.getElementById(ControlButton.ELEMENT_ID)?.remove()
+    document.getElementById(ControlButtonElement.ELEMENT_ID)?.remove()
     this.drawed = false
     this.mouseOver = false
     this.clicked = false
   }
 
   getElement(): HTMLElement | null {
-    return document.getElementById(ControlButton.ELEMENT_ID)
+    return document.getElementById(ControlButtonElement.ELEMENT_ID)
   }
 
   private overElement: (e: any) => void = () => {

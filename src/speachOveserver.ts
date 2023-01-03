@@ -1,12 +1,12 @@
 import { selector } from "./selector"
-import { CcArea } from "@/elements/ccArea"
+import { CcAreaElement } from "@/elements/ccAreaElement"
 export interface speachOveserverInterface {
   start: () => void
   stop: () => void
 }
 
 const config = { childList: true, subtree: true }
-const oveserverNode = new CcArea().getElement()
+const oveserverNode = new CcAreaElement().getElement()
 
 export class SpeachOveserver implements speachOveserverInterface {
   private callback: (name: string, imagePath: string, speach: string) => void

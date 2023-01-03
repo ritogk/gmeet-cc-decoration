@@ -1,10 +1,10 @@
 import { selector } from "@/selector"
 
-export interface ccMainAreaInterface {
+export interface ccAreaElementInterface {
   getElement(): HTMLElement | null
 }
 
-export class CcArea implements ccMainAreaInterface {
+export class CcAreaElement implements ccAreaElementInterface {
   getElement(): HTMLElement | null {
     return document.querySelector<HTMLElement>(selector.ccArea)
   }

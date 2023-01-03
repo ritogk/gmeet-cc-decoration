@@ -1,12 +1,12 @@
 import { selector } from "@/selector"
 
-export interface ccMainAreaInterface {
+export interface ccMainAreaElementInterface {
   hideElement(): void
   showElement(): void
   getElement(): HTMLElement | null
 }
 
-export class CcMainArea implements ccMainAreaInterface {
+export class CcMainAreaElement implements ccMainAreaElementInterface {
   hided = false
   hideElement(): void {
     const element = this.getElement()
