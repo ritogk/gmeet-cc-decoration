@@ -88,7 +88,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     userCcElement.style.pointerEvents = "none"
     const fontSize = Math.floor(userVideoElement.clientWidth / 35)
     fontSize < 18
-      ? (userCcElement.style.fontSize = "18px")
+      ? (userCcElement.style.fontSize = "15px")
       : (userCcElement.style.fontSize = `${fontSize}px`)
     fontSize < 27
       ? (userCcElement.style.webkitTextStroke = "1px #000")
@@ -115,7 +115,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     userCcElement.textContent = speach
     const fontSize = Math.floor(userVideoElement.clientWidth / 35)
     fontSize < 18
-      ? (userCcElement.style.fontSize = "18px")
+      ? (userCcElement.style.fontSize = "15px")
       : (userCcElement.style.fontSize = `${fontSize}px`)
     fontSize < 27
       ? (userCcElement.style.webkitTextStroke = "1px #000")
