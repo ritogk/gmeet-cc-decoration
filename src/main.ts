@@ -1,11 +1,9 @@
-// import { ControlButton } from "@/elements/controlButton"
-// import { CcMainArea } from "@/elements/ccMainArea"
-
-// const controlButton = new ControlButton()
-// controlButton.createElement()
-
-// const ccMainArea = new CcMainArea()
-// ccMainArea.hideElement()
+import { ControlButtonElement } from "@/elements/controlButtonElement"
+const clickCallback = (clicked: boolean) => {
+  console.log(clicked)
+}
+const controlButtonElement = new ControlButtonElement(clickCallback)
+controlButtonElement.createElement()
 
 import { SpeachOveserver } from "@/speachOveserver"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"

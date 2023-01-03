@@ -11,6 +11,11 @@ export class ControlButtonElement implements ControlButtonElementInterface {
   private mouseOver = false
   private clicked = false
   static ELEMENT_ID = "controlButton"
+  private clickCallback: (clicked: boolean) => void
+
+  constructor(callback: (clicked: boolean) => void) {
+    this.clickCallback = callback
+  }
 
   createElement() {
     const element = document.createElement("div")
@@ -54,6 +59,7 @@ export class ControlButtonElement implements ControlButtonElementInterface {
   private clickElement: (e: any) => void = () => {
     this.clicked = !this.clicked
     this.changeStyle()
+    this.clickCallback(this.clicked)
   }
 
   private changeStyle: () => void = () => {
