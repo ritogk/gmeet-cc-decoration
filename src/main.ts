@@ -25,7 +25,7 @@ const ccMainAreaElement = new CcMainAreaElement()
 const callbackFuncClick = (clicked: boolean) => {
   console.log("click: controlButton")
   if (clicked) {
-    speachOveserver.start()
+    speachOveserver.run()
     console.log("start: observer")
     usersAreaElement.runInterval()
     console.log("run: interval")

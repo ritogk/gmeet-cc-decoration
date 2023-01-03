@@ -1,7 +1,7 @@
 import { selector } from "./selector"
 import { CcAreaElement } from "@/elements/ccAreaElement"
 export interface speachOveserverInterface {
-  start: () => void
+  run: () => void
   stop: () => void
 }
 
@@ -21,7 +21,7 @@ export class SpeachOveserver implements speachOveserverInterface {
   ) {
     this.callbackFuncObserver = callbackFunc
   }
-  start() {
+  run() {
     const mutationCallback: MutationCallback = (
       mutations: MutationRecord[],
       observer: MutationObserver
