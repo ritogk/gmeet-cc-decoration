@@ -37,7 +37,7 @@ const callbackFuncObserver = (
   imagePath: string,
   speach: string
 ) => {
-  console.log("mutate: speach")
+  console.log("mutate: cc")
   console.log(`name: ${name}`)
   console.log(`imagePath: ${imagePath}`)
   console.log(`speach: ${speach}`)
