@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ritogk/gmeet-cc-decoration#readme",
   "dependencies": {
+    "@types/chrome": "^0.0.206",
     "@types/node": "^18.11.18",
     "ts-loader": "^9.4.2",
     "typescript": "^4.9.4",
