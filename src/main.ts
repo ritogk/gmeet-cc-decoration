@@ -4,6 +4,7 @@ import { CcAreaElement } from "@/elements/ccAreaElement"
 import { CcOveserver } from "@/core/ccOveserver"
 
 export const main = () => {
+  console.log("start: application")
   /**
    * コントロールボタン押下後のコールバック関数
    * @param clicked
@@ -56,3 +57,11 @@ export const main = () => {
   controlButtonElement.createElement()
   const ccOveserver = new CcOveserver(callbackFuncObserver)
 }
+
+document.addEventListener("runScript", (e) => {
+  main()
+})
+
+// // script呼び出し用イベント
+// const event = new Event("runScript", { bubbles: true })
+// document.dispatchEvent(event)
