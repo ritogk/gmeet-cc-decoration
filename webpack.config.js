@@ -4,14 +4,14 @@ module.exports = {
   // development に設定するとソースマップ有効でJSファイルが出力される
   mode: "development",
   // メインとなるJavaScriptファイル（エントリーポイント）
-  entry: "./src/main.ts",
+  entry: { run: "./src/run.ts", main: "/src/main.ts" },
   devtool: "cheap-module-source-map",
   // ファイルの出力設定
   output: {
     //  出力ファイルのディレクトリ名
-    path: `${__dirname}/dist`,
+    path: `${__dirname}/chrome-extention`,
     // 出力ファイル名
-    filename: "main.js",
+    filename: "[name].bundle.js",
   },
   module: {
     rules: [
