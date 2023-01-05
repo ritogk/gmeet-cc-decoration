@@ -131,6 +131,8 @@ const userCcClassName = "user-cc-class-name";
  */
 class UsersAreaElement {
     constructor() {
+        // 字幕の透明度を変える
+        this.userCcOpacityRate = 0.5;
         this.displayUserCcList = [];
         this.cclimitSecond = 10;
         this.intervalId = 0;
@@ -203,7 +205,7 @@ class UsersAreaElement {
         userCcElement.style.zIndex = "1000000";
         userCcElement.textContent = speach;
         userCcElement.className = userCcClassName;
-        userCcElement.style.opacity = "0.5";
+        userCcElement.style.opacity = this.userCcOpacityRate.toString();
         userCcElement.style.fontWeight = "700";
         userCcElement.style.textAlign = "center";
         userCcElement.style.pointerEvents = "none";
@@ -256,6 +258,12 @@ class UsersAreaElement {
             (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
         });
     }
+    setUserCcOpacityRate(opacityRate) {
+        this.userCcOpacityRate = opacityRate;
+        this.displayUserCcList.forEach((x) => {
+            x.element.style.opacity = this.userCcOpacityRate.toString();
+        });
+    }
     appendDisplayUserCc(name, element) {
         this.displayUserCcList = this.displayUserCcList.filter((displayUserSpeash) => displayUserSpeash.name !== name);
         this.displayUserCcList.push({
@@ -301,7 +309,7 @@ class CcAreaElement {
     constructor() {
         this.opacate = false;
     }
-    opacateElement() {
+    hideElement() {
         const element = this.getElement();
         if (element === null)
             return;
@@ -502,7 +510,6 @@ const main = () => {
             console.log("start: observer");
             usersAreaElement.runInterval();
             console.log("run: interval");
-            ccAreaElement.opacateElement();
         }
         else {
             ccOveserver.stop();
@@ -511,7 +518,6 @@ const main = () => {
             console.log("stop: interval");
             usersAreaElement.deleteUserCcElements();
             console.log("delete: cc elements");
-            ccAreaElement.showElement();
         }
     };
     /**
@@ -537,6 +543,36 @@ const main = () => {
     const controlButtonElement = new _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_1__.ControlButtonElement(callbackFuncClick);
     controlButtonElement.createElement();
     const ccOveserver = new _core_ccOveserver__WEBPACK_IMPORTED_MODULE_3__.CcOveserver(callbackFuncObserver);
+    // 設定読み込み
+    chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], function (values) {
+        console.log(values);
+        // 字幕の透明度
+        usersAreaElement.setUserCcOpacityRate(values.opacityRate);
+        // 字幕の表示非表示制御
+        if (values.isDisplayOriginalCc == "1") {
+            ccAreaElement.showElement();
+        }
+        else {
+            ccAreaElement.hideElement();
+        }
+    });
+    // 変更検知
+    chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+        console.log("receive: popup → content_scripts");
+        debugger;
+        const data = JSON.parse(message);
+        // 字幕の透明度
+        usersAreaElement.setUserCcOpacityRate(data.opacityRate);
+        debugger;
+        // 字幕の表示非表示制御
+        if (data.isDisplayOriginalCc == "1") {
+            ccAreaElement.showElement();
+        }
+        else {
+            ccAreaElement.hideElement();
+        }
+        //ccAreaElement.showElement()
+    });
 };
 document.addEventListener("runScript", (e) => {
     main();

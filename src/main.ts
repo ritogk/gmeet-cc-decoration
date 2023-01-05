@@ -16,7 +16,6 @@ export const main = () => {
       console.log("start: observer")
       usersAreaElement.runInterval()
       console.log("run: interval")
-      ccAreaElement.opacateElement()
     } else {
       ccOveserver.stop()
       console.log("stop: observer")
@@ -24,7 +23,6 @@ export const main = () => {
       console.log("stop: interval")
       usersAreaElement.deleteUserCcElements()
       console.log("delete: cc elements")
-      ccAreaElement.showElement()
     }
   }
 
@@ -56,6 +54,47 @@ export const main = () => {
   const controlButtonElement = new ControlButtonElement(callbackFuncClick)
   controlButtonElement.createElement()
   const ccOveserver = new CcOveserver(callbackFuncObserver)
+
+  // 設定読み込み
+  chrome.storage.local.get(
+    ["opacityRate", "isDisplayOriginalCc"],
+    function (values) {
+      console.log(values)
+      // 字幕の透明度
+      usersAreaElement.setUserCcOpacityRate(values.opacityRate)
+
+      // 字幕の表示非表示制御
+      if (values.isDisplayOriginalCc == "1") {
+        ccAreaElement.showElement()
+      } else {
+        ccAreaElement.hideElement()
+      }
+    }
+  )
+
+  // 変更検知
+  chrome.runtime.onMessage.addListener(function (
+    message: string,
+    sender,
+    sendResponse
+  ) {
+    console.log("receive: popup → content_scripts")
+    debugger
+    const data = JSON.parse(message)
+
+    // 字幕の透明度
+    usersAreaElement.setUserCcOpacityRate(data.opacityRate)
+
+    debugger
+    // 字幕の表示非表示制御
+    if (data.isDisplayOriginalCc == "1") {
+      ccAreaElement.showElement()
+    } else {
+      ccAreaElement.hideElement()
+    }
+
+    //ccAreaElement.showElement()
+  })
 }
 
 document.addEventListener("runScript", (e) => {

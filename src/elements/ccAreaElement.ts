@@ -1,7 +1,7 @@
 import { selector } from "@/core/selector"
 
 export interface ccAreaElementInterface {
-  opacateElement(): void
+  hideElement(): void
   showElement(): void
   getElement(): HTMLElement | null
 }
@@ -11,7 +11,7 @@ export interface ccAreaElementInterface {
  */
 export class CcAreaElement implements ccAreaElementInterface {
   opacate = false
-  opacateElement(): void {
+  hideElement(): void {
     const element = this.getElement()
     if (element === null) return
     element.style.opacity = "0"

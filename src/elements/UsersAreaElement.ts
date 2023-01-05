@@ -85,7 +85,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     userCcElement.style.zIndex = "1000000"
     userCcElement.textContent = speach
     userCcElement.className = userCcClassName
-    userCcElement.style.opacity = "0.5"
+    userCcElement.style.opacity = this.userCcOpacityRate.toString()
     userCcElement.style.fontWeight = "700"
     userCcElement.style.textAlign = "center"
     userCcElement.style.pointerEvents = "none"
@@ -138,6 +138,15 @@ export class UsersAreaElement implements usersAreaElementInterface {
   deleteUserCcElements(): void {
     this.displayUserCcList.forEach((x) => {
       removeElement(x.element, 2000)
+    })
+  }
+
+  // 字幕の透明度を変える
+  private userCcOpacityRate = 0.5
+  setUserCcOpacityRate(opacityRate: number) {
+    this.userCcOpacityRate = opacityRate
+    this.displayUserCcList.forEach((x) => {
+      x.element.style.opacity = this.userCcOpacityRate.toString()
     })
   }
 

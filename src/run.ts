@@ -11,8 +11,3 @@ function run() {
     }
   }
 }
-
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  console.log("haittekita yo!")
-  console.log(message)
-})
