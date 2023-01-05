@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "author": "ritogk",
   "name": "Visual Perception of Google Meet",
-  "description": "目から会議の内容を認識するための機能を提供します。",
+  "description": "GoogleMeetの会議内容を目から認識するための機能を提供します。",
   "version": "1.0.0",
   "icons": {
     "16": "images/icon-16.png",
