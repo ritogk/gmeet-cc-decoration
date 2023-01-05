@@ -1,13 +1,16 @@
-function observe() {
-  const opacityRateElement = document.getElementsByName("opacityRate")[0]
-  opacityRateElement.addEventListener(
-    "change",
-    function (event) {
-      console.log(event.target.value)
-    },
-    false
-  )
+window.onload = (event) => {
+  observe()
+}
 
+function observe() {
+  // 透明度
+  const opacityRateElement = document.getElementsByName("opacityRate")[0]
+  opacityRateElement.addEventListener("change", function (event) {
+    console.log(event.target.value)
+    chrome.storage.local.set({ opacityRate: event.target.value })
+  })
+
+  // 既存の字幕
   const isDisplayOriginalCcElements = document.getElementsByName(
     "isDisplayOriginalCc"
   )
@@ -16,6 +19,7 @@ function observe() {
     function (event) {
       if (!event.target.checked) return
       console.log(event.target.value)
+      chrome.storage.local.set({ isDisplayOriginalCc: event.target.value })
     },
     false
   )
@@ -24,23 +28,31 @@ function observe() {
     function (event) {
       if (!event.target.checked) return
       console.log(event.target.value)
+      chrome.storage.local.set({ isDisplayOriginalCc: event.target.value })
     },
     false
   )
-}
 
-window.onload = (event) => {
-  observe()
+  // アプリケーション側に設定値を送信
+  chrome.storage.onChanged.addListener(function (changes, namespace) {
+    chrome.storage.local.get(
+      ["opacityRate", "isDisplayOriginalCc"],
+      function (values) {
+        console.log("send:start")
+        console.log(values)
+        sendToContents(values)
+      }
+    )
+  })
 }
 
 // 現在アクティブなタブにデータを送信
-function sendToContents() {
+function sendToContents(values) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(
       tabs[0].id,
-      JSON.stringify({ contents: "test value from popup" }),
+      JSON.stringify(values),
       function (response) {}
     )
   })
 }
-document.getElementById("send").addEventListener("click", sendToContents)
