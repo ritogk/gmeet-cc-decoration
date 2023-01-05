@@ -79,7 +79,6 @@ export class UsersAreaElement implements usersAreaElementInterface {
     userCcElement.style.color = "white"
     userCcElement.style.position = "absolute"
     userCcElement.style.bottom = "0"
-    userCcElement.style.width = "100%"
     userCcElement.style.backgroundColor = "rgba(0,0,0,0.25)"
     userCcElement.style.margin = "0"
     userCcElement.style.zIndex = "1000000"
@@ -98,6 +97,10 @@ export class UsersAreaElement implements usersAreaElementInterface {
       : (userCcElement.style.webkitTextStroke = "2px #000")
     userVideoElement.parentElement?.after(userCcElement)
 
+    if (fontSize >= 18) {
+      userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`
+    }
+    userCcElement.style.width = "100%"
     // ログに追加
     const userCcEmenet = this.findUserCcElement(name)
     if (!userCcEmenet) return
@@ -123,6 +126,10 @@ export class UsersAreaElement implements usersAreaElementInterface {
     fontSize < 27
       ? (userCcElement.style.webkitTextStroke = "1px #000")
       : (userCcElement.style.webkitTextStroke = "2px #000")
+
+    if (fontSize >= 18) {
+      userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`
+    }
     // ログに追加
     this.appendDisplayUserCc(name, userCcElement)
   }
@@ -166,7 +173,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     })
   }
 
-  private readonly cclimitSecond = 10
+  private readonly cclimitSecond = 7
   private intervalId: number = 0
   runInterval() {
     // 一定時間表示した字幕は消す
@@ -174,11 +181,9 @@ export class UsersAreaElement implements usersAreaElementInterface {
       const oldDisplayUserCcList = this.displayUserCcList.filter(
         (x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond
       )
-
       oldDisplayUserCcList.forEach((x) => {
         removeElement(x.element, 2000)
       })
-
       this.displayUserCcList = this.displayUserCcList.filter(
         (x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond
       )

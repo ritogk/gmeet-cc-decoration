@@ -176,7 +176,7 @@ class UsersAreaElement {
         // 字幕の透明度を変える
         this.userCcOpacityRate = 0.5;
         this.displayUserCcList = [];
-        this.cclimitSecond = 10;
+        this.cclimitSecond = 7;
         this.intervalId = 0;
     }
     getElement() {
@@ -241,7 +241,6 @@ class UsersAreaElement {
         userCcElement.style.color = "white";
         userCcElement.style.position = "absolute";
         userCcElement.style.bottom = "0";
-        userCcElement.style.width = "100%";
         userCcElement.style.backgroundColor = "rgba(0,0,0,0.25)";
         userCcElement.style.margin = "0";
         userCcElement.style.zIndex = "1000000";
@@ -259,6 +258,10 @@ class UsersAreaElement {
             ? (userCcElement.style.webkitTextStroke = "1px #000")
             : (userCcElement.style.webkitTextStroke = "2px #000");
         (_a = userVideoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(userCcElement);
+        if (fontSize >= 18) {
+            userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`;
+        }
+        userCcElement.style.width = "100%";
         // ログに追加
         const userCcEmenet = this.findUserCcElement(name);
         if (!userCcEmenet)
@@ -284,6 +287,9 @@ class UsersAreaElement {
         fontSize < 27
             ? (userCcElement.style.webkitTextStroke = "1px #000")
             : (userCcElement.style.webkitTextStroke = "2px #000");
+        if (fontSize >= 18) {
+            userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`;
+        }
         // ログに追加
         this.appendDisplayUserCc(name, userCcElement);
     }
