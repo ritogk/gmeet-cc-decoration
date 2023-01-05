@@ -4,22 +4,49 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./popup.css" />
+    <link rel="stylesheet" href="./bootstrap.min.css" />
+    <script src="./bootstrap.min.js"></script>
   </head>
-  <body>
-    <template id="li_template">
-      <li>
-        <a>
-          <h3 class="title">Tab Title</h3>
-          <p class="pathname">Tab Pathname</p>
-        </a>
-      </li>
-    </template>
+  <body class="shadow-lg">
+    <div class="border border-3 border-dark" style="width: 400px">
+      <div class="m-3">
+        <div class="mb-3">
+          <label for="customRange1" class="form-label">字幕の透明度</label>
+          <input
+            type="range"
+            name="opacityRate"
+            class="form-range"
+            id="customRange1"
+            min="0"
+            max="1"
+            step="0.1"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="mb-2">既存の字幕</label>
+          <div class="btn-group w-100">
+            <input
+              type="radio"
+              class="btn-check w-50"
+              name="displayOriginalCc"
+              id="option1"
+              autocomplete="off"
+              value="1"
+            />
+            <label class="btn btn-primary" for="option1">表示する</label>
 
-    <h1>Google Dev Docs</h1>
-    <button>Group Tabs</button>
-    <ul></ul>
-
-    <script src="./popup.js" type="module"></script>
+            <input
+              type="radio"
+              class="btn-check w-50"
+              name="displayOriginalCc"
+              id="option2"
+              autocomplete="off"
+              value="2"
+            />
+            <label class="btn btn-primary" for="option2">表示しない</label>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
