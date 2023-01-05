@@ -1,3 +1,4 @@
+import { Config, ConfigObjectInterface } from "@/config"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"
 import { ControlButtonElement } from "@/elements/controlButtonElement"
 import { CcAreaElement } from "@/elements/ccAreaElement"
@@ -55,48 +56,38 @@ export const main = () => {
   controlButtonElement.createElement()
   const ccOveserver = new CcOveserver(callbackFuncObserver)
 
-  // 設定読み込み
-  chrome.storage.local.get(
-    ["opacityRate", "isDisplayOriginalCc"],
-    function (values) {
-      console.log(values)
-      // 字幕の透明度
-      usersAreaElement.setUserCcOpacityRate(values.opacityRate)
+  /**
+   * 設定ファイル変更時のコールバック関数
+   * @param config
+   */
+  const callbackFuncChangeConfig = (config: ConfigObjectInterface) => {
+    console.log("callback simasuta!")
+    // 字幕の透明度
+    usersAreaElement.setUserCcOpacityRate(config.opacityRate)
 
-      // 字幕の表示非表示制御
-      if (values.isDisplayOriginalCc == "1") {
-        ccAreaElement.showElement()
-      } else {
-        ccAreaElement.hideElement()
-      }
+    // 字幕の表示非表示制御
+    if (config.isDisplayOriginalCc == 1) {
+      ccAreaElement.showElement()
+    } else {
+      ccAreaElement.hideElement()
     }
-  )
+  }
+  const config = new Config(callbackFuncChangeConfig)
+  config.loadConfig()
 
-  // 変更検知
+  // ポップアップ側の変更検知
   chrome.runtime.onMessage.addListener(function (
     message: string,
     sender,
     sendResponse
   ) {
     console.log("receive: popup → content_scripts")
-    debugger
-    const data = JSON.parse(message)
-
-    // 字幕の透明度
-    usersAreaElement.setUserCcOpacityRate(data.opacityRate)
-
-    debugger
-    // 字幕の表示非表示制御
-    if (data.isDisplayOriginalCc == "1") {
-      ccAreaElement.showElement()
-    } else {
-      ccAreaElement.hideElement()
-    }
-
-    //ccAreaElement.showElement()
+    const data = <ConfigObjectInterface>JSON.parse(message)
+    config.setConfig(data)
   })
 }
 
+// 動作確認用の入口
 document.addEventListener("runScript", (e) => {
   main()
 })

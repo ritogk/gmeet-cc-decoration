@@ -2,6 +2,48 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/config.ts":
+/*!***********************!*\
+  !*** ./src/config.ts ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Config": () => (/* binding */ Config)
+/* harmony export */ });
+/**
+ * ポップアップ内で入力した設定情報
+ */
+class Config {
+    constructor(callbackFunc) {
+        this.config = {
+            opacityRate: 0.5,
+            isDisplayOriginalCc: 1,
+        };
+        this.getStorage = () => new Promise((resolve) => {
+            chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], (data) => {
+                resolve(data);
+            });
+        });
+        this.callbackFuncChangeConfig = callbackFunc;
+    }
+    getConfig() {
+        return this.config;
+    }
+    setConfig(config) {
+        this.config = config;
+        this.callbackFuncChangeConfig(this.config);
+    }
+    async loadConfig() {
+        const config = await this.getStorage();
+        this.setConfig(config);
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/core/ccOveserver.ts":
 /*!*********************************!*\
   !*** ./src/core/ccOveserver.ts ***!
@@ -489,10 +531,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "main": () => (/* binding */ main)
 /* harmony export */ });
-/* harmony import */ var _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/elements/UsersAreaElement */ "./src/elements/UsersAreaElement.ts");
-/* harmony import */ var _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/elements/controlButtonElement */ "./src/elements/controlButtonElement.ts");
-/* harmony import */ var _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/elements/ccAreaElement */ "./src/elements/ccAreaElement.ts");
-/* harmony import */ var _core_ccOveserver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/core/ccOveserver */ "./src/core/ccOveserver.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/config */ "./src/config.ts");
+/* harmony import */ var _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/elements/UsersAreaElement */ "./src/elements/UsersAreaElement.ts");
+/* harmony import */ var _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/elements/controlButtonElement */ "./src/elements/controlButtonElement.ts");
+/* harmony import */ var _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/elements/ccAreaElement */ "./src/elements/ccAreaElement.ts");
+/* harmony import */ var _core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/core/ccOveserver */ "./src/core/ccOveserver.ts");
+
 
 
 
@@ -538,42 +582,37 @@ const main = () => {
             usersAreaElement.updateUserCcElement(name, speach);
         }
     };
-    const usersAreaElement = new _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__.UsersAreaElement();
-    const ccAreaElement = new _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_2__.CcAreaElement();
-    const controlButtonElement = new _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_1__.ControlButtonElement(callbackFuncClick);
+    const usersAreaElement = new _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
+    const ccAreaElement = new _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__.CcAreaElement();
+    const controlButtonElement = new _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__.ControlButtonElement(callbackFuncClick);
     controlButtonElement.createElement();
-    const ccOveserver = new _core_ccOveserver__WEBPACK_IMPORTED_MODULE_3__.CcOveserver(callbackFuncObserver);
-    // 設定読み込み
-    chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], function (values) {
-        console.log(values);
+    const ccOveserver = new _core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__.CcOveserver(callbackFuncObserver);
+    /**
+     * 設定ファイル変更時のコールバック関数
+     * @param config
+     */
+    const callbackFuncChangeConfig = (config) => {
+        console.log("callback simasuta!");
         // 字幕の透明度
-        usersAreaElement.setUserCcOpacityRate(values.opacityRate);
+        usersAreaElement.setUserCcOpacityRate(config.opacityRate);
         // 字幕の表示非表示制御
-        if (values.isDisplayOriginalCc == "1") {
+        if (config.isDisplayOriginalCc == 1) {
             ccAreaElement.showElement();
         }
         else {
             ccAreaElement.hideElement();
         }
-    });
-    // 変更検知
+    };
+    const config = new _config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
+    config.loadConfig();
+    // ポップアップ側の変更検知
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         console.log("receive: popup → content_scripts");
-        debugger;
         const data = JSON.parse(message);
-        // 字幕の透明度
-        usersAreaElement.setUserCcOpacityRate(data.opacityRate);
-        debugger;
-        // 字幕の表示非表示制御
-        if (data.isDisplayOriginalCc == "1") {
-            ccAreaElement.showElement();
-        }
-        else {
-            ccAreaElement.hideElement();
-        }
-        //ccAreaElement.showElement()
+        config.setConfig(data);
     });
 };
+// 動作確認用の入口
 document.addEventListener("runScript", (e) => {
     main();
 });
