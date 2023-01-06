@@ -4,8 +4,11 @@ import { ControlButtonElement } from "@/elements/controlButtonElement"
 import { CcAreaElement } from "@/elements/ccAreaElement"
 import { CcOveserver } from "@/core/ccOveserver"
 
-export const main = () => {
+export const main = async (): Promise<void> => {
   console.log("start: application")
+
+  const usersAreaElement = new UsersAreaElement()
+  const ccAreaElement = new CcAreaElement()
 
   /**
    * 設定ファイル変更時のコールバック関数
@@ -24,8 +27,8 @@ export const main = () => {
     }
   }
   const config = new Config(callbackFuncChangeConfig)
-  config.loadConfig()
-  console.log(`config loaded: ${config.getConfig()}`)
+  await config.loadConfig()
+  console.log(`load config: ${JSON.stringify(config.getConfig())}`)
 
   /**
    * コントロールボタン押下後のコールバック関数
@@ -47,6 +50,8 @@ export const main = () => {
       console.log("delete: cc elements")
     }
   }
+  const controlButtonElement = new ControlButtonElement(callbackFuncClick)
+  controlButtonElement.createElement()
 
   /**
    * 字幕変更検知後のコールバック関数
@@ -70,11 +75,6 @@ export const main = () => {
       usersAreaElement.updateUserCcElement(name, speach)
     }
   }
-
-  const usersAreaElement = new UsersAreaElement()
-  const ccAreaElement = new CcAreaElement()
-  const controlButtonElement = new ControlButtonElement(callbackFuncClick)
-  controlButtonElement.createElement()
   const ccOveserver = new CcOveserver(callbackFuncObserver)
 
   // ポップアップ側の変更検知

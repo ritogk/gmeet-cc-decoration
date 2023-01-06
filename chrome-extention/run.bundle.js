@@ -491,8 +491,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const main = () => {
+const main = async () => {
     console.log("start: application");
+    const usersAreaElement = new _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
+    const ccAreaElement = new _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__.CcAreaElement();
     /**
      * 設定ファイル変更時のコールバック関数
      * @param config
@@ -510,8 +512,8 @@ const main = () => {
         }
     };
     const config = new _config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
-    config.loadConfig();
-    console.log(`config loaded: ${config.getConfig()}`);
+    await config.loadConfig();
+    console.log(`load config: ${JSON.stringify(config.getConfig())}`);
     /**
      * コントロールボタン押下後のコールバック関数
      * @param clicked
@@ -533,6 +535,8 @@ const main = () => {
             console.log("delete: cc elements");
         }
     };
+    const controlButtonElement = new _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__.ControlButtonElement(callbackFuncClick);
+    controlButtonElement.createElement();
     /**
      * 字幕変更検知後のコールバック関数
      * @param name
@@ -551,10 +555,6 @@ const main = () => {
             usersAreaElement.updateUserCcElement(name, speach);
         }
     };
-    const usersAreaElement = new _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
-    const ccAreaElement = new _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__.CcAreaElement();
-    const controlButtonElement = new _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__.ControlButtonElement(callbackFuncClick);
-    controlButtonElement.createElement();
     const ccOveserver = new _core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__.CcOveserver(callbackFuncObserver);
     // ポップアップ側の変更検知
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
