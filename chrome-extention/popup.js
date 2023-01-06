@@ -4,21 +4,31 @@ window.onload = (event) => {
     ["opacityRate", "isDisplayOriginalCc"],
     function (values) {
       // name: opacityRate
-      document.getElementsByName("opacityRate")[0].value = values.opacityRate
+      let opacityRate = 0.5
+      if ("opacityRate" in values) {
+        opacityRate = values.opacityRate
+      }
+      document.getElementsByName("opacityRate")[0].value = opacityRate
 
       // name: isDisplayOriginalCc
+      let isDisplayOriginalCc = "1"
+      if ("isDisplayOriginalCc" in values) {
+        isDisplayOriginalCc = values.isDisplayOriginalCc
+      }
+
       const isDisplayOriginalCcElements = document.getElementsByName(
         "isDisplayOriginalCc"
       )
-      if (values.isDisplayOriginalCc == "1") {
+      if (isDisplayOriginalCc == "1") {
         isDisplayOriginalCcElements[0].checked = true
       }
-      if (values.isDisplayOriginalCc == "2") {
+      if (isDisplayOriginalCc == "2") {
         isDisplayOriginalCcElements[1].checked = true
       }
     }
   )
   observe()
+  sendToContents({})
 }
 
 // 変更検知処理

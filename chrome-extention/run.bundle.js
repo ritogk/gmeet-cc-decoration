@@ -494,6 +494,25 @@ __webpack_require__.r(__webpack_exports__);
 const main = () => {
     console.log("start: application");
     /**
+     * 設定ファイル変更時のコールバック関数
+     * @param config
+     */
+    const callbackFuncChangeConfig = (config) => {
+        console.log("callback simasuta!");
+        // 字幕の透明度
+        usersAreaElement.setUserCcOpacityRate(config.opacityRate);
+        // 字幕の表示非表示制御
+        if (config.isDisplayOriginalCc == 1) {
+            ccAreaElement.showElement();
+        }
+        else {
+            ccAreaElement.hideElement();
+        }
+    };
+    const config = new _config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
+    config.loadConfig();
+    console.log(`config loaded: ${config.getConfig()}`);
+    /**
      * コントロールボタン押下後のコールバック関数
      * @param clicked
      */
@@ -537,24 +556,6 @@ const main = () => {
     const controlButtonElement = new _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__.ControlButtonElement(callbackFuncClick);
     controlButtonElement.createElement();
     const ccOveserver = new _core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__.CcOveserver(callbackFuncObserver);
-    /**
-     * 設定ファイル変更時のコールバック関数
-     * @param config
-     */
-    const callbackFuncChangeConfig = (config) => {
-        console.log("callback simasuta!");
-        // 字幕の透明度
-        usersAreaElement.setUserCcOpacityRate(config.opacityRate);
-        // 字幕の表示非表示制御
-        if (config.isDisplayOriginalCc == 1) {
-            ccAreaElement.showElement();
-        }
-        else {
-            ccAreaElement.hideElement();
-        }
-    };
-    const config = new _config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
-    config.loadConfig();
     // ポップアップ側の変更検知
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         console.log("receive: popup → content_scripts");

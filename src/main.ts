@@ -6,6 +6,27 @@ import { CcOveserver } from "@/core/ccOveserver"
 
 export const main = () => {
   console.log("start: application")
+
+  /**
+   * 設定ファイル変更時のコールバック関数
+   * @param config
+   */
+  const callbackFuncChangeConfig = (config: ConfigObjectInterface) => {
+    console.log("callback simasuta!")
+    // 字幕の透明度
+    usersAreaElement.setUserCcOpacityRate(config.opacityRate)
+
+    // 字幕の表示非表示制御
+    if (config.isDisplayOriginalCc == 1) {
+      ccAreaElement.showElement()
+    } else {
+      ccAreaElement.hideElement()
+    }
+  }
+  const config = new Config(callbackFuncChangeConfig)
+  config.loadConfig()
+  console.log(`config loaded: ${config.getConfig()}`)
+
   /**
    * コントロールボタン押下後のコールバック関数
    * @param clicked
@@ -55,25 +76,6 @@ export const main = () => {
   const controlButtonElement = new ControlButtonElement(callbackFuncClick)
   controlButtonElement.createElement()
   const ccOveserver = new CcOveserver(callbackFuncObserver)
-
-  /**
-   * 設定ファイル変更時のコールバック関数
-   * @param config
-   */
-  const callbackFuncChangeConfig = (config: ConfigObjectInterface) => {
-    console.log("callback simasuta!")
-    // 字幕の透明度
-    usersAreaElement.setUserCcOpacityRate(config.opacityRate)
-
-    // 字幕の表示非表示制御
-    if (config.isDisplayOriginalCc == 1) {
-      ccAreaElement.showElement()
-    } else {
-      ccAreaElement.hideElement()
-    }
-  }
-  const config = new Config(callbackFuncChangeConfig)
-  config.loadConfig()
 
   // ポップアップ側の変更検知
   chrome.runtime.onMessage.addListener(function (
