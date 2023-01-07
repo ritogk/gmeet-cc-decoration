@@ -1,39 +1,51 @@
 window.onload = (event) => {
-  // 初期値のセット
-  chrome.storage.local.get(
-    ["opacityRate", "isDisplayOriginalCc"],
-    function (values) {
-      // name: opacityRate
-      let opacityRate = 0.5
-      if ("opacityRate" in values) {
-        opacityRate = values.opacityRate
-      }
-      document.getElementsByName("opacityRate")[0].value = opacityRate
+  main()
+}
 
-      // name: isDisplayOriginalCc
-      let isDisplayOriginalCc = "1"
-      if ("isDisplayOriginalCc" in values) {
-        isDisplayOriginalCc = values.isDisplayOriginalCc
-      }
-
-      const isDisplayOriginalCcElements = document.getElementsByName(
-        "isDisplayOriginalCc"
-      )
-      if (isDisplayOriginalCc == "1") {
-        isDisplayOriginalCcElements[0].checked = true
-      }
-      if (isDisplayOriginalCc == "2") {
-        isDisplayOriginalCcElements[1].checked = true
-      }
-    }
+/**
+ * メイン
+ */
+async function main() {
+  // config読み込み
+  const config = await getChromeStorage()
+  // inputの初期化
+  let opacityRate = 0.5
+  if ("opacityRate" in config) {
+    opacityRate = config.opacityRate
+  }
+  document.getElementsByName("opacityRate")[0].value = opacityRate
+  let isDisplayOriginalCc = "1"
+  if ("isDisplayOriginalCc" in config) {
+    isDisplayOriginalCc = config.isDisplayOriginalCc
+  }
+  const isDisplayOriginalCcElements = document.getElementsByName(
+    "isDisplayOriginalCc"
   )
+  if (isDisplayOriginalCc == "1") {
+    isDisplayOriginalCcElements[0].checked = true
+  }
+  if (isDisplayOriginalCc == "2") {
+    isDisplayOriginalCcElements[1].checked = true
+  }
+  // 監視
   observe()
-  sendToContents({})
+}
+
+/**
+ * chrome storageから値を取得します。
+ */
+async function getChromeStorage() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], (data) => {
+      console.log(data)
+      resolve(data)
+    })
+  })
 }
 
 // 変更検知処理
 function observe() {
-  // 透明度
+  // input:透明度 監視
   const opacityRateElement = document.getElementsByName("opacityRate")[0]
   opacityRateElement.addEventListener("change", function (event) {
     console.log("change opacityRate")
@@ -41,7 +53,7 @@ function observe() {
     chrome.storage.local.set({ opacityRate: event.target.value })
   })
 
-  // 既存の字幕
+  // input:既存の字幕 監視
   const isDisplayOriginalCcElements = document.getElementsByName(
     "isDisplayOriginalCc"
   )
@@ -66,8 +78,10 @@ function observe() {
     false
   )
 
-  // アプリケーション側に設定値を送信
+  // chromeStorageを監視して変更されたらContents側にメッセージを送る
   chrome.storage.onChanged.addListener(function (changes, namespace) {
+    console.log("changes")
+    console.log(changes)
     chrome.storage.local.get(
       ["opacityRate", "isDisplayOriginalCc"],
       function (values) {
