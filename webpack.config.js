@@ -7,7 +7,7 @@ module.exports = {
   entry: {
     content: "./src/content/run.ts",
     main: "/src/content/main.ts",
-    popup: "/src/popup/popup.ts",
+    popup: "/src/popup/run.ts",
   },
   devtool: "cheap-module-source-map",
   // ファイルの出力設定

@@ -1,7 +1,7 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 import { Elements } from "@/popup/elements"
 import { setStorage, sendContents } from "@/core/googleStorage"
-export const main = async (): Promise<void> => {
+export const run = async (): Promise<void> => {
   console.log("start: popup")
 
   // config読み込み
@@ -30,4 +30,4 @@ export const main = async (): Promise<void> => {
   )
 }
 
-window.addEventListener("load", main, false)
+window.addEventListener("load", run, false)

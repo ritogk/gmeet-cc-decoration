@@ -253,12 +253,12 @@ class Elements {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!****************************!*\
-  !*** ./src/popup/popup.ts ***!
-  \****************************/
+/*!**************************!*\
+  !*** ./src/popup/run.ts ***!
+  \**************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "main": () => (/* binding */ main)
+/* harmony export */   "run": () => (/* binding */ run)
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 /* harmony import */ var _popup_elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/popup/elements */ "./src/popup/elements.ts");
@@ -266,7 +266,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const main = async () => {
+const run = async () => {
     console.log("start: popup");
     // config読み込み
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config((config) => { });
@@ -285,7 +285,7 @@ const main = async () => {
     };
     const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc, callbackFuncChangeElement);
 };
-window.addEventListener("load", main, false);
+window.addEventListener("load", run, false);
 
 })();
 
