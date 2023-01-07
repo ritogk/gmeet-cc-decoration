@@ -71,7 +71,9 @@ const controlCcButton = "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQ
 const ccMainArea = ".a4cQT";
 const ccArea = "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div.a4cQT > div:nth-child(1) > div:nth-child(1)";
 const usersArea = "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div:nth-child(2) > div.axUSnc.P9KVBf";
+const controlArea = "#ow3 > div.T4LgNb > div > div:nth-child(13) > div.crqnQb > div.UnvNgf.Sdwpn.P9KVBf.IYIJAc.BIBiNe";
 const selector = {
+    controlArea: controlArea,
     controlCcButton: controlCcButton,
     ccMainArea: ccMainArea,
     ccArea: ccArea,
@@ -311,6 +313,38 @@ class CcAreaElement {
 
 /***/ }),
 
+/***/ "./src/content/elements/controlAreaElement.ts":
+/*!****************************************************!*\
+  !*** ./src/content/elements/controlAreaElement.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ControlAreaElement": () => (/* binding */ ControlAreaElement)
+/* harmony export */ });
+/* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
+
+/**
+ * コントロールエリアElementに関するクラス
+ */
+class ControlAreaElement {
+    constructor() {
+        this.getElement = () => {
+            return document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.controlArea);
+        };
+        this.getCcBottomElement = () => {
+            const element = this.getElement();
+            if (element === null)
+                return null;
+            return element.querySelector("div.Tmb7Fd > div > div.juFBl");
+        };
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/content/elements/controlButtonElement.ts":
 /*!******************************************************!*\
   !*** ./src/content/elements/controlButtonElement.ts ***!
@@ -321,7 +355,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ControlButtonElement": () => (/* binding */ ControlButtonElement)
 /* harmony export */ });
-/* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
+/* harmony import */ var _content_elements_controlAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/controlAreaElement */ "./src/content/elements/controlAreaElement.ts");
 
 /**
  * システムのコントロールボタンに関するクラス
@@ -337,7 +371,7 @@ class ControlButtonElement {
             element.addEventListener("mouseover", this.callbackFuncMouseOver);
             element.addEventListener("mouseleave", this.callbackFuncMouseLeave);
             element.addEventListener("click", this.callbackFuncClick);
-            const ccButtonElement = document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.controlCcButton);
+            const ccButtonElement = new _content_elements_controlAreaElement__WEBPACK_IMPORTED_MODULE_0__.ControlAreaElement().getCcBottomElement();
             if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
                 ccButtonElement.parentNode.insertBefore(element, ccButtonElement.nextElementSibling);
                 this.changeStyle();

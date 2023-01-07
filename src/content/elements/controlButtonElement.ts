@@ -1,5 +1,4 @@
-import { selector } from "@/content/core/selector"
-
+import { ControlAreaElement } from "@/content/elements/controlAreaElement"
 export interface ControlButtonElementInterface {
   createElement(): void
   deleteElement(): void
@@ -27,7 +26,7 @@ export class ControlButtonElement implements ControlButtonElementInterface {
     element.addEventListener("mouseleave", this.callbackFuncMouseLeave)
     element.addEventListener("click", this.callbackFuncClick)
 
-    const ccButtonElement = document.querySelector(selector.controlCcButton)
+    const ccButtonElement = new ControlAreaElement().getCcBottomElement()
     if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
       ccButtonElement.parentNode.insertBefore(
         element,
