@@ -2,6 +2,7 @@ export interface ConfigInterface {
   loadConfig(): Promise<void>
   getConfig(): ConfigObjectInterface
   setConfig(config: ConfigObjectInterface): void
+  observeConfig(): void
 }
 
 export interface ConfigObjectInterface {
@@ -47,5 +48,16 @@ export class Config implements ConfigInterface {
         }
       )
     })
+  }
+
+  observeConfig = (): void => {
+    // ポップアップ側の変更検知
+    chrome.runtime.onMessage.addListener(
+      (message: string, sender, sendResponse) => {
+        console.log("receive: popup → content_scripts")
+        const data = <ConfigObjectInterface>JSON.parse(message)
+        this.setConfig(data)
+      }
+    )
   }
 }

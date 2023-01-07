@@ -29,7 +29,7 @@ export const main = async (): Promise<void> => {
   const config = new Config(callbackFuncChangeConfig)
   await config.loadConfig()
   console.log(`load config: ${JSON.stringify(config.getConfig())}`)
-
+  config.observeConfig()
   /**
    * コントロールボタン押下後のコールバック関数
    * @param clicked
@@ -76,17 +76,6 @@ export const main = async (): Promise<void> => {
     }
   }
   const ccOveserver = new CcOveserver(callbackFuncObserver)
-
-  // ポップアップ側の変更検知
-  chrome.runtime.onMessage.addListener(function (
-    message: string,
-    sender,
-    sendResponse
-  ) {
-    console.log("receive: popup → content_scripts")
-    const data = <ConfigObjectInterface>JSON.parse(message)
-    config.setConfig(data)
-  })
 }
 
 // 動作確認用の入口

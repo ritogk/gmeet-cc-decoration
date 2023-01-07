@@ -39,6 +39,14 @@ class Config {
                 });
             });
         };
+        this.observeConfig = () => {
+            // ポップアップ側の変更検知
+            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+                console.log("receive: popup → content_scripts");
+                const data = JSON.parse(message);
+                this.setConfig(data);
+            });
+        };
         this.callbackFuncChangeConfig = callbackFunc;
     }
 }
@@ -571,6 +579,7 @@ const main = async () => {
     const config = new _config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
     console.log(`load config: ${JSON.stringify(config.getConfig())}`);
+    config.observeConfig();
     /**
      * コントロールボタン押下後のコールバック関数
      * @param clicked
@@ -613,12 +622,6 @@ const main = async () => {
         }
     };
     const ccOveserver = new _core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__.CcOveserver(callbackFuncObserver);
-    // ポップアップ側の変更検知
-    chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-        console.log("receive: popup → content_scripts");
-        const data = JSON.parse(message);
-        config.setConfig(data);
-    });
 };
 // 動作確認用の入口
 document.addEventListener("runScript", (e) => {
