@@ -1,14 +1,14 @@
 import { ControlAreaElement } from "@/content/elements/controlAreaElement"
-export interface ControlButtonElementInterface {
+export interface SwitchingButtonElementInterface {
   createElement(): void
   deleteElement(): void
   getElement(): HTMLElement | null
 }
 
 /**
- * システムのコントロールボタンに関するクラス
+ * システムのスイッチングボタンに関するクラス
  */
-export class ControlButtonElement implements ControlButtonElementInterface {
+export class SwitchingButtonElement implements SwitchingButtonElementInterface {
   private drawed = false
   private mouseOver = false
   private clicked = false
@@ -21,7 +21,7 @@ export class ControlButtonElement implements ControlButtonElementInterface {
 
   createElement = (): void => {
     const element = document.createElement("div")
-    element.id = ControlButtonElement.ELEMENT_ID
+    element.id = SwitchingButtonElement.ELEMENT_ID
     element.addEventListener("mouseover", this.callbackFuncMouseOver)
     element.addEventListener("mouseleave", this.callbackFuncMouseLeave)
     element.addEventListener("click", this.callbackFuncClick)
@@ -38,14 +38,14 @@ export class ControlButtonElement implements ControlButtonElementInterface {
   }
 
   deleteElement = (): void => {
-    document.getElementById(ControlButtonElement.ELEMENT_ID)?.remove()
+    document.getElementById(SwitchingButtonElement.ELEMENT_ID)?.remove()
     this.drawed = false
     this.mouseOver = false
     this.clicked = false
   }
 
   getElement = (): HTMLElement | null => {
-    return document.getElementById(ControlButtonElement.ELEMENT_ID)
+    return document.getElementById(SwitchingButtonElement.ELEMENT_ID)
   }
 
   private callbackFuncMouseOver = (e: any): void => {

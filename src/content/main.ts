@@ -1,6 +1,6 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 import { UsersAreaElement } from "@/content/elements/UsersAreaElement"
-import { ControlButtonElement } from "@/content/elements/controlButtonElement"
+import { SwitchingButtonElement } from "@/content/elements/switchingButtonElement"
 import { CcAreaElement } from "@/content/elements/ccAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
 
@@ -50,7 +50,7 @@ export const main = async (): Promise<void> => {
       console.log("delete: cc elements")
     }
   }
-  const controlButtonElement = new ControlButtonElement(callbackFuncClick)
+  const controlButtonElement = new SwitchingButtonElement(callbackFuncClick)
   controlButtonElement.createElement()
 
   /**

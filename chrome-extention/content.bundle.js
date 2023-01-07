@@ -345,29 +345,29 @@ class ControlAreaElement {
 
 /***/ }),
 
-/***/ "./src/content/elements/controlButtonElement.ts":
-/*!******************************************************!*\
-  !*** ./src/content/elements/controlButtonElement.ts ***!
-  \******************************************************/
+/***/ "./src/content/elements/switchingButtonElement.ts":
+/*!********************************************************!*\
+  !*** ./src/content/elements/switchingButtonElement.ts ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ControlButtonElement": () => (/* binding */ ControlButtonElement)
+/* harmony export */   "SwitchingButtonElement": () => (/* binding */ SwitchingButtonElement)
 /* harmony export */ });
 /* harmony import */ var _content_elements_controlAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/controlAreaElement */ "./src/content/elements/controlAreaElement.ts");
 
 /**
- * システムのコントロールボタンに関するクラス
+ * システムのスイッチングボタンに関するクラス
  */
-class ControlButtonElement {
+class SwitchingButtonElement {
     constructor(callback) {
         this.drawed = false;
         this.mouseOver = false;
         this.clicked = false;
         this.createElement = () => {
             const element = document.createElement("div");
-            element.id = ControlButtonElement.ELEMENT_ID;
+            element.id = SwitchingButtonElement.ELEMENT_ID;
             element.addEventListener("mouseover", this.callbackFuncMouseOver);
             element.addEventListener("mouseleave", this.callbackFuncMouseLeave);
             element.addEventListener("click", this.callbackFuncClick);
@@ -380,13 +380,13 @@ class ControlButtonElement {
         };
         this.deleteElement = () => {
             var _a;
-            (_a = document.getElementById(ControlButtonElement.ELEMENT_ID)) === null || _a === void 0 ? void 0 : _a.remove();
+            (_a = document.getElementById(SwitchingButtonElement.ELEMENT_ID)) === null || _a === void 0 ? void 0 : _a.remove();
             this.drawed = false;
             this.mouseOver = false;
             this.clicked = false;
         };
         this.getElement = () => {
-            return document.getElementById(ControlButtonElement.ELEMENT_ID);
+            return document.getElementById(SwitchingButtonElement.ELEMENT_ID);
         };
         this.callbackFuncMouseOver = (e) => {
             this.mouseOver = true;
@@ -428,7 +428,7 @@ class ControlButtonElement {
         this.clickCallback = callback;
     }
 }
-ControlButtonElement.ELEMENT_ID = "controlButton";
+SwitchingButtonElement.ELEMENT_ID = "controlButton";
 
 
 /***/ }),
@@ -445,7 +445,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 /* harmony import */ var _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/content/elements/UsersAreaElement */ "./src/content/elements/UsersAreaElement.ts");
-/* harmony import */ var _content_elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/content/elements/controlButtonElement */ "./src/content/elements/controlButtonElement.ts");
+/* harmony import */ var _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/content/elements/switchingButtonElement */ "./src/content/elements/switchingButtonElement.ts");
 /* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
 /* harmony import */ var _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/content/core/ccOveserver */ "./src/content/core/ccOveserver.ts");
 
@@ -498,7 +498,7 @@ const main = async () => {
             console.log("delete: cc elements");
         }
     };
-    const controlButtonElement = new _content_elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__.ControlButtonElement(callbackFuncClick);
+    const controlButtonElement = new _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_2__.SwitchingButtonElement(callbackFuncClick);
     controlButtonElement.createElement();
     /**
      * 字幕変更検知後のコールバック関数
