@@ -3,7 +3,7 @@ export interface ConfigInterface {
   loadConfig(): Promise<void>
   getConfig(): ConfigObjectInterface
   setConfig(config: ConfigObjectInterface): void
-  observeStorage(): void
+  observeGoogleStorage(): void
 }
 
 export enum DisplayOriginalCc {
@@ -47,7 +47,7 @@ export class Config implements ConfigInterface {
       (await getStorage("displayOriginalCc")) ?? this.config.displayOriginalCc
   }
 
-  observeStorage = (): void => {
+  observeGoogleStorage = (): void => {
     addListener((message: string) => {
       console.log("receive: popup → content_scripts")
       const data = <ConfigObjectInterface>JSON.parse(message)

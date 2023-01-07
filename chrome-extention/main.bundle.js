@@ -474,7 +474,7 @@ class Config {
             this.config.displayOriginalCc =
                 (_b = (await (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("displayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
         };
-        this.observeStorage = () => {
+        this.observeGoogleStorage = () => {
             (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_0__.addListener)((message) => {
                 console.log("receive: popup → content_scripts");
                 const data = JSON.parse(message);
@@ -654,7 +654,7 @@ const main = async () => {
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
     console.log(`load config: ${JSON.stringify(config.getConfig())}`);
-    config.observeStorage();
+    config.observeGoogleStorage();
     /**
      * コントロールボタン押下後のコールバック関数
      * @param clicked
