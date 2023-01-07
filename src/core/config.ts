@@ -1,9 +1,9 @@
-import { getStorage } from "@/core/googleStorage"
+import { getStorage, addListener } from "@/core/googleStorage"
 export interface ConfigInterface {
   loadConfig(): Promise<void>
   getConfig(): ConfigObjectInterface
   setConfig(config: ConfigObjectInterface): void
-  observeConfig(): void
+  observeStorage(): void
 }
 
 export enum DisplayOriginalCc {
@@ -47,14 +47,11 @@ export class Config implements ConfigInterface {
       (await getStorage("displayOriginalCc")) ?? this.config.displayOriginalCc
   }
 
-  observeConfig = (): void => {
-    // ポップアップ側の変更検知
-    chrome.runtime.onMessage.addListener(
-      (message: string, sender, sendResponse) => {
-        console.log("receive: popup → content_scripts")
-        const data = <ConfigObjectInterface>JSON.parse(message)
-        this.setConfig(data)
-      }
-    )
+  observeStorage = (): void => {
+    addListener((message: string) => {
+      console.log("receive: popup → content_scripts")
+      const data = <ConfigObjectInterface>JSON.parse(message)
+      this.setConfig(data)
+    })
   }
 }

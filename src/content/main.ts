@@ -29,7 +29,7 @@ export const main = async (): Promise<void> => {
   const config = new Config(callbackFuncChangeConfig)
   await config.loadConfig()
   console.log(`load config: ${JSON.stringify(config.getConfig())}`)
-  config.observeConfig()
+  config.observeStorage()
   /**
    * コントロールボタン押下後のコールバック関数
    * @param clicked

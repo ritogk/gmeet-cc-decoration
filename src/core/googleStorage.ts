@@ -1,4 +1,3 @@
-// 監視処理
 import { ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 
 export const getStorage = async <T>(key: string): Promise<T | null> => {
@@ -26,4 +25,8 @@ export const sendContents = (config: ConfigObjectInterface): void => {
       )
     }
   )
+}
+
+export const addListener = (callbackFunc: (message: string) => void) => {
+  chrome.runtime.onMessage.addListener(callbackFunc)
 }

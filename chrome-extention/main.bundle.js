@@ -474,9 +474,8 @@ class Config {
             this.config.displayOriginalCc =
                 (_b = (await (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("displayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
         };
-        this.observeConfig = () => {
-            // ポップアップ側の変更検知
-            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        this.observeStorage = () => {
+            (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_0__.addListener)((message) => {
                 console.log("receive: popup → content_scripts");
                 const data = JSON.parse(message);
                 this.setConfig(data);
@@ -526,6 +525,7 @@ const removeElement = (el, speed) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addListener": () => (/* binding */ addListener),
 /* harmony export */   "getStorage": () => (/* binding */ getStorage),
 /* harmony export */   "sendContents": () => (/* binding */ sendContents),
 /* harmony export */   "setStorage": () => (/* binding */ setStorage)
@@ -547,6 +547,9 @@ const sendContents = (config) => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id, JSON.stringify(config), function (response) { });
     });
+};
+const addListener = (callbackFunc) => {
+    chrome.runtime.onMessage.addListener(callbackFunc);
 };
 
 
@@ -651,7 +654,7 @@ const main = async () => {
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
     console.log(`load config: ${JSON.stringify(config.getConfig())}`);
-    config.observeConfig();
+    config.observeStorage();
     /**
      * コントロールボタン押下後のコールバック関数
      * @param clicked
