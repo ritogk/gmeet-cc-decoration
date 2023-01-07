@@ -66,6 +66,31 @@ class Config {
 
 /***/ }),
 
+/***/ "./src/core/googleStorage.ts":
+/*!***********************************!*\
+  !*** ./src/core/googleStorage.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "sendContents": () => (/* binding */ sendContents),
+/* harmony export */   "setStorage": () => (/* binding */ setStorage)
+/* harmony export */ });
+const getStorage = (key, value) => { };
+const setStorage = (key, value) => {
+    chrome.storage.local.set({ [key]: value });
+};
+const sendContents = (config) => {
+    console.log(`send active tab: ${config}`);
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, JSON.stringify(config), function (response) { });
+    });
+};
+
+
+/***/ }),
+
 /***/ "./src/popup/elements.ts":
 /*!*******************************!*\
   !*** ./src/popup/elements.ts ***!
@@ -233,38 +258,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 /* harmony import */ var _popup_elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/popup/elements */ "./src/popup/elements.ts");
+/* harmony import */ var _core_googleStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/core/googleStorage */ "./src/core/googleStorage.ts");
+
 
 
 const main = async () => {
     console.log("start: popup");
+    // config読み込み
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config((config) => { });
     await config.loadConfig();
     const configData = config.getConfig();
     console.log(`load config: ${JSON.stringify(configData)}`);
     // elementsの変更後のコールバック関数
     const callbackFuncChangeElement = (opacityRate, displayOriginalCc) => {
-        // storageにセット
+        // configとストレージを更新
         console.log("changeElement");
-        chrome.storage.local.set({ opacityRate: opacityRate });
-        chrome.storage.local.set({ displayOriginalCc: displayOriginalCc });
-        config.setConfig({
-            opacityRate: opacityRate,
-            displayOriginalCc: displayOriginalCc,
-        });
+        configData.opacityRate = opacityRate;
+        configData.displayOriginalCc = displayOriginalCc;
+        (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("opacityRate", opacityRate);
+        (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("displayOriginalCc", displayOriginalCc);
+        (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_2__.sendContents)(configData);
     };
     const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc, callbackFuncChangeElement);
-    // 監視処理
-    const observe = () => {
-        // chromeStorageを監視して変更されたらContents側にメッセージを送る
-        chrome.storage.onChanged.addListener((changes, namespace) => {
-            console.log("change storage");
-            console.log(`send active tab: ${configData}`);
-            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-                chrome.tabs.sendMessage(tabs[0].id, JSON.stringify(configData), function (response) { });
-            });
-        });
-    };
-    observe();
 };
 window.addEventListener("load", main, false);
 

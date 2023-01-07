@@ -15,7 +15,7 @@ export const main = async (): Promise<void> => {
    * @param config
    */
   const callbackFuncChangeConfig = (config: ConfigObjectInterface) => {
-    console.log("callback simasuta!")
+    console.log(JSON.stringify(config))
     // 字幕の透明度
     usersAreaElement.setUserCcOpacityRate(config.opacityRate)
 

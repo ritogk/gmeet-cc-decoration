@@ -462,7 +462,7 @@ const main = async () => {
      * @param config
      */
     const callbackFuncChangeConfig = (config) => {
-        console.log("callback simasuta!");
+        console.log(JSON.stringify(config));
         // 字幕の透明度
         usersAreaElement.setUserCcOpacityRate(config.opacityRate);
         // 字幕の表示非表示制御

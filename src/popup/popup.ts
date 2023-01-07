@@ -1,8 +1,10 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 import { Elements } from "@/popup/elements"
+import { setStorage, sendContents } from "@/core/googleStorage"
 export const main = async (): Promise<void> => {
   console.log("start: popup")
 
+  // config読み込み
   const config = new Config((config: ConfigObjectInterface) => {})
   await config.loadConfig()
   const configData = config.getConfig()
@@ -13,40 +15,19 @@ export const main = async (): Promise<void> => {
     opacityRate: number,
     displayOriginalCc: DisplayOriginalCc
   ) => {
-    // storageにセット
+    // configとストレージを更新
     console.log("changeElement")
-    chrome.storage.local.set({ opacityRate: opacityRate })
-    chrome.storage.local.set({ displayOriginalCc: displayOriginalCc })
-    config.setConfig({
-      opacityRate: opacityRate,
-      displayOriginalCc: displayOriginalCc,
-    })
+    configData.opacityRate = opacityRate
+    configData.displayOriginalCc = displayOriginalCc
+    setStorage("opacityRate", opacityRate)
+    setStorage("displayOriginalCc", displayOriginalCc)
+    sendContents(configData)
   }
   const elements = new Elements(
     configData.opacityRate,
     configData.displayOriginalCc,
     callbackFuncChangeElement
   )
-
-  // 監視処理
-  const observe = (): void => {
-    // chromeStorageを監視して変更されたらContents側にメッセージを送る
-    chrome.storage.onChanged.addListener((changes, namespace) => {
-      console.log("change storage")
-      console.log(`send active tab: ${configData}`)
-      chrome.tabs.query(
-        { active: true, currentWindow: true },
-        function (tabs: any) {
-          chrome.tabs.sendMessage(
-            tabs[0].id,
-            JSON.stringify(configData),
-            function (response) {}
-          )
-        }
-      )
-    })
-  }
-  observe()
 }
 
 window.addEventListener("load", main, false)
