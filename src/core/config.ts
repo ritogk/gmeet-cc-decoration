@@ -1,3 +1,4 @@
+import { getStorage } from "@/core/googleStorage"
 export interface ConfigInterface {
   loadConfig(): Promise<void>
   getConfig(): ConfigObjectInterface
@@ -40,24 +41,10 @@ export class Config implements ConfigInterface {
   }
 
   loadConfig = async (): Promise<void> => {
-    const storage = await this.getStorage()
-    if (storage) {
-      this.setConfig({
-        opacityRate: storage.opacityRate ?? this.config.opacityRate,
-        displayOriginalCc:
-          storage.displayOriginalCc ?? this.config.displayOriginalCc,
-      })
-    }
-  }
-
-  private getStorage = (): Promise<
-    { opacityRate?: number; displayOriginalCc?: DisplayOriginalCc } | undefined
-  > => {
-    return new Promise((resolve) => {
-      chrome.storage.local.get(["opacityRate", "displayOriginalCc"], (data) => {
-        resolve(data as ConfigObjectInterface)
-      })
-    })
+    this.config.opacityRate =
+      (await getStorage("opacityRate")) ?? this.config.opacityRate
+    this.config.displayOriginalCc =
+      (await getStorage("displayOriginalCc")) ?? this.config.displayOriginalCc
   }
 
   observeConfig = (): void => {
