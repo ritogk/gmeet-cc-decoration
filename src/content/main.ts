@@ -1,8 +1,8 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
-import { UsersAreaElement } from "@/elements/UsersAreaElement"
-import { ControlButtonElement } from "@/elements/controlButtonElement"
-import { CcAreaElement } from "@/elements/ccAreaElement"
-import { CcOveserver } from "@/core/ccOveserver"
+import { UsersAreaElement } from "@/content/elements/UsersAreaElement"
+import { ControlButtonElement } from "@/content/elements/controlButtonElement"
+import { CcAreaElement } from "@/content/elements/ccAreaElement"
+import { CcOveserver } from "@/content/core/ccOveserver"
 
 export const main = async (): Promise<void> => {
   console.log("start: application")

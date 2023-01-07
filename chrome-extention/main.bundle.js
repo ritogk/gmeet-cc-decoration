@@ -2,17 +2,17 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/core/ccOveserver.ts":
-/*!*********************************!*\
-  !*** ./src/core/ccOveserver.ts ***!
-  \*********************************/
+/***/ "./src/content/core/ccOveserver.ts":
+/*!*****************************************!*\
+  !*** ./src/content/core/ccOveserver.ts ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CcOveserver": () => (/* binding */ CcOveserver)
 /* harmony export */ });
-/* harmony import */ var _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/elements/ccAreaElement */ "./src/elements/ccAreaElement.ts");
+/* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
 
 const config = { childList: true, subtree: true };
 /**
@@ -40,7 +40,7 @@ class CcOveserver {
                 }
             };
             this.observer = new MutationObserver(mutationCallback);
-            const oveserverNode = new _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__.CcAreaElement().getCcElement();
+            const oveserverNode = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__.CcAreaElement().getCcElement();
             this.observer.observe(oveserverNode, config);
         };
         this.stop = () => {
@@ -54,103 +54,10 @@ class CcOveserver {
 
 /***/ }),
 
-/***/ "./src/core/config.ts":
-/*!****************************!*\
-  !*** ./src/core/config.ts ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Config": () => (/* binding */ Config),
-/* harmony export */   "DisplayOriginalCc": () => (/* binding */ DisplayOriginalCc)
-/* harmony export */ });
-var DisplayOriginalCc;
-(function (DisplayOriginalCc) {
-    DisplayOriginalCc["OK"] = "1";
-    DisplayOriginalCc["NG"] = "2";
-})(DisplayOriginalCc || (DisplayOriginalCc = {}));
-/**
- * ポップアップ内で入力した設定情報
- */
-class Config {
-    constructor(callbackFunc) {
-        this.config = {
-            opacityRate: 0.5,
-            displayOriginalCc: DisplayOriginalCc.OK,
-        };
-        this.getConfig = () => {
-            return this.config;
-        };
-        this.setConfig = (config) => {
-            this.config = config;
-            this.callbackFuncChangeConfig(this.config);
-        };
-        this.loadConfig = async () => {
-            var _a, _b;
-            const storage = await this.getStorage();
-            if (storage) {
-                this.setConfig({
-                    opacityRate: (_a = storage.opacityRate) !== null && _a !== void 0 ? _a : this.config.opacityRate,
-                    displayOriginalCc: (_b = storage.displayOriginalCc) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc,
-                });
-            }
-        };
-        this.getStorage = () => {
-            return new Promise((resolve) => {
-                chrome.storage.local.get(["opacityRate", "displayOriginalCc"], (data) => {
-                    resolve(data);
-                });
-            });
-        };
-        this.observeConfig = () => {
-            // ポップアップ側の変更検知
-            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-                console.log("receive: popup → content_scripts");
-                const data = JSON.parse(message);
-                this.setConfig(data);
-            });
-        };
-        this.callbackFuncChangeConfig = callbackFunc;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/core/dom.ts":
-/*!*************************!*\
-  !*** ./src/core/dom.ts ***!
-  \*************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "removeElement": () => (/* binding */ removeElement)
-/* harmony export */ });
-/**
- * Elementの削除を行います。
- * @param el
- * @param speed
- */
-const removeElement = (el, speed) => {
-    var seconds = speed / 1000;
-    el.style.transition = "opacity " + seconds + "s ease";
-    el.style.opacity = "0";
-    setTimeout(function () {
-        var _a;
-        (_a = el.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(el);
-    }, speed);
-};
-
-
-
-/***/ }),
-
-/***/ "./src/core/selector.ts":
-/*!******************************!*\
-  !*** ./src/core/selector.ts ***!
-  \******************************/
+/***/ "./src/content/core/selector.ts":
+/*!**************************************!*\
+  !*** ./src/content/core/selector.ts ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -175,17 +82,17 @@ const selector = {
 
 /***/ }),
 
-/***/ "./src/elements/UsersAreaElement.ts":
-/*!******************************************!*\
-  !*** ./src/elements/UsersAreaElement.ts ***!
-  \******************************************/
+/***/ "./src/content/elements/UsersAreaElement.ts":
+/*!**************************************************!*\
+  !*** ./src/content/elements/UsersAreaElement.ts ***!
+  \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UsersAreaElement": () => (/* binding */ UsersAreaElement)
 /* harmony export */ });
-/* harmony import */ var _core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/selector */ "./src/core/selector.ts");
+/* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
 /* harmony import */ var _core_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/dom */ "./src/core/dom.ts");
 
 
@@ -196,7 +103,7 @@ const userCcClassName = "user-cc-class-name";
 class UsersAreaElement {
     constructor() {
         this.getElement = () => {
-            return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.usersArea);
+            return document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.usersArea);
         };
         // ユーザーエリアの要素を取得
         this.findUserAreaElement = (name) => {
@@ -360,17 +267,17 @@ class UsersAreaElement {
 
 /***/ }),
 
-/***/ "./src/elements/ccAreaElement.ts":
-/*!***************************************!*\
-  !*** ./src/elements/ccAreaElement.ts ***!
-  \***************************************/
+/***/ "./src/content/elements/ccAreaElement.ts":
+/*!***********************************************!*\
+  !*** ./src/content/elements/ccAreaElement.ts ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CcAreaElement": () => (/* binding */ CcAreaElement)
 /* harmony export */ });
-/* harmony import */ var _core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/selector */ "./src/core/selector.ts");
+/* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
 
 /**
  * 字幕エリアのElementに関するクラス
@@ -393,10 +300,10 @@ class CcAreaElement {
             this.opacate = false;
         };
         this.getElement = () => {
-            return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccMainArea);
+            return document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccMainArea);
         };
         this.getCcElement = () => {
-            return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccArea);
+            return document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccArea);
         };
     }
 }
@@ -404,17 +311,17 @@ class CcAreaElement {
 
 /***/ }),
 
-/***/ "./src/elements/controlButtonElement.ts":
-/*!**********************************************!*\
-  !*** ./src/elements/controlButtonElement.ts ***!
-  \**********************************************/
+/***/ "./src/content/elements/controlButtonElement.ts":
+/*!******************************************************!*\
+  !*** ./src/content/elements/controlButtonElement.ts ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ControlButtonElement": () => (/* binding */ ControlButtonElement)
 /* harmony export */ });
-/* harmony import */ var _core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/selector */ "./src/core/selector.ts");
+/* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
 
 /**
  * システムのコントロールボタンに関するクラス
@@ -430,7 +337,7 @@ class ControlButtonElement {
             element.addEventListener("mouseover", this.callbackFuncMouseOver);
             element.addEventListener("mouseleave", this.callbackFuncMouseLeave);
             element.addEventListener("click", this.callbackFuncClick);
-            const ccButtonElement = document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.controlCcButton);
+            const ccButtonElement = document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.controlCcButton);
             if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
                 ccButtonElement.parentNode.insertBefore(element, ccButtonElement.nextElementSibling);
                 this.changeStyle();
@@ -488,6 +395,99 @@ class ControlButtonElement {
     }
 }
 ControlButtonElement.ELEMENT_ID = "controlButton";
+
+
+/***/ }),
+
+/***/ "./src/core/config.ts":
+/*!****************************!*\
+  !*** ./src/core/config.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Config": () => (/* binding */ Config),
+/* harmony export */   "DisplayOriginalCc": () => (/* binding */ DisplayOriginalCc)
+/* harmony export */ });
+var DisplayOriginalCc;
+(function (DisplayOriginalCc) {
+    DisplayOriginalCc["OK"] = "1";
+    DisplayOriginalCc["NG"] = "2";
+})(DisplayOriginalCc || (DisplayOriginalCc = {}));
+/**
+ * ポップアップ内で入力した設定情報
+ */
+class Config {
+    constructor(callbackFunc) {
+        this.config = {
+            opacityRate: 0.5,
+            displayOriginalCc: DisplayOriginalCc.OK,
+        };
+        this.getConfig = () => {
+            return this.config;
+        };
+        this.setConfig = (config) => {
+            this.config = config;
+            this.callbackFuncChangeConfig(this.config);
+        };
+        this.loadConfig = async () => {
+            var _a, _b;
+            const storage = await this.getStorage();
+            if (storage) {
+                this.setConfig({
+                    opacityRate: (_a = storage.opacityRate) !== null && _a !== void 0 ? _a : this.config.opacityRate,
+                    displayOriginalCc: (_b = storage.displayOriginalCc) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc,
+                });
+            }
+        };
+        this.getStorage = () => {
+            return new Promise((resolve) => {
+                chrome.storage.local.get(["opacityRate", "displayOriginalCc"], (data) => {
+                    resolve(data);
+                });
+            });
+        };
+        this.observeConfig = () => {
+            // ポップアップ側の変更検知
+            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+                console.log("receive: popup → content_scripts");
+                const data = JSON.parse(message);
+                this.setConfig(data);
+            });
+        };
+        this.callbackFuncChangeConfig = callbackFunc;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/core/dom.ts":
+/*!*************************!*\
+  !*** ./src/core/dom.ts ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "removeElement": () => (/* binding */ removeElement)
+/* harmony export */ });
+/**
+ * Elementの削除を行います。
+ * @param el
+ * @param speed
+ */
+const removeElement = (el, speed) => {
+    var seconds = speed / 1000;
+    el.style.transition = "opacity " + seconds + "s ease";
+    el.style.opacity = "0";
+    setTimeout(function () {
+        var _a;
+        (_a = el.parentNode) === null || _a === void 0 ? void 0 : _a.removeChild(el);
+    }, speed);
+};
+
 
 
 /***/ })
@@ -551,18 +551,18 @@ ControlButtonElement.ELEMENT_ID = "controlButton";
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!*********************!*\
-  !*** ./src/main.ts ***!
-  \*********************/
+/*!*****************************!*\
+  !*** ./src/content/main.ts ***!
+  \*****************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "main": () => (/* binding */ main)
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
-/* harmony import */ var _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/elements/UsersAreaElement */ "./src/elements/UsersAreaElement.ts");
-/* harmony import */ var _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/elements/controlButtonElement */ "./src/elements/controlButtonElement.ts");
-/* harmony import */ var _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/elements/ccAreaElement */ "./src/elements/ccAreaElement.ts");
-/* harmony import */ var _core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/core/ccOveserver */ "./src/core/ccOveserver.ts");
+/* harmony import */ var _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/content/elements/UsersAreaElement */ "./src/content/elements/UsersAreaElement.ts");
+/* harmony import */ var _content_elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/content/elements/controlButtonElement */ "./src/content/elements/controlButtonElement.ts");
+/* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
+/* harmony import */ var _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/content/core/ccOveserver */ "./src/content/core/ccOveserver.ts");
 
 
 
@@ -570,8 +570,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const main = async () => {
     console.log("start: application");
-    const usersAreaElement = new _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
-    const ccAreaElement = new _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__.CcAreaElement();
+    const usersAreaElement = new _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
+    const ccAreaElement = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__.CcAreaElement();
     /**
      * 設定ファイル変更時のコールバック関数
      * @param config
@@ -613,7 +613,7 @@ const main = async () => {
             console.log("delete: cc elements");
         }
     };
-    const controlButtonElement = new _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__.ControlButtonElement(callbackFuncClick);
+    const controlButtonElement = new _content_elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__.ControlButtonElement(callbackFuncClick);
     controlButtonElement.createElement();
     /**
      * 字幕変更検知後のコールバック関数
@@ -633,7 +633,7 @@ const main = async () => {
             usersAreaElement.updateUserCcElement(name, speach);
         }
     };
-    const ccOveserver = new _core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__.CcOveserver(callbackFuncObserver);
+    const ccOveserver = new _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__.CcOveserver(callbackFuncObserver);
 };
 // 動作確認用の入口
 document.addEventListener("runScript", (e) => {

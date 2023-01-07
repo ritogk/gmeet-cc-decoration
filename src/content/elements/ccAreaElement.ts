@@ -1,4 +1,4 @@
-import { selector } from "@/core/selector"
+import { selector } from "@/content/core/selector"
 
 export interface ccAreaElementInterface {
   hideElement(): void

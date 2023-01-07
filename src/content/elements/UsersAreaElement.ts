@@ -1,4 +1,4 @@
-import { selector } from "@/core/selector"
+import { selector } from "@/content/core/selector"
 import { removeElement } from "@/core/dom"
 export interface usersAreaElementInterface {
   getElement(): HTMLElement | null
