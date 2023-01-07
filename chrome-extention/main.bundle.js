@@ -2,58 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/config.ts":
-/*!***********************!*\
-  !*** ./src/config.ts ***!
-  \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Config": () => (/* binding */ Config)
-/* harmony export */ });
-/**
- * ポップアップ内で入力した設定情報
- */
-class Config {
-    constructor(callbackFunc) {
-        this.config = {
-            opacityRate: 0.5,
-            isDisplayOriginalCc: 1,
-        };
-        this.getConfig = () => {
-            return this.config;
-        };
-        this.setConfig = (config) => {
-            this.config = config;
-            this.callbackFuncChangeConfig(this.config);
-        };
-        this.loadConfig = async () => {
-            const config = await this.getStorage();
-            this.setConfig(config);
-        };
-        this.getStorage = () => {
-            return new Promise((resolve) => {
-                chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], (data) => {
-                    resolve(data);
-                });
-            });
-        };
-        this.observeConfig = () => {
-            // ポップアップ側の変更検知
-            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-                console.log("receive: popup → content_scripts");
-                const data = JSON.parse(message);
-                this.setConfig(data);
-            });
-        };
-        this.callbackFuncChangeConfig = callbackFunc;
-    }
-}
-
-
-/***/ }),
-
 /***/ "./src/core/ccOveserver.ts":
 /*!*********************************!*\
   !*** ./src/core/ccOveserver.ts ***!
@@ -100,6 +48,58 @@ class CcOveserver {
             (_a = this.observer) === null || _a === void 0 ? void 0 : _a.disconnect();
         };
         this.callbackFuncObserver = callbackFunc;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/core/config.ts":
+/*!****************************!*\
+  !*** ./src/core/config.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Config": () => (/* binding */ Config)
+/* harmony export */ });
+/**
+ * ポップアップ内で入力した設定情報
+ */
+class Config {
+    constructor(callbackFunc) {
+        this.config = {
+            opacityRate: 0.5,
+            isDisplayOriginalCc: 1,
+        };
+        this.getConfig = () => {
+            return this.config;
+        };
+        this.setConfig = (config) => {
+            this.config = config;
+            this.callbackFuncChangeConfig(this.config);
+        };
+        this.loadConfig = async () => {
+            const config = await this.getStorage();
+            this.setConfig(config);
+        };
+        this.getStorage = () => {
+            return new Promise((resolve) => {
+                chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], (data) => {
+                    resolve(data);
+                });
+            });
+        };
+        this.observeConfig = () => {
+            // ポップアップ側の変更検知
+            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+                console.log("receive: popup → content_scripts");
+                const data = JSON.parse(message);
+                this.setConfig(data);
+            });
+        };
+        this.callbackFuncChangeConfig = callbackFunc;
     }
 }
 
@@ -546,7 +546,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "main": () => (/* binding */ main)
 /* harmony export */ });
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/config */ "./src/config.ts");
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 /* harmony import */ var _elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/elements/UsersAreaElement */ "./src/elements/UsersAreaElement.ts");
 /* harmony import */ var _elements_controlButtonElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/elements/controlButtonElement */ "./src/elements/controlButtonElement.ts");
 /* harmony import */ var _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/elements/ccAreaElement */ "./src/elements/ccAreaElement.ts");
@@ -576,7 +576,7 @@ const main = async () => {
             ccAreaElement.hideElement();
         }
     };
-    const config = new _config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
+    const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
     console.log(`load config: ${JSON.stringify(config.getConfig())}`);
     config.observeConfig();

@@ -1,4 +1,4 @@
-import { Config, ConfigObjectInterface } from "@/config"
+import { Config, ConfigObjectInterface } from "@/core/config"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"
 import { ControlButtonElement } from "@/elements/controlButtonElement"
 import { CcAreaElement } from "@/elements/ccAreaElement"
