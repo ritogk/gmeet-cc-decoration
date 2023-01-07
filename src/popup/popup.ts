@@ -7,25 +7,22 @@ export const main = async (): Promise<void> => {
   const configData = config.getConfig()
   console.log(`load config: ${JSON.stringify(configData)}`)
 
+  // elementsの初期設定
   const initElements = (): void => {
+    // 字幕の透明度
     const opacityRateElement = <HTMLInputElement>(
       document.getElementsByName("opacityRate")[0]
     )
+    opacityRateElement.value = configData.opacityRate.toString()
+    // 既存の字幕
     const displayOriginalCcElements = <NodeListOf<HTMLInputElement>>(
       document.getElementsByName("displayOriginalCc")
     )
-
-    console.log(configData)
-    console.log(opacityRateElement.value)
-    console.log(displayOriginalCcElements)
-    console.log(configData.opacityRate.toString())
-
-    opacityRateElement.value = configData.opacityRate.toString()
-    console.log(configData.displayOriginalCc)
+    displayOriginalCcElements[0].value = DisplayOriginalCc.OK
+    displayOriginalCcElements[1].value = DisplayOriginalCc.NG
     if (configData.displayOriginalCc === DisplayOriginalCc.OK) {
       displayOriginalCcElements[0].checked = true
     }
-
     if (configData.displayOriginalCc === DisplayOriginalCc.NG) {
       displayOriginalCcElements[1].checked = true
     }
@@ -49,7 +46,6 @@ export const main = async (): Promise<void> => {
     const displayOriginalCcElements = <NodeListOf<HTMLInputElement>>(
       document.getElementsByName("displayOriginalCc")
     )
-
     displayOriginalCcElements[0].addEventListener("change", (event) => {
       console.log("change displayOriginalCcElements")
       if (event.target instanceof HTMLInputElement) {

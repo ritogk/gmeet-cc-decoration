@@ -140,15 +140,15 @@ const main = async () => {
     await config.loadConfig();
     const configData = config.getConfig();
     console.log(`load config: ${JSON.stringify(configData)}`);
+    // elementsの初期設定
     const initElements = () => {
+        // 字幕の透明度
         const opacityRateElement = (document.getElementsByName("opacityRate")[0]);
-        const displayOriginalCcElements = (document.getElementsByName("displayOriginalCc"));
-        console.log(configData);
-        console.log(opacityRateElement.value);
-        console.log(displayOriginalCcElements);
-        console.log(configData.opacityRate.toString());
         opacityRateElement.value = configData.opacityRate.toString();
-        console.log(configData.displayOriginalCc);
+        // 既存の字幕
+        const displayOriginalCcElements = (document.getElementsByName("displayOriginalCc"));
+        displayOriginalCcElements[0].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK;
+        displayOriginalCcElements[1].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.NG;
         if (configData.displayOriginalCc === _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
             displayOriginalCcElements[0].checked = true;
         }
