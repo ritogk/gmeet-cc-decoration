@@ -8,16 +8,19 @@ export const main = async (): Promise<void> => {
   const configData = config.getConfig()
   console.log(`load config: ${JSON.stringify(configData)}`)
 
-  // elementsの初期設定
+  // elementsの変更後のコールバック関数
   const callbackFuncChangeElement = (
     opacityRate: number,
     displayOriginalCc: DisplayOriginalCc
   ) => {
     // storageにセット
     console.log("changeElement")
-    console.log(opacityRate)
-    console.log(displayOriginalCc)
-    // 送信
+    chrome.storage.local.set({ opacityRate: opacityRate })
+    chrome.storage.local.set({ displayOriginalCc: displayOriginalCc })
+    config.setConfig({
+      opacityRate: opacityRate,
+      displayOriginalCc: displayOriginalCc,
+    })
   }
   const elements = new Elements(
     configData.opacityRate,

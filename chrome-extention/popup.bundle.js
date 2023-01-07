@@ -241,13 +241,16 @@ const main = async () => {
     await config.loadConfig();
     const configData = config.getConfig();
     console.log(`load config: ${JSON.stringify(configData)}`);
-    // elementsの初期設定
+    // elementsの変更後のコールバック関数
     const callbackFuncChangeElement = (opacityRate, displayOriginalCc) => {
         // storageにセット
         console.log("changeElement");
-        console.log(opacityRate);
-        console.log(displayOriginalCc);
-        // 送信
+        chrome.storage.local.set({ opacityRate: opacityRate });
+        chrome.storage.local.set({ displayOriginalCc: displayOriginalCc });
+        config.setConfig({
+            opacityRate: opacityRate,
+            displayOriginalCc: displayOriginalCc,
+        });
     };
     const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc, callbackFuncChangeElement);
     // 監視処理
