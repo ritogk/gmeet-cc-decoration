@@ -5,9 +5,14 @@ export interface ConfigInterface {
   observeConfig(): void
 }
 
+export enum DisplayOriginalCc {
+  OK = "1",
+  NG = "2",
+}
+
 export interface ConfigObjectInterface {
   opacityRate: number
-  isDisplayOriginalCc: number
+  displayOriginalCc: DisplayOriginalCc
 }
 
 /**
@@ -16,7 +21,7 @@ export interface ConfigObjectInterface {
 export class Config implements ConfigInterface {
   private config: ConfigObjectInterface = {
     opacityRate: 0.5,
-    isDisplayOriginalCc: 1,
+    displayOriginalCc: DisplayOriginalCc.OK,
   }
 
   private callbackFuncChangeConfig: (config: ConfigObjectInterface) => void
@@ -35,18 +40,23 @@ export class Config implements ConfigInterface {
   }
 
   loadConfig = async (): Promise<void> => {
-    const config = await this.getStorage()
-    this.setConfig(config)
+    const storage = await this.getStorage()
+    if (storage) {
+      this.setConfig({
+        opacityRate: storage.opacityRate ?? this.config.opacityRate,
+        displayOriginalCc:
+          storage.displayOriginalCc ?? this.config.displayOriginalCc,
+      })
+    }
   }
 
-  private getStorage = (): Promise<ConfigObjectInterface> => {
+  private getStorage = (): Promise<
+    { opacityRate?: number; displayOriginalCc?: DisplayOriginalCc } | undefined
+  > => {
     return new Promise((resolve) => {
-      chrome.storage.local.get(
-        ["opacityRate", "isDisplayOriginalCc"],
-        (data) => {
-          resolve(data as ConfigObjectInterface)
-        }
-      )
+      chrome.storage.local.get(["opacityRate", "displayOriginalCc"], (data) => {
+        resolve(data as ConfigObjectInterface)
+      })
     })
   }
 

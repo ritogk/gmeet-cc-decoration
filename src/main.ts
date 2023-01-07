@@ -1,4 +1,4 @@
-import { Config, ConfigObjectInterface } from "@/core/config"
+import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 import { UsersAreaElement } from "@/elements/UsersAreaElement"
 import { ControlButtonElement } from "@/elements/controlButtonElement"
 import { CcAreaElement } from "@/elements/ccAreaElement"
@@ -20,7 +20,7 @@ export const main = async (): Promise<void> => {
     usersAreaElement.setUserCcOpacityRate(config.opacityRate)
 
     // 字幕の表示非表示制御
-    if (config.isDisplayOriginalCc == 1) {
+    if (config.displayOriginalCc == DisplayOriginalCc.OK) {
       ccAreaElement.showElement()
     } else {
       ccAreaElement.hideElement()

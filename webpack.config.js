@@ -4,7 +4,7 @@ module.exports = {
   // development に設定するとソースマップ有効でJSファイルが出力される
   mode: "development",
   // メインとなるJavaScriptファイル（エントリーポイント）
-  entry: { run: "./src/run.ts", main: "/src/main.ts" },
+  entry: { run: "./src/run.ts", main: "/src/main.ts", popup: "/src/popup.ts" },
   devtool: "cheap-module-source-map",
   // ファイルの出力設定
   output: {

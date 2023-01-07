@@ -62,8 +62,14 @@ class CcOveserver {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Config": () => (/* binding */ Config)
+/* harmony export */   "Config": () => (/* binding */ Config),
+/* harmony export */   "DisplayOriginalCc": () => (/* binding */ DisplayOriginalCc)
 /* harmony export */ });
+var DisplayOriginalCc;
+(function (DisplayOriginalCc) {
+    DisplayOriginalCc["OK"] = "1";
+    DisplayOriginalCc["NG"] = "2";
+})(DisplayOriginalCc || (DisplayOriginalCc = {}));
 /**
  * ポップアップ内で入力した設定情報
  */
@@ -71,7 +77,7 @@ class Config {
     constructor(callbackFunc) {
         this.config = {
             opacityRate: 0.5,
-            isDisplayOriginalCc: 1,
+            displayOriginalCc: DisplayOriginalCc.OK,
         };
         this.getConfig = () => {
             return this.config;
@@ -81,12 +87,18 @@ class Config {
             this.callbackFuncChangeConfig(this.config);
         };
         this.loadConfig = async () => {
-            const config = await this.getStorage();
-            this.setConfig(config);
+            var _a, _b;
+            const storage = await this.getStorage();
+            if (storage) {
+                this.setConfig({
+                    opacityRate: (_a = storage.opacityRate) !== null && _a !== void 0 ? _a : this.config.opacityRate,
+                    displayOriginalCc: (_b = storage.displayOriginalCc) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc,
+                });
+            }
         };
         this.getStorage = () => {
             return new Promise((resolve) => {
-                chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], (data) => {
+                chrome.storage.local.get(["opacityRate", "displayOriginalCc"], (data) => {
                     resolve(data);
                 });
             });
@@ -513,7 +525,7 @@ const main = async () => {
         // 字幕の透明度
         usersAreaElement.setUserCcOpacityRate(config.opacityRate);
         // 字幕の表示非表示制御
-        if (config.isDisplayOriginalCc == 1) {
+        if (config.displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
             ccAreaElement.showElement();
         }
         else {
