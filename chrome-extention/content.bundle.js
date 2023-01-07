@@ -653,18 +653,19 @@ var __webpack_exports__ = {};
   !*** ./src/content/run.ts ***!
   \****************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
+/* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
 /* harmony import */ var _content_main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/content/main */ "./src/content/main.ts");
 
 
 const run = () => {
-    const jsInitCheckTimer = setInterval(jsLoaded, 1000);
-    function jsLoaded() {
-        if (document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccMainArea) != null) {
+    const ccAreaElement = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__.CcAreaElement();
+    const jsLoaded = () => {
+        if (ccAreaElement.getElement()) {
             clearInterval(jsInitCheckTimer);
             (0,_content_main__WEBPACK_IMPORTED_MODULE_1__.main)();
         }
-    }
+    };
+    const jsInitCheckTimer = setInterval(jsLoaded, 1000);
 };
 window.addEventListener("load", run, false);
 
