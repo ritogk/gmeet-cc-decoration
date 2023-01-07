@@ -11,7 +11,20 @@ export class Elements {
     displayOriginalCc: null,
   }
 
-  constructor(opacityRate: number, displayOriginalCc: DisplayOriginalCc) {
+  private callbackFuncChange: (
+    opacityRate: number,
+    displayOriginalCc: DisplayOriginalCc
+  ) => void
+
+  constructor(
+    opacityRate: number,
+    displayOriginalCc: DisplayOriginalCc,
+    callbackFuncChange: (
+      opacityRate: number,
+      displayOriginalCc: DisplayOriginalCc
+    ) => void
+  ) {
+    this.callbackFuncChange = callbackFuncChange
     this.elemets.opacityRate = <HTMLInputElement>(
       document.getElementsByName("opacityRate")[0]
     )
@@ -34,8 +47,11 @@ export class Elements {
       console.log("change opacityRate")
       if (event.target instanceof HTMLInputElement) {
         console.log(event.target.value)
-        chrome.storage.local.set({ opacityRate: event.target.value })
-        // configData.opacityRate = parseInt(event.target.value)
+        this.callbackFuncChange(
+          Number(event.target.value),
+          (this.getDisplayOriginalCcElementChecked() as HTMLInputElement)
+            .value as DisplayOriginalCc
+        )
       }
     })
 
@@ -44,8 +60,10 @@ export class Elements {
       if (event.target instanceof HTMLInputElement) {
         if (!event.target.checked) return
         console.log(event.target.value)
-        chrome.storage.local.set({ displayOriginalCc: DisplayOriginalCc.OK })
-        // configData.displayOriginalCc = DisplayOriginalCc.OK
+        this.callbackFuncChange(
+          Number(this.getOpacityRateElement()?.value ?? "0"),
+          event.target.value as DisplayOriginalCc
+        )
       }
     })
     this.elemets.displayOriginalCc[1].addEventListener("change", (event) => {
@@ -53,8 +71,10 @@ export class Elements {
       if (event.target instanceof HTMLInputElement) {
         if (!event.target.checked) return
         console.log(event.target.value)
-        chrome.storage.local.set({ displayOriginalCc: DisplayOriginalCc.NG })
-        // configData.displayOriginalCc = DisplayOriginalCc.NG
+        this.callbackFuncChange(
+          Number(this.getOpacityRateElement()?.value ?? "0"),
+          event.target.value as DisplayOriginalCc
+        )
       }
     })
   }
@@ -86,6 +106,16 @@ export class Elements {
     }
     if (displayOriginalCc === DisplayOriginalCc.NG) {
       this.elemets.displayOriginalCc[1].checked = true
+    }
+  }
+
+  getDisplayOriginalCcElementChecked = (): HTMLInputElement | null => {
+    if (!this.elemets.displayOriginalCc) return null
+
+    if (this.elemets.displayOriginalCc[0].checked) {
+      return this.elemets.displayOriginalCc[0]
+    } else {
+      return this.elemets.displayOriginalCc[1]
     }
   }
 }

@@ -79,7 +79,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 
 class Elements {
-    constructor(opacityRate, displayOriginalCc) {
+    constructor(opacityRate, displayOriginalCc, callbackFuncChange) {
         this.elemets = {
             opacityRate: null,
             displayOriginalCc: null,
@@ -108,6 +108,17 @@ class Elements {
                 this.elemets.displayOriginalCc[1].checked = true;
             }
         };
+        this.getDisplayOriginalCcElementChecked = () => {
+            if (!this.elemets.displayOriginalCc)
+                return null;
+            if (this.elemets.displayOriginalCc[0].checked) {
+                return this.elemets.displayOriginalCc[0];
+            }
+            else {
+                return this.elemets.displayOriginalCc[1];
+            }
+        };
+        this.callbackFuncChange = callbackFuncChange;
         this.elemets.opacityRate = (document.getElementsByName("opacityRate")[0]);
         this.elemets.displayOriginalCc = (document.getElementsByName("displayOriginalCc"));
         this.elemets.displayOriginalCc[0].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK;
@@ -124,28 +135,28 @@ class Elements {
             console.log("change opacityRate");
             if (event.target instanceof HTMLInputElement) {
                 console.log(event.target.value);
-                chrome.storage.local.set({ opacityRate: event.target.value });
-                // configData.opacityRate = parseInt(event.target.value)
+                this.callbackFuncChange(Number(event.target.value), this.getDisplayOriginalCcElementChecked()
+                    .value);
             }
         });
         this.elemets.displayOriginalCc[0].addEventListener("change", (event) => {
+            var _a, _b;
             console.log("change displayOriginalCcElements");
             if (event.target instanceof HTMLInputElement) {
                 if (!event.target.checked)
                     return;
                 console.log(event.target.value);
-                chrome.storage.local.set({ displayOriginalCc: _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK });
-                // configData.displayOriginalCc = DisplayOriginalCc.OK
+                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value);
             }
         });
         this.elemets.displayOriginalCc[1].addEventListener("change", (event) => {
+            var _a, _b;
             console.log("change displayOriginalCcElements");
             if (event.target instanceof HTMLInputElement) {
                 if (!event.target.checked)
                     return;
                 console.log(event.target.value);
-                chrome.storage.local.set({ displayOriginalCc: _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.NG });
-                // configData.displayOriginalCc = DisplayOriginalCc.NG
+                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value);
             }
         });
     }
@@ -231,7 +242,14 @@ const main = async () => {
     const configData = config.getConfig();
     console.log(`load config: ${JSON.stringify(configData)}`);
     // elementsの初期設定
-    const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc);
+    const callbackFuncChangeElement = (opacityRate, displayOriginalCc) => {
+        // storageにセット
+        console.log("changeElement");
+        console.log(opacityRate);
+        console.log(displayOriginalCc);
+        // 送信
+    };
+    const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc, callbackFuncChangeElement);
     // 監視処理
     const observe = () => {
         // chromeStorageを監視して変更されたらContents側にメッセージを送る

@@ -9,9 +9,20 @@ export const main = async (): Promise<void> => {
   console.log(`load config: ${JSON.stringify(configData)}`)
 
   // elementsの初期設定
+  const callbackFuncChangeElement = (
+    opacityRate: number,
+    displayOriginalCc: DisplayOriginalCc
+  ) => {
+    // storageにセット
+    console.log("changeElement")
+    console.log(opacityRate)
+    console.log(displayOriginalCc)
+    // 送信
+  }
   const elements = new Elements(
     configData.opacityRate,
-    configData.displayOriginalCc
+    configData.displayOriginalCc,
+    callbackFuncChangeElement
   )
 
   // 監視処理
