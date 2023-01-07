@@ -478,7 +478,14 @@ class Config {
             (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_0__.addListener)((message) => {
                 console.log("receive: popup → content_scripts");
                 const data = JSON.parse(message);
-                this.setConfig(data);
+                const config = this.getConfig();
+                if ("opacityRate" in data) {
+                    config.opacityRate = data.opacityRate;
+                }
+                if ("displayOriginalCc" in data) {
+                    config.opacityRate = data.displayOriginalCc;
+                }
+                this.setConfig(config);
             });
         };
         this.callbackFuncChangeConfig = callbackFunc;

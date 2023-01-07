@@ -50,8 +50,15 @@ export class Config implements ConfigInterface {
   observeGoogleStorage = (): void => {
     addListener((message: string) => {
       console.log("receive: popup → content_scripts")
-      const data = <ConfigObjectInterface>JSON.parse(message)
-      this.setConfig(data)
+      const data = JSON.parse(message)
+      const config = this.getConfig()
+      if ("opacityRate" in data) {
+        config.opacityRate = data.opacityRate
+      }
+      if ("displayOriginalCc" in data) {
+        config.opacityRate = data.displayOriginalCc
+      }
+      this.setConfig(config)
     })
   }
 }
