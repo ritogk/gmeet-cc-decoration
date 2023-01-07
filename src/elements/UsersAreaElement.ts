@@ -18,12 +18,12 @@ const userCcClassName = "user-cc-class-name"
  * ユーザーエリアのElementに関するクラス
  */
 export class UsersAreaElement implements usersAreaElementInterface {
-  getElement(): HTMLElement | null {
+  getElement = (): HTMLElement | null => {
     return document.querySelector<HTMLElement>(selector.usersArea)
   }
 
   // ユーザーエリアの要素を取得
-  findUserAreaElement(name: string): Element | undefined {
+  findUserAreaElement = (name: string): Element | undefined => {
     const usersAreaElement = this.getElement()
     if (!usersAreaElement) return undefined
 
@@ -40,7 +40,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
   }
 
   // ユーザーのvideo要素を取得
-  findUserVideoElement(name: string): HTMLVideoElement | undefined {
+  findUserVideoElement = (name: string): HTMLVideoElement | undefined => {
     const userAreaElement = this.findUserAreaElement(name)
     if (!userAreaElement) return undefined
 
@@ -59,7 +59,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
   }
 
   // ユーザー字幕の取得
-  findUserCcElement(name: string): HTMLDivElement | undefined {
+  findUserCcElement = (name: string): HTMLDivElement | undefined => {
     const userAreaElement = this.findUserAreaElement(name)
     if (!userAreaElement) return undefined
 
@@ -68,7 +68,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
   }
 
   // 字幕 追加
-  appendUserCcElement(name: string, speach: string): void {
+  appendUserCcElement = (name: string, speach: string): void => {
     const userAreaElement = this.findUserAreaElement(name)
     if (!userAreaElement) return
 
@@ -108,7 +108,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
   }
 
   // 字幕 更新
-  updateUserCcElement(name: string, speach: string): void {
+  updateUserCcElement = (name: string, speach: string): void => {
     const userAreraElement = this.findUserAreaElement(name)
     if (!userAreraElement) return
 
@@ -135,14 +135,14 @@ export class UsersAreaElement implements usersAreaElementInterface {
   }
 
   // 字幕 削除
-  deleteUserCcElement(name: string): void {
+  deleteUserCcElement = (name: string): void => {
     const displaySpeach = this.displayUserCcList.find((x) => x.name === name)
     if (!displaySpeach) return
     removeElement(displaySpeach.element, 2000)
   }
 
   // 全字幕 削除
-  deleteUserCcElements(): void {
+  deleteUserCcElements = (): void => {
     this.displayUserCcList.forEach((x) => {
       removeElement(x.element, 2000)
     })
@@ -150,7 +150,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
 
   // 字幕の透明度を変える
   private userCcOpacityRate = 0.5
-  setUserCcOpacityRate(opacityRate: number) {
+  setUserCcOpacityRate = (opacityRate: number) => {
     this.userCcOpacityRate = opacityRate
     this.displayUserCcList.forEach((x) => {
       x.element.style.opacity = this.userCcOpacityRate.toString()
@@ -162,7 +162,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     time: number
     element: HTMLElement
   }[] = []
-  private appendDisplayUserCc(name: string, element: HTMLElement) {
+  private appendDisplayUserCc = (name: string, element: HTMLElement): void => {
     this.displayUserCcList = this.displayUserCcList.filter(
       (displayUserSpeash) => displayUserSpeash.name !== name
     )
@@ -175,7 +175,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
 
   private readonly cclimitSecond = 7
   private intervalId: number = 0
-  runInterval() {
+  runInterval = (): void => {
     // 一定時間表示した字幕は消す
     this.intervalId = window.setInterval(() => {
       const oldDisplayUserCcList = this.displayUserCcList.filter(
@@ -190,7 +190,7 @@ export class UsersAreaElement implements usersAreaElementInterface {
     }, 3000)
   }
 
-  stopInterval() {
+  stopInterval = (): void => {
     clearInterval(this.intervalId)
   }
 }

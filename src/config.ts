@@ -24,22 +24,22 @@ export class Config implements ConfigInterface {
     this.callbackFuncChangeConfig = callbackFunc
   }
 
-  getConfig(): ConfigObjectInterface {
+  getConfig = (): ConfigObjectInterface => {
     return this.config
   }
 
-  setConfig(config: ConfigObjectInterface): void {
+  setConfig = (config: ConfigObjectInterface): void => {
     this.config = config
     this.callbackFuncChangeConfig(this.config)
   }
 
-  async loadConfig(): Promise<void> {
+  loadConfig = async (): Promise<void> => {
     const config = await this.getStorage()
     this.setConfig(config)
   }
 
-  private getStorage = (): Promise<ConfigObjectInterface> =>
-    new Promise((resolve) => {
+  private getStorage = (): Promise<ConfigObjectInterface> => {
+    return new Promise((resolve) => {
       chrome.storage.local.get(
         ["opacityRate", "isDisplayOriginalCc"],
         (data) => {
@@ -47,4 +47,5 @@ export class Config implements ConfigInterface {
         }
       )
     })
+  }
 }

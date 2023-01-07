@@ -22,7 +22,7 @@ export class CcOveserver implements ccOveserverInterface {
   ) {
     this.callbackFuncObserver = callbackFunc
   }
-  run() {
+  run = (): void => {
     const mutationCallback: MutationCallback = (
       mutations: MutationRecord[],
       observer: MutationObserver
@@ -50,7 +50,7 @@ export class CcOveserver implements ccOveserverInterface {
     const oveserverNode = new CcAreaElement().getCcElement()
     this.observer.observe(<Node>oveserverNode, config)
   }
-  stop() {
+  stop = (): void => {
     this.observer?.disconnect()
   }
 }

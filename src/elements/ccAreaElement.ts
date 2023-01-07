@@ -11,25 +11,25 @@ export interface ccAreaElementInterface {
  */
 export class CcAreaElement implements ccAreaElementInterface {
   opacate = false
-  hideElement(): void {
+  hideElement = (): void => {
     const element = this.getElement()
     if (element === null) return
     element.style.opacity = "0"
     this.opacate = true
   }
 
-  showElement(): void {
+  showElement = (): void => {
     const element = this.getElement()
     if (element === null) return
     element.style.opacity = "1"
     this.opacate = false
   }
 
-  getElement(): HTMLElement | null {
+  getElement = (): HTMLElement | null => {
     return document.querySelector<HTMLElement>(selector.ccMainArea)
   }
 
-  getCcElement(): HTMLElement | null {
+  getCcElement = (): HTMLElement | null => {
     return document.querySelector<HTMLElement>(selector.ccArea)
   }
 }

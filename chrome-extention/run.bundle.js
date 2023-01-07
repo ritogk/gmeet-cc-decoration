@@ -21,23 +21,25 @@ class Config {
             opacityRate: 0.5,
             isDisplayOriginalCc: 1,
         };
-        this.getStorage = () => new Promise((resolve) => {
-            chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], (data) => {
-                resolve(data);
+        this.getConfig = () => {
+            return this.config;
+        };
+        this.setConfig = (config) => {
+            this.config = config;
+            this.callbackFuncChangeConfig(this.config);
+        };
+        this.loadConfig = async () => {
+            const config = await this.getStorage();
+            this.setConfig(config);
+        };
+        this.getStorage = () => {
+            return new Promise((resolve) => {
+                chrome.storage.local.get(["opacityRate", "isDisplayOriginalCc"], (data) => {
+                    resolve(data);
+                });
             });
-        });
+        };
         this.callbackFuncChangeConfig = callbackFunc;
-    }
-    getConfig() {
-        return this.config;
-    }
-    setConfig(config) {
-        this.config = config;
-        this.callbackFuncChangeConfig(this.config);
-    }
-    async loadConfig() {
-        const config = await this.getStorage();
-        this.setConfig(config);
     }
 }
 
@@ -63,33 +65,33 @@ const config = { childList: true, subtree: true };
 class CcOveserver {
     constructor(callbackFunc) {
         this.observer = null;
-        this.callbackFuncObserver = callbackFunc;
-    }
-    run() {
-        const mutationCallback = (mutations, observer) => {
-            var _a, _b, _c, _d;
-            for (const mutation of mutations) {
-                if (mutation.type === "childList") {
-                    if (mutation.target.nodeName === "SPAN") {
-                        const speechAreaNode = mutation.target;
-                        const userAreaNode = (_b = (_a = speechAreaNode.parentNode) === null || _a === void 0 ? void 0 : _a.parentNode) === null || _b === void 0 ? void 0 : _b.parentNode;
-                        if (!userAreaNode)
-                            return;
-                        const userAreaNodeList = Array.from(userAreaNode.children);
-                        if (userAreaNodeList.length !== 3)
-                            return;
-                        this.callbackFuncObserver((_c = userAreaNodeList[1].textContent) !== null && _c !== void 0 ? _c : "", userAreaNodeList[0].src, (_d = userAreaNodeList[2].textContent) !== null && _d !== void 0 ? _d : "");
+        this.run = () => {
+            const mutationCallback = (mutations, observer) => {
+                var _a, _b, _c, _d;
+                for (const mutation of mutations) {
+                    if (mutation.type === "childList") {
+                        if (mutation.target.nodeName === "SPAN") {
+                            const speechAreaNode = mutation.target;
+                            const userAreaNode = (_b = (_a = speechAreaNode.parentNode) === null || _a === void 0 ? void 0 : _a.parentNode) === null || _b === void 0 ? void 0 : _b.parentNode;
+                            if (!userAreaNode)
+                                return;
+                            const userAreaNodeList = Array.from(userAreaNode.children);
+                            if (userAreaNodeList.length !== 3)
+                                return;
+                            this.callbackFuncObserver((_c = userAreaNodeList[1].textContent) !== null && _c !== void 0 ? _c : "", userAreaNodeList[0].src, (_d = userAreaNodeList[2].textContent) !== null && _d !== void 0 ? _d : "");
+                        }
                     }
                 }
-            }
+            };
+            this.observer = new MutationObserver(mutationCallback);
+            const oveserverNode = new _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__.CcAreaElement().getCcElement();
+            this.observer.observe(oveserverNode, config);
         };
-        this.observer = new MutationObserver(mutationCallback);
-        const oveserverNode = new _elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__.CcAreaElement().getCcElement();
-        this.observer.observe(oveserverNode, config);
-    }
-    stop() {
-        var _a;
-        (_a = this.observer) === null || _a === void 0 ? void 0 : _a.disconnect();
+        this.stop = () => {
+            var _a;
+            (_a = this.observer) === null || _a === void 0 ? void 0 : _a.disconnect();
+        };
+        this.callbackFuncObserver = callbackFunc;
     }
 }
 
@@ -173,165 +175,165 @@ const userCcClassName = "user-cc-class-name";
  */
 class UsersAreaElement {
     constructor() {
-        // 字幕の透明度を変える
-        this.userCcOpacityRate = 0.5;
-        this.displayUserCcList = [];
-        this.cclimitSecond = 7;
-        this.intervalId = 0;
-    }
-    getElement() {
-        return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.usersArea);
-    }
-    // ユーザーエリアの要素を取得
-    findUserAreaElement(name) {
-        const usersAreaElement = this.getElement();
-        if (!usersAreaElement)
-            return undefined;
-        const userAreaList = Array.from(usersAreaElement.children);
-        return userAreaList.find((element) => {
-            var _a;
-            // 画面共有ようのエリアはinnerTextが取得できないのでその対応
-            const userNameArea = element.querySelector("[data-self-name]");
-            if (!userNameArea)
+        this.getElement = () => {
+            return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.usersArea);
+        };
+        // ユーザーエリアの要素を取得
+        this.findUserAreaElement = (name) => {
+            const usersAreaElement = this.getElement();
+            if (!usersAreaElement)
+                return undefined;
+            const userAreaList = Array.from(usersAreaElement.children);
+            return userAreaList.find((element) => {
+                var _a;
+                // 画面共有ようのエリアはinnerTextが取得できないのでその対応
+                const userNameArea = element.querySelector("[data-self-name]");
+                if (!userNameArea)
+                    return false;
+                if ((_a = userNameArea.textContent) === null || _a === void 0 ? void 0 : _a.startsWith(name)) {
+                    return true;
+                }
                 return false;
-            if ((_a = userNameArea.textContent) === null || _a === void 0 ? void 0 : _a.startsWith(name)) {
-                return true;
-            }
-            return false;
-        });
-    }
-    // ユーザーのvideo要素を取得
-    findUserVideoElement(name) {
-        const userAreaElement = this.findUserAreaElement(name);
-        if (!userAreaElement)
-            return undefined;
-        // 非表示のVideoタグが紛れる事があるのでその対応。
-        const videoAreaElements = userAreaElement.querySelectorAll("video");
-        let userVideoElement = null;
-        if (videoAreaElements.length >= 2) {
-            videoAreaElements.forEach((element) => {
-                if (element.style.display == "none")
-                    return;
-                userVideoElement = element;
             });
-        }
-        else {
-            userVideoElement = videoAreaElements[0];
-        }
-        return userVideoElement !== null ? userVideoElement : undefined;
-    }
-    // ユーザー字幕の取得
-    findUserCcElement(name) {
-        const userAreaElement = this.findUserAreaElement(name);
-        if (!userAreaElement)
-            return undefined;
-        const userCcElement = userAreaElement.querySelector("." + userCcClassName);
-        return userCcElement !== null ? userCcElement : undefined;
-    }
-    // 字幕 追加
-    appendUserCcElement(name, speach) {
-        var _a;
-        const userAreaElement = this.findUserAreaElement(name);
-        if (!userAreaElement)
-            return;
-        const userVideoElement = this.findUserVideoElement(name);
-        if (!userVideoElement)
-            return;
-        const userCcElement = document.createElement("div");
-        userCcElement.style.color = "white";
-        userCcElement.style.position = "absolute";
-        userCcElement.style.bottom = "0";
-        userCcElement.style.backgroundColor = "rgba(0,0,0,0.25)";
-        userCcElement.style.margin = "0";
-        userCcElement.style.zIndex = "1000000";
-        userCcElement.textContent = speach;
-        userCcElement.className = userCcClassName;
-        userCcElement.style.opacity = this.userCcOpacityRate.toString();
-        userCcElement.style.fontWeight = "700";
-        userCcElement.style.textAlign = "center";
-        userCcElement.style.pointerEvents = "none";
-        const fontSize = Math.floor(userVideoElement.clientWidth / 35);
-        fontSize < 18
-            ? (userCcElement.style.fontSize = "15px")
-            : (userCcElement.style.fontSize = `${fontSize}px`);
-        fontSize < 27
-            ? (userCcElement.style.webkitTextStroke = "1px #000")
-            : (userCcElement.style.webkitTextStroke = "2px #000");
-        (_a = userVideoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(userCcElement);
-        if (fontSize >= 18) {
-            userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`;
-        }
-        userCcElement.style.width = "100%";
-        // ログに追加
-        const userCcEmenet = this.findUserCcElement(name);
-        if (!userCcEmenet)
-            return;
-        this.appendDisplayUserCc(name, userCcEmenet);
-    }
-    // 字幕 更新
-    updateUserCcElement(name, speach) {
-        const userAreraElement = this.findUserAreaElement(name);
-        if (!userAreraElement)
-            return;
-        const userVideoElement = this.findUserVideoElement(name);
-        if (!userVideoElement)
-            return;
-        const userCcElement = this.findUserCcElement(name);
-        if (!userCcElement)
-            return;
-        userCcElement.textContent = speach;
-        const fontSize = Math.floor(userVideoElement.clientWidth / 35);
-        fontSize < 18
-            ? (userCcElement.style.fontSize = "15px")
-            : (userCcElement.style.fontSize = `${fontSize}px`);
-        fontSize < 27
-            ? (userCcElement.style.webkitTextStroke = "1px #000")
-            : (userCcElement.style.webkitTextStroke = "2px #000");
-        if (fontSize >= 18) {
-            userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`;
-        }
-        // ログに追加
-        this.appendDisplayUserCc(name, userCcElement);
-    }
-    // 字幕 削除
-    deleteUserCcElement(name) {
-        const displaySpeach = this.displayUserCcList.find((x) => x.name === name);
-        if (!displaySpeach)
-            return;
-        (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(displaySpeach.element, 2000);
-    }
-    // 全字幕 削除
-    deleteUserCcElements() {
-        this.displayUserCcList.forEach((x) => {
-            (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
-        });
-    }
-    setUserCcOpacityRate(opacityRate) {
-        this.userCcOpacityRate = opacityRate;
-        this.displayUserCcList.forEach((x) => {
-            x.element.style.opacity = this.userCcOpacityRate.toString();
-        });
-    }
-    appendDisplayUserCc(name, element) {
-        this.displayUserCcList = this.displayUserCcList.filter((displayUserSpeash) => displayUserSpeash.name !== name);
-        this.displayUserCcList.push({
-            name: name,
-            time: new Date().getTime(),
-            element: element,
-        });
-    }
-    runInterval() {
-        // 一定時間表示した字幕は消す
-        this.intervalId = window.setInterval(() => {
-            const oldDisplayUserCcList = this.displayUserCcList.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
-            oldDisplayUserCcList.forEach((x) => {
+        };
+        // ユーザーのvideo要素を取得
+        this.findUserVideoElement = (name) => {
+            const userAreaElement = this.findUserAreaElement(name);
+            if (!userAreaElement)
+                return undefined;
+            // 非表示のVideoタグが紛れる事があるのでその対応。
+            const videoAreaElements = userAreaElement.querySelectorAll("video");
+            let userVideoElement = null;
+            if (videoAreaElements.length >= 2) {
+                videoAreaElements.forEach((element) => {
+                    if (element.style.display == "none")
+                        return;
+                    userVideoElement = element;
+                });
+            }
+            else {
+                userVideoElement = videoAreaElements[0];
+            }
+            return userVideoElement !== null ? userVideoElement : undefined;
+        };
+        // ユーザー字幕の取得
+        this.findUserCcElement = (name) => {
+            const userAreaElement = this.findUserAreaElement(name);
+            if (!userAreaElement)
+                return undefined;
+            const userCcElement = userAreaElement.querySelector("." + userCcClassName);
+            return userCcElement !== null ? userCcElement : undefined;
+        };
+        // 字幕 追加
+        this.appendUserCcElement = (name, speach) => {
+            var _a;
+            const userAreaElement = this.findUserAreaElement(name);
+            if (!userAreaElement)
+                return;
+            const userVideoElement = this.findUserVideoElement(name);
+            if (!userVideoElement)
+                return;
+            const userCcElement = document.createElement("div");
+            userCcElement.style.color = "white";
+            userCcElement.style.position = "absolute";
+            userCcElement.style.bottom = "0";
+            userCcElement.style.backgroundColor = "rgba(0,0,0,0.25)";
+            userCcElement.style.margin = "0";
+            userCcElement.style.zIndex = "1000000";
+            userCcElement.textContent = speach;
+            userCcElement.className = userCcClassName;
+            userCcElement.style.opacity = this.userCcOpacityRate.toString();
+            userCcElement.style.fontWeight = "700";
+            userCcElement.style.textAlign = "center";
+            userCcElement.style.pointerEvents = "none";
+            const fontSize = Math.floor(userVideoElement.clientWidth / 35);
+            fontSize < 18
+                ? (userCcElement.style.fontSize = "15px")
+                : (userCcElement.style.fontSize = `${fontSize}px`);
+            fontSize < 27
+                ? (userCcElement.style.webkitTextStroke = "1px #000")
+                : (userCcElement.style.webkitTextStroke = "2px #000");
+            (_a = userVideoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(userCcElement);
+            if (fontSize >= 18) {
+                userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`;
+            }
+            userCcElement.style.width = "100%";
+            // ログに追加
+            const userCcEmenet = this.findUserCcElement(name);
+            if (!userCcEmenet)
+                return;
+            this.appendDisplayUserCc(name, userCcEmenet);
+        };
+        // 字幕 更新
+        this.updateUserCcElement = (name, speach) => {
+            const userAreraElement = this.findUserAreaElement(name);
+            if (!userAreraElement)
+                return;
+            const userVideoElement = this.findUserVideoElement(name);
+            if (!userVideoElement)
+                return;
+            const userCcElement = this.findUserCcElement(name);
+            if (!userCcElement)
+                return;
+            userCcElement.textContent = speach;
+            const fontSize = Math.floor(userVideoElement.clientWidth / 35);
+            fontSize < 18
+                ? (userCcElement.style.fontSize = "15px")
+                : (userCcElement.style.fontSize = `${fontSize}px`);
+            fontSize < 27
+                ? (userCcElement.style.webkitTextStroke = "1px #000")
+                : (userCcElement.style.webkitTextStroke = "2px #000");
+            if (fontSize >= 18) {
+                userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`;
+            }
+            // ログに追加
+            this.appendDisplayUserCc(name, userCcElement);
+        };
+        // 字幕 削除
+        this.deleteUserCcElement = (name) => {
+            const displaySpeach = this.displayUserCcList.find((x) => x.name === name);
+            if (!displaySpeach)
+                return;
+            (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(displaySpeach.element, 2000);
+        };
+        // 全字幕 削除
+        this.deleteUserCcElements = () => {
+            this.displayUserCcList.forEach((x) => {
                 (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
             });
-            this.displayUserCcList = this.displayUserCcList.filter((x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond);
-        }, 3000);
-    }
-    stopInterval() {
-        clearInterval(this.intervalId);
+        };
+        // 字幕の透明度を変える
+        this.userCcOpacityRate = 0.5;
+        this.setUserCcOpacityRate = (opacityRate) => {
+            this.userCcOpacityRate = opacityRate;
+            this.displayUserCcList.forEach((x) => {
+                x.element.style.opacity = this.userCcOpacityRate.toString();
+            });
+        };
+        this.displayUserCcList = [];
+        this.appendDisplayUserCc = (name, element) => {
+            this.displayUserCcList = this.displayUserCcList.filter((displayUserSpeash) => displayUserSpeash.name !== name);
+            this.displayUserCcList.push({
+                name: name,
+                time: new Date().getTime(),
+                element: element,
+            });
+        };
+        this.cclimitSecond = 7;
+        this.intervalId = 0;
+        this.runInterval = () => {
+            // 一定時間表示した字幕は消す
+            this.intervalId = window.setInterval(() => {
+                const oldDisplayUserCcList = this.displayUserCcList.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
+                oldDisplayUserCcList.forEach((x) => {
+                    (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
+                });
+                this.displayUserCcList = this.displayUserCcList.filter((x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond);
+            }, 3000);
+        };
+        this.stopInterval = () => {
+            clearInterval(this.intervalId);
+        };
     }
 }
 
@@ -356,26 +358,26 @@ __webpack_require__.r(__webpack_exports__);
 class CcAreaElement {
     constructor() {
         this.opacate = false;
-    }
-    hideElement() {
-        const element = this.getElement();
-        if (element === null)
-            return;
-        element.style.opacity = "0";
-        this.opacate = true;
-    }
-    showElement() {
-        const element = this.getElement();
-        if (element === null)
-            return;
-        element.style.opacity = "1";
-        this.opacate = false;
-    }
-    getElement() {
-        return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccMainArea);
-    }
-    getCcElement() {
-        return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccArea);
+        this.hideElement = () => {
+            const element = this.getElement();
+            if (element === null)
+                return;
+            element.style.opacity = "0";
+            this.opacate = true;
+        };
+        this.showElement = () => {
+            const element = this.getElement();
+            if (element === null)
+                return;
+            element.style.opacity = "1";
+            this.opacate = false;
+        };
+        this.getElement = () => {
+            return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccMainArea);
+        };
+        this.getCcElement = () => {
+            return document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccArea);
+        };
     }
 }
 
@@ -402,16 +404,38 @@ class ControlButtonElement {
         this.drawed = false;
         this.mouseOver = false;
         this.clicked = false;
-        // このへんのhandle処理から
-        this.callbackFuncMouseOver = () => {
+        this.createElement = () => {
+            const element = document.createElement("div");
+            element.id = ControlButtonElement.ELEMENT_ID;
+            element.addEventListener("mouseover", this.callbackFuncMouseOver);
+            element.addEventListener("mouseleave", this.callbackFuncMouseLeave);
+            element.addEventListener("click", this.callbackFuncClick);
+            const ccButtonElement = document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.controlCcButton);
+            if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
+                ccButtonElement.parentNode.insertBefore(element, ccButtonElement.nextElementSibling);
+                this.changeStyle();
+                this.drawed = true;
+            }
+        };
+        this.deleteElement = () => {
+            var _a;
+            (_a = document.getElementById(ControlButtonElement.ELEMENT_ID)) === null || _a === void 0 ? void 0 : _a.remove();
+            this.drawed = false;
+            this.mouseOver = false;
+            this.clicked = false;
+        };
+        this.getElement = () => {
+            return document.getElementById(ControlButtonElement.ELEMENT_ID);
+        };
+        this.callbackFuncMouseOver = (e) => {
             this.mouseOver = true;
             this.changeStyle();
         };
-        this.callbackFuncMouseLeave = () => {
+        this.callbackFuncMouseLeave = (e) => {
             this.mouseOver = false;
             this.changeStyle();
         };
-        this.callbackFuncClick = () => {
+        this.callbackFuncClick = (e) => {
             this.clicked = !this.clicked;
             this.changeStyle();
             this.clickCallback(this.clicked);
@@ -441,29 +465,6 @@ class ControlButtonElement {
             }
         };
         this.clickCallback = callback;
-    }
-    createElement() {
-        const element = document.createElement("div");
-        element.id = ControlButtonElement.ELEMENT_ID;
-        element.addEventListener("mouseover", this.callbackFuncMouseOver);
-        element.addEventListener("mouseleave", this.callbackFuncMouseLeave);
-        element.addEventListener("click", this.callbackFuncClick);
-        const ccButtonElement = document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.controlCcButton);
-        if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
-            ccButtonElement.parentNode.insertBefore(element, ccButtonElement.nextElementSibling);
-            this.changeStyle();
-            this.drawed = true;
-        }
-    }
-    deleteElement() {
-        var _a;
-        (_a = document.getElementById(ControlButtonElement.ELEMENT_ID)) === null || _a === void 0 ? void 0 : _a.remove();
-        this.drawed = false;
-        this.mouseOver = false;
-        this.clicked = false;
-    }
-    getElement() {
-        return document.getElementById(ControlButtonElement.ELEMENT_ID);
     }
 }
 ControlButtonElement.ELEMENT_ID = "controlButton";
@@ -641,8 +642,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/main */ "./src/main.ts");
 
 
-window.addEventListener("load", run, false);
-function run() {
+const run = () => {
     const jsInitCheckTimer = setInterval(jsLoaded, 1000);
     function jsLoaded() {
         if (document.querySelector(_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.ccMainArea) != null) {
@@ -650,7 +650,8 @@ function run() {
             (0,_main__WEBPACK_IMPORTED_MODULE_1__.main)();
         }
     }
-}
+};
+window.addEventListener("load", run, false);
 
 })();
 
