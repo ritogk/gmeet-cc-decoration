@@ -56,7 +56,7 @@ export class Config implements ConfigInterface {
         config.opacityRate = data.opacityRate
       }
       if ("displayOriginalCc" in data) {
-        config.opacityRate = data.displayOriginalCc
+        config.displayOriginalCc = data.displayOriginalCc
       }
       this.setConfig(config)
     })
