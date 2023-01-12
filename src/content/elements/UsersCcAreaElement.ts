@@ -83,8 +83,11 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
 
-    const userCcAreaElement = <HTMLDivElement | null>(
-      userVideoElement.querySelector("." + userCcAreaClassName)
+    const userAreaElement = this.usersAreaElement.findUserAreaElement(name)
+    if (!userAreaElement) return
+
+    const userCcAreaElement = <HTMLDivElement | undefined>(
+      userAreaElement.querySelector("." + userCcAreaClassName)
     )
     if (!userCcAreaElement) return
     if (userCcAreaElement) {
@@ -143,6 +146,8 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     if (!userVideoElement) return
     const userCcElement = this.findCcElement(name)
     if (!userCcElement) return
+    // 直前の文字数より少ない場合は反映させない
+    if ((userCcElement.textContent?.length ?? 100) >= speach.length) return
     userCcElement.textContent = speach
     const fontSize = this.calcCcFontSize(userVideoElement)
     fontSize < 18
@@ -197,6 +202,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   runInterval = (): void => {
     // 一定時間表示した字幕は消す
     this.intervalId = window.setInterval(() => {
+      console.log(this.displayElements)
       const oldDisplayElements = this.displayElements.filter(
         (x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond
       )

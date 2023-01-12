@@ -221,7 +221,10 @@ class UsersCcAreaElement {
             const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
-            const userCcAreaElement = (userVideoElement.querySelector("." + userCcAreaClassName));
+            const userAreaElement = this.usersAreaElement.findUserAreaElement(name);
+            if (!userAreaElement)
+                return;
+            const userCcAreaElement = (userAreaElement.querySelector("." + userCcAreaClassName));
             if (!userCcAreaElement)
                 return;
             if (userCcAreaElement) {
@@ -275,11 +278,15 @@ class UsersCcAreaElement {
         };
         // 字幕 更新
         this.updateCcElement = (name, speach) => {
+            var _a, _b;
             const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
             const userCcElement = this.findCcElement(name);
             if (!userCcElement)
+                return;
+            // 直前の文字数より少ない場合は反映させない
+            if (((_b = (_a = userCcElement.textContent) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 100) >= speach.length)
                 return;
             userCcElement.textContent = speach;
             const fontSize = this.calcCcFontSize(userVideoElement);
@@ -325,6 +332,7 @@ class UsersCcAreaElement {
         this.runInterval = () => {
             // 一定時間表示した字幕は消す
             this.intervalId = window.setInterval(() => {
+                console.log(this.displayElements);
                 const oldDisplayElements = this.displayElements.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
                 oldDisplayElements.forEach((x) => {
                     (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
