@@ -1,5 +1,6 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 import { UsersAreaElement } from "@/content/elements/UsersAreaElement"
+import { UsersCcAreaElement } from "@/content/elements/UsersCcAreaElement"
 import { SwitchingButtonElement } from "@/content/elements/switchingButtonElement"
 import { CcAreaElement } from "@/content/elements/ccAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
@@ -8,6 +9,7 @@ export const main = async (): Promise<void> => {
   console.log("start: application")
 
   const usersAreaElement = new UsersAreaElement()
+  const usersCcAreaElement = new UsersCcAreaElement()
   const ccAreaElement = new CcAreaElement()
 
   /**
@@ -17,7 +19,7 @@ export const main = async (): Promise<void> => {
   const callbackFuncChangeConfig = (config: ConfigObjectInterface) => {
     console.log(JSON.stringify(config))
     // 字幕の透明度
-    usersAreaElement.setUserCcOpacityRate(config.opacityRate)
+    usersCcAreaElement.setUserCcOpacityRate(config.opacityRate)
 
     // 字幕の表示非表示制御
     if (config.displayOriginalCc == DisplayOriginalCc.OK) {
@@ -31,7 +33,7 @@ export const main = async (): Promise<void> => {
   console.log(`load config: ${JSON.stringify(config.getConfig())}`)
   config.observeGoogleStorage()
 
-  usersAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate)
+  usersCcAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate)
   if (config.getConfig().displayOriginalCc == DisplayOriginalCc.OK) {
     ccAreaElement.showElement()
   } else {
@@ -47,14 +49,14 @@ export const main = async (): Promise<void> => {
     if (clicked) {
       ccOveserver.run()
       console.log("start: observer")
-      usersAreaElement.runInterval()
+      usersCcAreaElement.runInterval()
       console.log("run: interval")
     } else {
       ccOveserver.stop()
       console.log("stop: observer")
-      usersAreaElement.stopInterval()
+      usersCcAreaElement.stopInterval()
       console.log("stop: interval")
-      usersAreaElement.deleteUserCcElements()
+      usersCcAreaElement.deleteElements()
       console.log("delete: cc elements")
     }
   }
@@ -77,10 +79,11 @@ export const main = async (): Promise<void> => {
     console.log(`imagePath: ${imagePath}`)
     console.log(`speach: ${speach}`)
 
-    if (!usersAreaElement.findUserCcElement(name)) {
-      usersAreaElement.appendUserCcElement(name, speach)
+    if (!usersCcAreaElement.getElement(name)) {
+      usersCcAreaElement.createElement(name)
+      usersCcAreaElement.appendCcElement(name, speach)
     } else {
-      usersAreaElement.updateUserCcElement(name, speach)
+      usersCcAreaElement.updateCcElement(name, speach)
     }
   }
   const ccOveserver = new CcOveserver(callbackFuncObserver)
