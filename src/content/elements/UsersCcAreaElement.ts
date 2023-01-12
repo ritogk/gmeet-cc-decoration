@@ -17,7 +17,7 @@ const userCcAreaClassName = "user-cc-area-class-name"
 const userCcClassName = "user-cc-class-name"
 
 /**
- * ユーザーエリアのElementに関するクラス
+ * 全ユーザーの字幕Elementに関するクラス
  */
 export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private usersAreaElement: UsersAreaElement
