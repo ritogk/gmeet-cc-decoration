@@ -531,6 +531,44 @@ document.addEventListener("runScript", (e) => {
 
 /***/ }),
 
+/***/ "./src/core/chromeStorage.ts":
+/*!***********************************!*\
+  !*** ./src/core/chromeStorage.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addListener": () => (/* binding */ addListener),
+/* harmony export */   "getStorage": () => (/* binding */ getStorage),
+/* harmony export */   "sendContents": () => (/* binding */ sendContents),
+/* harmony export */   "setStorage": () => (/* binding */ setStorage)
+/* harmony export */ });
+const getStorage = async (key) => {
+    return new Promise((resolve) => {
+        chrome.storage.local.get(key, (data) => {
+            if (key in data)
+                resolve(data[key]);
+            resolve(null);
+        });
+    });
+};
+const setStorage = (key, value) => {
+    chrome.storage.local.set({ [key]: value });
+};
+const sendContents = (config) => {
+    console.log(`send active tab: ${config}`);
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, JSON.stringify(config), function (response) { });
+    });
+};
+const addListener = (callbackFunc) => {
+    chrome.runtime.onMessage.addListener(callbackFunc);
+};
+
+
+/***/ }),
+
 /***/ "./src/core/config.ts":
 /*!****************************!*\
   !*** ./src/core/config.ts ***!
@@ -542,7 +580,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Config": () => (/* binding */ Config),
 /* harmony export */   "DisplayOriginalCc": () => (/* binding */ DisplayOriginalCc)
 /* harmony export */ });
-/* harmony import */ var _core_googleStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/googleStorage */ "./src/core/googleStorage.ts");
+/* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
 
 var DisplayOriginalCc;
 (function (DisplayOriginalCc) {
@@ -568,12 +606,12 @@ class Config {
         this.loadConfig = async () => {
             var _a, _b;
             this.config.opacityRate =
-                (_a = (await (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("opacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
+                (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("opacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
             this.config.displayOriginalCc =
-                (_b = (await (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("displayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
+                (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("displayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
         };
         this.observeGoogleStorage = () => {
-            (0,_core_googleStorage__WEBPACK_IMPORTED_MODULE_0__.addListener)((message) => {
+            (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.addListener)((message) => {
                 console.log("receive: popup → content_scripts");
                 const data = JSON.parse(message);
                 const config = this.getConfig();
@@ -581,7 +619,7 @@ class Config {
                     config.opacityRate = data.opacityRate;
                 }
                 if ("displayOriginalCc" in data) {
-                    config.opacityRate = data.displayOriginalCc;
+                    config.displayOriginalCc = data.displayOriginalCc;
                 }
                 this.setConfig(config);
             });
@@ -618,44 +656,6 @@ const removeElement = (el, speed) => {
     }, speed);
 };
 
-
-
-/***/ }),
-
-/***/ "./src/core/googleStorage.ts":
-/*!***********************************!*\
-  !*** ./src/core/googleStorage.ts ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addListener": () => (/* binding */ addListener),
-/* harmony export */   "getStorage": () => (/* binding */ getStorage),
-/* harmony export */   "sendContents": () => (/* binding */ sendContents),
-/* harmony export */   "setStorage": () => (/* binding */ setStorage)
-/* harmony export */ });
-const getStorage = async (key) => {
-    return new Promise((resolve) => {
-        chrome.storage.local.get(key, (data) => {
-            if (key in data)
-                resolve(data[key]);
-            resolve(null);
-        });
-    });
-};
-const setStorage = (key, value) => {
-    chrome.storage.local.set({ [key]: value });
-};
-const sendContents = (config) => {
-    console.log(`send active tab: ${config}`);
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, JSON.stringify(config), function (response) { });
-    });
-};
-const addListener = (callbackFunc) => {
-    chrome.runtime.onMessage.addListener(callbackFunc);
-};
 
 
 /***/ })
