@@ -13,6 +13,7 @@ export interface usersAreaElementInterface {
 }
 
 const userCcClassName = "user-cc-class-name"
+const userCcAreaClassName = "user-cc-area-class-name"
 
 /**
  * ユーザーエリアのElementに関するクラス
@@ -75,18 +76,14 @@ export class UsersAreaElement implements usersAreaElementInterface {
     const userVideoElement = this.findUserVideoElement(name)
     if (!userVideoElement) return
 
-    const userCcElement = document.createElement("div")
+    const userCcElement = document.createElement("span")
     userCcElement.style.color = "white"
-    userCcElement.style.position = "absolute"
-    userCcElement.style.bottom = "0"
-    userCcElement.style.backgroundColor = "rgba(0,0,0,0.25)"
     userCcElement.style.margin = "0"
-    userCcElement.style.zIndex = "1000000"
+    userCcElement.style.zIndex = "1000001"
     userCcElement.textContent = speach
     userCcElement.className = userCcClassName
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
     userCcElement.style.fontWeight = "700"
-    userCcElement.style.textAlign = "center"
     userCcElement.style.pointerEvents = "none"
     const fontSize = Math.floor(userVideoElement.clientWidth / 35)
     fontSize < 18
@@ -95,16 +92,40 @@ export class UsersAreaElement implements usersAreaElementInterface {
     fontSize < 27
       ? (userCcElement.style.webkitTextStroke = "1px #000")
       : (userCcElement.style.webkitTextStroke = "2px #000")
-    userVideoElement.parentElement?.after(userCcElement)
 
-    if (fontSize >= 18) {
-      userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`
+    const userCcAreaElement = document.createElement("div")
+    userCcAreaElement.style.position = "absolute"
+    userCcAreaElement.style.bottom = "0"
+    userCcAreaElement.style.textAlign = "left"
+    userCcAreaElement.style.backgroundColor = "rgba(0,0,0,0.25)"
+    userCcAreaElement.style.margin = "0"
+    userCcAreaElement.style.zIndex = "1000000"
+    userCcAreaElement.style.left = "0"
+    userCcAreaElement.style.right = "0"
+    userCcAreaElement.style.pointerEvents = "none"
+    userCcAreaElement.style.overflow = "hidden"
+    userCcAreaElement.scrollTop = 1000
+    userCcAreaElement.className = userCcAreaClassName
+    if (fontSize >= 16) {
+      userCcAreaElement.style.height = `${
+        userVideoElement.clientHeight / 3.3
+      }px`
+      const padding = (userVideoElement.clientWidth * 0.365) / 2
+      userCcAreaElement.style.paddingLeft = `${padding}px`
+      userCcAreaElement.style.paddingRight = `${padding}px`
+    } else {
+      userCcAreaElement.style.paddingLeft = `10px`
+      userCcAreaElement.style.paddingRight = `10px`
     }
-    userCcElement.style.width = "100%"
+    userCcAreaElement.appendChild(userCcElement)
+
+    userVideoElement.parentElement?.after(userCcAreaElement)
+
     // ログに追加
     const userCcEmenet = this.findUserCcElement(name)
     if (!userCcEmenet) return
-    this.appendDisplayUserCc(name, userCcEmenet)
+
+    this.appendDisplayUserCcArea(name, userCcAreaElement)
   }
 
   // 字幕 更新
@@ -127,11 +148,23 @@ export class UsersAreaElement implements usersAreaElementInterface {
       ? (userCcElement.style.webkitTextStroke = "1px #000")
       : (userCcElement.style.webkitTextStroke = "2px #000")
 
-    if (fontSize >= 18) {
-      userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`
+    const userCcAreaElement: any = userCcElement.parentElement
+    if (userCcAreaElement) {
+      userCcAreaElement.scrollTop = 1000
+    }
+    if (fontSize >= 16) {
+      userCcAreaElement.style.height = `${
+        userVideoElement.clientHeight / 3.3
+      }px`
+      const padding = (userVideoElement.clientWidth * 0.365) / 2
+      userCcAreaElement.style.paddingLeft = `${padding}px`
+      userCcAreaElement.style.paddingRight = `${padding}px`
+    } else {
+      userCcAreaElement.style.paddingLeft = `10px`
+      userCcAreaElement.style.paddingRight = `10px`
     }
     // ログに追加
-    this.appendDisplayUserCc(name, userCcElement)
+    this.appendDisplayUserCcArea(name, userCcAreaElement)
   }
 
   // 字幕 削除
@@ -162,7 +195,10 @@ export class UsersAreaElement implements usersAreaElementInterface {
     time: number
     element: HTMLElement
   }[] = []
-  private appendDisplayUserCc = (name: string, element: HTMLElement): void => {
+  private appendDisplayUserCcArea = (
+    name: string,
+    element: HTMLElement
+  ): void => {
     this.displayUserCcList = this.displayUserCcList.filter(
       (displayUserSpeash) => displayUserSpeash.name !== name
     )

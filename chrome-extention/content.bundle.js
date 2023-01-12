@@ -99,6 +99,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const userCcClassName = "user-cc-class-name";
+const userCcAreaClassName = "user-cc-area-class-name";
 /**
  * ユーザーエリアのElementに関するクラス
  */
@@ -162,18 +163,14 @@ class UsersAreaElement {
             const userVideoElement = this.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
-            const userCcElement = document.createElement("div");
+            const userCcElement = document.createElement("span");
             userCcElement.style.color = "white";
-            userCcElement.style.position = "absolute";
-            userCcElement.style.bottom = "0";
-            userCcElement.style.backgroundColor = "rgba(0,0,0,0.25)";
             userCcElement.style.margin = "0";
-            userCcElement.style.zIndex = "1000000";
+            userCcElement.style.zIndex = "1000001";
             userCcElement.textContent = speach;
             userCcElement.className = userCcClassName;
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
             userCcElement.style.fontWeight = "700";
-            userCcElement.style.textAlign = "center";
             userCcElement.style.pointerEvents = "none";
             const fontSize = Math.floor(userVideoElement.clientWidth / 35);
             fontSize < 18
@@ -182,16 +179,36 @@ class UsersAreaElement {
             fontSize < 27
                 ? (userCcElement.style.webkitTextStroke = "1px #000")
                 : (userCcElement.style.webkitTextStroke = "2px #000");
-            (_a = userVideoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(userCcElement);
-            if (fontSize >= 18) {
-                userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`;
+            const userCcAreaElement = document.createElement("div");
+            userCcAreaElement.style.position = "absolute";
+            userCcAreaElement.style.bottom = "0";
+            userCcAreaElement.style.textAlign = "left";
+            userCcAreaElement.style.backgroundColor = "rgba(0,0,0,0.25)";
+            userCcAreaElement.style.margin = "0";
+            userCcAreaElement.style.zIndex = "1000000";
+            userCcAreaElement.style.left = "0";
+            userCcAreaElement.style.right = "0";
+            userCcAreaElement.style.pointerEvents = "none";
+            userCcAreaElement.style.overflow = "hidden";
+            userCcAreaElement.scrollTop = 1000;
+            userCcAreaElement.className = userCcAreaClassName;
+            if (fontSize >= 16) {
+                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                const padding = (userVideoElement.clientWidth * 0.365) / 2;
+                userCcAreaElement.style.paddingLeft = `${padding}px`;
+                userCcAreaElement.style.paddingRight = `${padding}px`;
             }
-            userCcElement.style.width = "100%";
+            else {
+                userCcAreaElement.style.paddingLeft = `10px`;
+                userCcAreaElement.style.paddingRight = `10px`;
+            }
+            userCcAreaElement.appendChild(userCcElement);
+            (_a = userVideoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(userCcAreaElement);
             // ログに追加
             const userCcEmenet = this.findUserCcElement(name);
             if (!userCcEmenet)
                 return;
-            this.appendDisplayUserCc(name, userCcEmenet);
+            this.appendDisplayUserCcArea(name, userCcAreaElement);
         };
         // 字幕 更新
         this.updateUserCcElement = (name, speach) => {
@@ -212,11 +229,22 @@ class UsersAreaElement {
             fontSize < 27
                 ? (userCcElement.style.webkitTextStroke = "1px #000")
                 : (userCcElement.style.webkitTextStroke = "2px #000");
-            if (fontSize >= 18) {
-                userCcElement.style.height = `${userVideoElement.clientHeight / 4.3}px`;
+            const userCcAreaElement = userCcElement.parentElement;
+            if (userCcAreaElement) {
+                userCcAreaElement.scrollTop = 1000;
+            }
+            if (fontSize >= 16) {
+                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                const padding = (userVideoElement.clientWidth * 0.365) / 2;
+                userCcAreaElement.style.paddingLeft = `${padding}px`;
+                userCcAreaElement.style.paddingRight = `${padding}px`;
+            }
+            else {
+                userCcAreaElement.style.paddingLeft = `10px`;
+                userCcAreaElement.style.paddingRight = `10px`;
             }
             // ログに追加
-            this.appendDisplayUserCc(name, userCcElement);
+            this.appendDisplayUserCcArea(name, userCcAreaElement);
         };
         // 字幕 削除
         this.deleteUserCcElement = (name) => {
@@ -240,7 +268,7 @@ class UsersAreaElement {
             });
         };
         this.displayUserCcList = [];
-        this.appendDisplayUserCc = (name, element) => {
+        this.appendDisplayUserCcArea = (name, element) => {
             this.displayUserCcList = this.displayUserCcList.filter((displayUserSpeash) => displayUserSpeash.name !== name);
             this.displayUserCcList.push({
                 name: name,
