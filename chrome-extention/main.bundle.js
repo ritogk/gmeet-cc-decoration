@@ -646,9 +646,16 @@ const main = async () => {
         }
     };
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
-    config.observeGoogleStorage();
     await config.loadConfig();
     console.log(`load config: ${JSON.stringify(config.getConfig())}`);
+    config.observeGoogleStorage();
+    usersAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate);
+    if (config.getConfig().displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
+        ccAreaElement.showElement();
+    }
+    else {
+        ccAreaElement.hideElement();
+    }
     /**
      * コントロールボタン押下後のコールバック関数
      * @param clicked

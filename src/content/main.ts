@@ -27,9 +27,17 @@ export const main = async (): Promise<void> => {
     }
   }
   const config = new Config(callbackFuncChangeConfig)
-  config.observeGoogleStorage()
   await config.loadConfig()
   console.log(`load config: ${JSON.stringify(config.getConfig())}`)
+  config.observeGoogleStorage()
+
+  usersAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate)
+  if (config.getConfig().displayOriginalCc == DisplayOriginalCc.OK) {
+    ccAreaElement.showElement()
+  } else {
+    ccAreaElement.hideElement()
+  }
+
   /**
    * コントロールボタン押下後のコールバック関数
    * @param clicked
