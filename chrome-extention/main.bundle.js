@@ -95,11 +95,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "UsersAreaElement": () => (/* binding */ UsersAreaElement)
 /* harmony export */ });
 /* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
-/* harmony import */ var _core_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/dom */ "./src/core/dom.ts");
 
-
-const userCcClassName = "user-cc-class-name";
-const userCcAreaClassName = "user-cc-area-class-name";
 /**
  * ユーザーエリアのElementに関するクラス
  */
@@ -146,39 +142,56 @@ class UsersAreaElement {
             }
             return userVideoElement !== null ? userVideoElement : undefined;
         };
-        // ユーザー字幕の取得
-        this.findUserCcElement = (name) => {
-            const userAreaElement = this.findUserAreaElement(name);
-            if (!userAreaElement)
-                return undefined;
-            const userCcElement = userAreaElement.querySelector("." + userCcClassName);
-            return userCcElement !== null ? userCcElement : undefined;
-        };
-        // 字幕 追加
-        this.appendUserCcElement = (name, speach) => {
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/content/elements/UsersCcAreaElement.ts":
+/*!****************************************************!*\
+  !*** ./src/content/elements/UsersCcAreaElement.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UsersCcAreaElement": () => (/* binding */ UsersCcAreaElement)
+/* harmony export */ });
+/* harmony import */ var _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/UsersAreaElement */ "./src/content/elements/UsersAreaElement.ts");
+/* harmony import */ var _core_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/dom */ "./src/core/dom.ts");
+
+
+const userCcAreaClassName = "user-cc-area-class-name";
+const userCcClassName = "user-cc-class-name";
+/**
+ * ユーザーエリアのElementに関するクラス
+ */
+class UsersCcAreaElement {
+    constructor() {
+        this.getElements = () => {
             var _a;
-            const userAreaElement = this.findUserAreaElement(name);
-            if (!userAreaElement)
-                return;
-            const userVideoElement = this.findUserVideoElement(name);
+            return (_a = this.usersAreaElement
+                .getElement()) === null || _a === void 0 ? void 0 : _a.querySelectorAll(userCcAreaClassName);
+        };
+        // all delete
+        this.deleteElements = () => {
+            this.displayElements.forEach((x) => {
+                (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
+            });
+        };
+        this.getElement = (name) => {
+            var _a;
+            const userAreaElement = this.usersAreaElement.findUserAreaElement(name);
+            return ((_a = userAreaElement === null || userAreaElement === void 0 ? void 0 : userAreaElement.querySelector("." + userCcAreaClassName)) !== null && _a !== void 0 ? _a : undefined);
+        };
+        this.createElement = (name) => {
+            var _a;
+            const element = document.createElement("div");
+            const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
-            const userCcElement = document.createElement("span");
-            userCcElement.style.color = "white";
-            userCcElement.style.margin = "0";
-            userCcElement.style.zIndex = "1000001";
-            userCcElement.textContent = speach;
-            userCcElement.className = userCcClassName;
-            userCcElement.style.opacity = this.userCcOpacityRate.toString();
-            userCcElement.style.fontWeight = "700";
-            userCcElement.style.pointerEvents = "none";
             const fontSize = Math.floor(userVideoElement.clientWidth / 35);
-            fontSize < 18
-                ? (userCcElement.style.fontSize = "15px")
-                : (userCcElement.style.fontSize = `${fontSize}px`);
-            fontSize < 27
-                ? (userCcElement.style.webkitTextStroke = "1px #000")
-                : (userCcElement.style.webkitTextStroke = "2px #000");
             const userCcAreaElement = document.createElement("div");
             userCcAreaElement.style.position = "absolute";
             userCcAreaElement.style.bottom = "0";
@@ -202,23 +215,47 @@ class UsersAreaElement {
                 userCcAreaElement.style.paddingLeft = `10px`;
                 userCcAreaElement.style.paddingRight = `10px`;
             }
-            userCcAreaElement.appendChild(userCcElement);
             (_a = userVideoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(userCcAreaElement);
-            // ログに追加
-            const userCcEmenet = this.findUserCcElement(name);
-            if (!userCcEmenet)
-                return;
-            this.appendDisplayUserCcArea(name, userCcAreaElement);
+            this.appendDisplayElement(name, userCcAreaElement);
         };
-        // 字幕 更新
-        this.updateUserCcElement = (name, speach) => {
-            const userAreraElement = this.findUserAreaElement(name);
-            if (!userAreraElement)
-                return;
-            const userVideoElement = this.findUserVideoElement(name);
+        // ユーザー字幕の取得
+        this.findCcElement = (name) => {
+            const userAreaElement = this.usersAreaElement.findUserAreaElement(name);
+            if (!userAreaElement)
+                return undefined;
+            const userCcElement = userAreaElement.querySelector("." + userCcClassName);
+            return userCcElement !== null ? userCcElement : undefined;
+        };
+        // 字幕 追加
+        this.appendCcElement = (name, speach) => {
+            var _a;
+            const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
-            const userCcElement = this.findUserCcElement(name);
+            const userCcElement = document.createElement("span");
+            userCcElement.style.color = "white";
+            userCcElement.style.margin = "0";
+            userCcElement.style.zIndex = "1000001";
+            userCcElement.textContent = speach;
+            userCcElement.className = userCcClassName;
+            userCcElement.style.opacity = this.userCcOpacityRate.toString();
+            userCcElement.style.fontWeight = "700";
+            userCcElement.style.pointerEvents = "none";
+            const fontSize = Math.floor(userVideoElement.clientWidth / 35);
+            fontSize < 18
+                ? (userCcElement.style.fontSize = "15px")
+                : (userCcElement.style.fontSize = `${fontSize}px`);
+            fontSize < 27
+                ? (userCcElement.style.webkitTextStroke = "1px #000")
+                : (userCcElement.style.webkitTextStroke = "2px #000");
+            (_a = this.getElement(name)) === null || _a === void 0 ? void 0 : _a.appendChild(userCcElement);
+        };
+        // 字幕 更新
+        this.updateCcElement = (name, speach) => {
+            const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
+            if (!userVideoElement)
+                return;
+            const userCcElement = this.findCcElement(name);
             if (!userCcElement)
                 return;
             userCcElement.textContent = speach;
@@ -230,6 +267,8 @@ class UsersAreaElement {
                 ? (userCcElement.style.webkitTextStroke = "1px #000")
                 : (userCcElement.style.webkitTextStroke = "2px #000");
             const userCcAreaElement = userCcElement.parentElement;
+            if (!userCcAreaElement)
+                return;
             if (userCcAreaElement) {
                 userCcAreaElement.scrollTop = 1000;
             }
@@ -244,33 +283,27 @@ class UsersAreaElement {
                 userCcAreaElement.style.paddingRight = `10px`;
             }
             // ログに追加
-            this.appendDisplayUserCcArea(name, userCcAreaElement);
+            this.appendDisplayElement(name, userCcAreaElement);
         };
         // 字幕 削除
-        this.deleteUserCcElement = (name) => {
-            const displaySpeach = this.displayUserCcList.find((x) => x.name === name);
+        this.deleteCcElement = (name) => {
+            const displaySpeach = this.displayElements.find((x) => x.name === name);
             if (!displaySpeach)
                 return;
             (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(displaySpeach.element, 2000);
-        };
-        // 全字幕 削除
-        this.deleteUserCcElements = () => {
-            this.displayUserCcList.forEach((x) => {
-                (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
-            });
         };
         // 字幕の透明度を変える
         this.userCcOpacityRate = 0.5;
         this.setUserCcOpacityRate = (opacityRate) => {
             this.userCcOpacityRate = opacityRate;
-            this.displayUserCcList.forEach((x) => {
+            this.displayElements.forEach((x) => {
                 x.element.style.opacity = this.userCcOpacityRate.toString();
             });
         };
-        this.displayUserCcList = [];
-        this.appendDisplayUserCcArea = (name, element) => {
-            this.displayUserCcList = this.displayUserCcList.filter((displayUserSpeash) => displayUserSpeash.name !== name);
-            this.displayUserCcList.push({
+        this.displayElements = [];
+        this.appendDisplayElement = (name, element) => {
+            this.displayElements = this.displayElements.filter((displayUserSpeash) => displayUserSpeash.name !== name);
+            this.displayElements.push({
                 name: name,
                 time: new Date().getTime(),
                 element: element,
@@ -279,18 +312,23 @@ class UsersAreaElement {
         this.cclimitSecond = 7;
         this.intervalId = 0;
         this.runInterval = () => {
-            // 一定時間表示した字幕は消す
-            this.intervalId = window.setInterval(() => {
-                const oldDisplayUserCcList = this.displayUserCcList.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
-                oldDisplayUserCcList.forEach((x) => {
-                    (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
-                });
-                this.displayUserCcList = this.displayUserCcList.filter((x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond);
-            }, 3000);
+            // // 一定時間表示した字幕は消す
+            // this.intervalId = window.setInterval(() => {
+            //   const oldDisplayUserCcList = this.displayUserCcList.filter(
+            //     (x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond
+            //   )
+            //   oldDisplayUserCcList.forEach((x) => {
+            //     removeElement(x.element, 2000)
+            //   })
+            //   this.displayUserCcList = this.displayUserCcList.filter(
+            //     (x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond
+            //   )
+            // }, 3000)
         };
         this.stopInterval = () => {
             clearInterval(this.intervalId);
         };
+        this.usersAreaElement = new _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__.UsersAreaElement();
     }
 }
 
@@ -645,9 +683,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 /* harmony import */ var _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/content/elements/UsersAreaElement */ "./src/content/elements/UsersAreaElement.ts");
-/* harmony import */ var _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/content/elements/switchingButtonElement */ "./src/content/elements/switchingButtonElement.ts");
-/* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
-/* harmony import */ var _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/content/core/ccOveserver */ "./src/content/core/ccOveserver.ts");
+/* harmony import */ var _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/content/elements/UsersCcAreaElement */ "./src/content/elements/UsersCcAreaElement.ts");
+/* harmony import */ var _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/content/elements/switchingButtonElement */ "./src/content/elements/switchingButtonElement.ts");
+/* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
+/* harmony import */ var _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/content/core/ccOveserver */ "./src/content/core/ccOveserver.ts");
+
 
 
 
@@ -656,7 +696,8 @@ __webpack_require__.r(__webpack_exports__);
 const main = async () => {
     console.log("start: application");
     const usersAreaElement = new _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
-    const ccAreaElement = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_3__.CcAreaElement();
+    const usersCcAreaElement = new _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersCcAreaElement();
+    const ccAreaElement = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__.CcAreaElement();
     /**
      * 設定ファイル変更時のコールバック関数
      * @param config
@@ -664,7 +705,7 @@ const main = async () => {
     const callbackFuncChangeConfig = (config) => {
         console.log(JSON.stringify(config));
         // 字幕の透明度
-        usersAreaElement.setUserCcOpacityRate(config.opacityRate);
+        usersCcAreaElement.setUserCcOpacityRate(config.opacityRate);
         // 字幕の表示非表示制御
         if (config.displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
             ccAreaElement.showElement();
@@ -677,7 +718,7 @@ const main = async () => {
     await config.loadConfig();
     console.log(`load config: ${JSON.stringify(config.getConfig())}`);
     config.observeGoogleStorage();
-    usersAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate);
+    usersCcAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate);
     if (config.getConfig().displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
         ccAreaElement.showElement();
     }
@@ -693,19 +734,19 @@ const main = async () => {
         if (clicked) {
             ccOveserver.run();
             console.log("start: observer");
-            usersAreaElement.runInterval();
+            usersCcAreaElement.runInterval();
             console.log("run: interval");
         }
         else {
             ccOveserver.stop();
             console.log("stop: observer");
-            usersAreaElement.stopInterval();
+            usersCcAreaElement.stopInterval();
             console.log("stop: interval");
-            usersAreaElement.deleteUserCcElements();
+            usersCcAreaElement.deleteElements();
             console.log("delete: cc elements");
         }
     };
-    const controlButtonElement = new _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_2__.SwitchingButtonElement(callbackFuncClick);
+    const controlButtonElement = new _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_3__.SwitchingButtonElement(callbackFuncClick);
     controlButtonElement.createElement();
     /**
      * 字幕変更検知後のコールバック関数
@@ -718,14 +759,15 @@ const main = async () => {
         console.log(`name: ${name}`);
         console.log(`imagePath: ${imagePath}`);
         console.log(`speach: ${speach}`);
-        if (!usersAreaElement.findUserCcElement(name)) {
-            usersAreaElement.appendUserCcElement(name, speach);
+        if (!usersCcAreaElement.getElement(name)) {
+            usersCcAreaElement.createElement(name);
+            usersCcAreaElement.appendCcElement(name, speach);
         }
         else {
-            usersAreaElement.updateUserCcElement(name, speach);
+            usersCcAreaElement.updateCcElement(name, speach);
         }
     };
-    const ccOveserver = new _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_4__.CcOveserver(callbackFuncObserver);
+    const ccOveserver = new _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_5__.CcOveserver(callbackFuncObserver);
 };
 // 動作確認用の入口
 document.addEventListener("runScript", (e) => {
