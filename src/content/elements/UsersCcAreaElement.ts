@@ -5,6 +5,7 @@ export interface usersCcAreaElementInterface {
   deleteElements(): void
   getElement(name: string): Element | undefined
   createElement(name: string): void
+  updateElement(name: string): void
   findCcElement: (name: string) => HTMLSpanElement | undefined
   appendCcElement: (name: string, speach: string) => void
   updateCcElement: (name: string, speach: string) => void
@@ -46,13 +47,10 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   }
 
   createElement = (name: string): void => {
-    const element = document.createElement("div")
-
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
 
-    const fontSize = Math.floor(userVideoElement.clientWidth / 35)
-
+    const fontSize = this.calcCcFontSize(userVideoElement)
     const userCcAreaElement = document.createElement("div")
     userCcAreaElement.style.position = "absolute"
     userCcAreaElement.style.bottom = "0"
@@ -81,6 +79,32 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     this.appendDisplayElement(name, userCcAreaElement)
   }
 
+  updateElement = (name: string): void => {
+    const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
+    if (!userVideoElement) return
+
+    const userCcAreaElement = <HTMLDivElement | null>(
+      userVideoElement.querySelector("." + userCcAreaClassName)
+    )
+    if (!userCcAreaElement) return
+    if (userCcAreaElement) {
+      userCcAreaElement.scrollTop = 1000
+    }
+    const fontSize = this.calcCcFontSize(userVideoElement)
+    if (fontSize >= 16) {
+      userCcAreaElement.style.height = `${
+        userVideoElement.clientHeight / 3.3
+      }px`
+      const padding = (userVideoElement.clientWidth * 0.365) / 2
+      userCcAreaElement.style.paddingLeft = `${padding}px`
+      userCcAreaElement.style.paddingRight = `${padding}px`
+    } else {
+      userCcAreaElement.style.paddingLeft = `10px`
+      userCcAreaElement.style.paddingRight = `10px`
+    }
+    // ログに追加
+    this.appendDisplayElement(name, userCcAreaElement)
+  }
   // ユーザー字幕の取得
   findCcElement = (name: string): HTMLSpanElement | undefined => {
     const userAreaElement = this.usersAreaElement.findUserAreaElement(name)
@@ -102,7 +126,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
     userCcElement.style.fontWeight = "700"
     userCcElement.style.pointerEvents = "none"
-    const fontSize = Math.floor(userVideoElement.clientWidth / 35)
+    const fontSize = this.calcCcFontSize(userVideoElement)
     fontSize < 18
       ? (userCcElement.style.fontSize = "15px")
       : (userCcElement.style.fontSize = `${fontSize}px`)
@@ -120,31 +144,13 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     const userCcElement = this.findCcElement(name)
     if (!userCcElement) return
     userCcElement.textContent = speach
-    const fontSize = Math.floor(userVideoElement.clientWidth / 35)
+    const fontSize = this.calcCcFontSize(userVideoElement)
     fontSize < 18
       ? (userCcElement.style.fontSize = "15px")
       : (userCcElement.style.fontSize = `${fontSize}px`)
     fontSize < 27
       ? (userCcElement.style.webkitTextStroke = "1px #000")
       : (userCcElement.style.webkitTextStroke = "2px #000")
-    const userCcAreaElement = userCcElement.parentElement
-    if (!userCcAreaElement) return
-    if (userCcAreaElement) {
-      userCcAreaElement.scrollTop = 1000
-    }
-    if (fontSize >= 16) {
-      userCcAreaElement.style.height = `${
-        userVideoElement.clientHeight / 3.3
-      }px`
-      const padding = (userVideoElement.clientWidth * 0.365) / 2
-      userCcAreaElement.style.paddingLeft = `${padding}px`
-      userCcAreaElement.style.paddingRight = `${padding}px`
-    } else {
-      userCcAreaElement.style.paddingLeft = `10px`
-      userCcAreaElement.style.paddingRight = `10px`
-    }
-    // ログに追加
-    this.appendDisplayElement(name, userCcAreaElement)
   }
 
   // 字幕 削除
@@ -152,6 +158,11 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     const displaySpeach = this.displayElements.find((x) => x.name === name)
     if (!displaySpeach) return
     removeElement(displaySpeach.element, 2000)
+  }
+
+  // 字幕のフォントサイズを計算
+  calcCcFontSize = (element: Element): number => {
+    return Math.floor(element.clientWidth / 35)
   }
 
   // 字幕の透明度を変える
@@ -181,18 +192,18 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private readonly cclimitSecond = 7
   private intervalId: number = 0
   runInterval = (): void => {
-    // // 一定時間表示した字幕は消す
-    // this.intervalId = window.setInterval(() => {
-    //   const oldDisplayUserCcList = this.displayUserCcList.filter(
-    //     (x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond
-    //   )
-    //   oldDisplayUserCcList.forEach((x) => {
-    //     removeElement(x.element, 2000)
-    //   })
-    //   this.displayUserCcList = this.displayUserCcList.filter(
-    //     (x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond
-    //   )
-    // }, 3000)
+    // 一定時間表示した字幕は消す
+    this.intervalId = window.setInterval(() => {
+      const oldDisplayElements = this.displayElements.filter(
+        (x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond
+      )
+      oldDisplayElements.forEach((x) => {
+        removeElement(x.element, 2000)
+      })
+      this.displayElements = this.displayElements.filter(
+        (x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond
+      )
+    }, 3000)
   }
   stopInterval = (): void => {
     clearInterval(this.intervalId)

@@ -165,7 +165,7 @@ __webpack_require__.r(__webpack_exports__);
 const userCcAreaClassName = "user-cc-area-class-name";
 const userCcClassName = "user-cc-class-name";
 /**
- * ユーザーエリアのElementに関するクラス
+ * 全ユーザーの字幕Elementに関するクラス
  */
 class UsersCcAreaElement {
     constructor() {
@@ -187,11 +187,10 @@ class UsersCcAreaElement {
         };
         this.createElement = (name) => {
             var _a;
-            const element = document.createElement("div");
             const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
-            const fontSize = Math.floor(userVideoElement.clientWidth / 35);
+            const fontSize = this.calcCcFontSize(userVideoElement);
             const userCcAreaElement = document.createElement("div");
             userCcAreaElement.style.position = "absolute";
             userCcAreaElement.style.bottom = "0";
@@ -218,6 +217,30 @@ class UsersCcAreaElement {
             (_a = userVideoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(userCcAreaElement);
             this.appendDisplayElement(name, userCcAreaElement);
         };
+        this.updateElement = (name) => {
+            const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
+            if (!userVideoElement)
+                return;
+            const userCcAreaElement = (userVideoElement.querySelector("." + userCcAreaClassName));
+            if (!userCcAreaElement)
+                return;
+            if (userCcAreaElement) {
+                userCcAreaElement.scrollTop = 1000;
+            }
+            const fontSize = this.calcCcFontSize(userVideoElement);
+            if (fontSize >= 16) {
+                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                const padding = (userVideoElement.clientWidth * 0.365) / 2;
+                userCcAreaElement.style.paddingLeft = `${padding}px`;
+                userCcAreaElement.style.paddingRight = `${padding}px`;
+            }
+            else {
+                userCcAreaElement.style.paddingLeft = `10px`;
+                userCcAreaElement.style.paddingRight = `10px`;
+            }
+            // ログに追加
+            this.appendDisplayElement(name, userCcAreaElement);
+        };
         // ユーザー字幕の取得
         this.findCcElement = (name) => {
             const userAreaElement = this.usersAreaElement.findUserAreaElement(name);
@@ -241,7 +264,7 @@ class UsersCcAreaElement {
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
             userCcElement.style.fontWeight = "700";
             userCcElement.style.pointerEvents = "none";
-            const fontSize = Math.floor(userVideoElement.clientWidth / 35);
+            const fontSize = this.calcCcFontSize(userVideoElement);
             fontSize < 18
                 ? (userCcElement.style.fontSize = "15px")
                 : (userCcElement.style.fontSize = `${fontSize}px`);
@@ -259,31 +282,13 @@ class UsersCcAreaElement {
             if (!userCcElement)
                 return;
             userCcElement.textContent = speach;
-            const fontSize = Math.floor(userVideoElement.clientWidth / 35);
+            const fontSize = this.calcCcFontSize(userVideoElement);
             fontSize < 18
                 ? (userCcElement.style.fontSize = "15px")
                 : (userCcElement.style.fontSize = `${fontSize}px`);
             fontSize < 27
                 ? (userCcElement.style.webkitTextStroke = "1px #000")
                 : (userCcElement.style.webkitTextStroke = "2px #000");
-            const userCcAreaElement = userCcElement.parentElement;
-            if (!userCcAreaElement)
-                return;
-            if (userCcAreaElement) {
-                userCcAreaElement.scrollTop = 1000;
-            }
-            if (fontSize >= 16) {
-                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
-                const padding = (userVideoElement.clientWidth * 0.365) / 2;
-                userCcAreaElement.style.paddingLeft = `${padding}px`;
-                userCcAreaElement.style.paddingRight = `${padding}px`;
-            }
-            else {
-                userCcAreaElement.style.paddingLeft = `10px`;
-                userCcAreaElement.style.paddingRight = `10px`;
-            }
-            // ログに追加
-            this.appendDisplayElement(name, userCcAreaElement);
         };
         // 字幕 削除
         this.deleteCcElement = (name) => {
@@ -291,6 +296,10 @@ class UsersCcAreaElement {
             if (!displaySpeach)
                 return;
             (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(displaySpeach.element, 2000);
+        };
+        // 字幕のフォントサイズを計算
+        this.calcCcFontSize = (element) => {
+            return Math.floor(element.clientWidth / 35);
         };
         // 字幕の透明度を変える
         this.userCcOpacityRate = 0.5;
@@ -312,18 +321,14 @@ class UsersCcAreaElement {
         this.cclimitSecond = 7;
         this.intervalId = 0;
         this.runInterval = () => {
-            // // 一定時間表示した字幕は消す
-            // this.intervalId = window.setInterval(() => {
-            //   const oldDisplayUserCcList = this.displayUserCcList.filter(
-            //     (x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond
-            //   )
-            //   oldDisplayUserCcList.forEach((x) => {
-            //     removeElement(x.element, 2000)
-            //   })
-            //   this.displayUserCcList = this.displayUserCcList.filter(
-            //     (x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond
-            //   )
-            // }, 3000)
+            // 一定時間表示した字幕は消す
+            this.intervalId = window.setInterval(() => {
+                const oldDisplayElements = this.displayElements.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
+                oldDisplayElements.forEach((x) => {
+                    (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
+                });
+                this.displayElements = this.displayElements.filter((x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond);
+            }, 3000);
         };
         this.stopInterval = () => {
             clearInterval(this.intervalId);
@@ -764,6 +769,7 @@ const main = async () => {
             usersCcAreaElement.appendCcElement(name, speach);
         }
         else {
+            usersCcAreaElement.updateElement(name);
             usersCcAreaElement.updateCcElement(name, speach);
         }
     };

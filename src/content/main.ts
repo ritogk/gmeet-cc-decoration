@@ -83,6 +83,7 @@ export const main = async (): Promise<void> => {
       usersCcAreaElement.createElement(name)
       usersCcAreaElement.appendCcElement(name, speach)
     } else {
+      usersCcAreaElement.updateElement(name)
       usersCcAreaElement.updateCcElement(name, speach)
     }
   }
