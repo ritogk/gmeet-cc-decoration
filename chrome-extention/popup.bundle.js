@@ -10,9 +10,7 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "addListener": () => (/* binding */ addListener),
 /* harmony export */   "getStorage": () => (/* binding */ getStorage),
-/* harmony export */   "sendContents": () => (/* binding */ sendContents),
 /* harmony export */   "setStorage": () => (/* binding */ setStorage)
 /* harmony export */ });
 const getStorage = async (key) => {
@@ -26,15 +24,6 @@ const getStorage = async (key) => {
 };
 const setStorage = (key, value) => {
     chrome.storage.local.set({ [key]: value });
-};
-const sendContents = (config) => {
-    console.log(`send active tab: ${config}`);
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, JSON.stringify(config), function (response) { });
-    });
-};
-const addListener = (callbackFunc) => {
-    chrome.runtime.onMessage.addListener(callbackFunc);
 };
 
 
@@ -82,15 +71,13 @@ class Config {
                 (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("displayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
         };
         this.observeGoogleStorage = () => {
-            (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.addListener)((message) => {
-                console.log("receive: popup → content_scripts");
-                const data = JSON.parse(message);
-                const config = this.getConfig();
-                if ("opacityRate" in data) {
-                    config.opacityRate = data.opacityRate;
+            chrome.storage.onChanged.addListener((changes, namespace) => {
+                const config = this.config;
+                if ("opacityRate" in changes) {
+                    config.opacityRate = changes.opacityRate.newValue;
                 }
-                if ("displayOriginalCc" in data) {
-                    config.displayOriginalCc = data.displayOriginalCc;
+                if ("displayOriginalCc" in changes) {
+                    config.displayOriginalCc = changes.displayOriginalCc.newValue;
                 }
                 this.setConfig(config);
             });
@@ -288,7 +275,6 @@ const run = async () => {
         configData.displayOriginalCc = displayOriginalCc;
         (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("opacityRate", opacityRate);
         (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("displayOriginalCc", displayOriginalCc);
-        (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.sendContents)(configData);
     };
     const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc, callbackFuncChangeElement);
 };

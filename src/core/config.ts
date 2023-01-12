@@ -1,4 +1,4 @@
-import { getStorage, addListener } from "@/core/chromeStorage"
+import { getStorage } from "@/core/chromeStorage"
 export interface ConfigInterface {
   loadConfig(): Promise<void>
   getConfig(): ConfigObjectInterface
@@ -48,15 +48,13 @@ export class Config implements ConfigInterface {
   }
 
   observeGoogleStorage = (): void => {
-    addListener((message: string) => {
-      console.log("receive: popup → content_scripts")
-      const data = JSON.parse(message)
-      const config = this.getConfig()
-      if ("opacityRate" in data) {
-        config.opacityRate = data.opacityRate
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      const config = this.config
+      if ("opacityRate" in changes) {
+        config.opacityRate = changes.opacityRate.newValue
       }
-      if ("displayOriginalCc" in data) {
-        config.displayOriginalCc = data.displayOriginalCc
+      if ("displayOriginalCc" in changes) {
+        config.displayOriginalCc = changes.displayOriginalCc.newValue
       }
       this.setConfig(config)
     })

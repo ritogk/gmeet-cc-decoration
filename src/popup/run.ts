@@ -1,6 +1,6 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 import { Elements } from "@/popup/elements"
-import { setStorage, sendContents } from "@/core/chromeStorage"
+import { setStorage } from "@/core/chromeStorage"
 export const run = async (): Promise<void> => {
   console.log("start: popup")
 
@@ -21,7 +21,6 @@ export const run = async (): Promise<void> => {
     configData.displayOriginalCc = displayOriginalCc
     setStorage("opacityRate", opacityRate)
     setStorage("displayOriginalCc", displayOriginalCc)
-    sendContents(configData)
   }
   const elements = new Elements(
     configData.opacityRate,
