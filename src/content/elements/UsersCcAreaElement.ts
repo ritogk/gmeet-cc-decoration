@@ -102,7 +102,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       userCcAreaElement.style.paddingLeft = `10px`
       userCcAreaElement.style.paddingRight = `10px`
     }
-    // ログに追加
+    this.deleteDisplayElement(name)
     this.appendDisplayElement(name, userCcAreaElement)
   }
   // ユーザー字幕の取得
@@ -179,9 +179,6 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     element: HTMLElement
   }[] = []
   private appendDisplayElement = (name: string, element: HTMLElement): void => {
-    this.displayElements = this.displayElements.filter(
-      (displayUserSpeash) => displayUserSpeash.name !== name
-    )
     this.displayElements.push({
       name: name,
       time: new Date().getTime(),
@@ -189,7 +186,13 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     })
   }
 
-  private readonly cclimitSecond = 7
+  private deleteDisplayElement = (name: string): void => {
+    this.displayElements = this.displayElements.filter(
+      (displayUserSpeash) => displayUserSpeash.name !== name
+    )
+  }
+
+  private readonly cclimitSecond = 8
   private intervalId: number = 0
   runInterval = (): void => {
     // 一定時間表示した字幕は消す

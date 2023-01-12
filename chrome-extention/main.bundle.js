@@ -238,7 +238,7 @@ class UsersCcAreaElement {
                 userCcAreaElement.style.paddingLeft = `10px`;
                 userCcAreaElement.style.paddingRight = `10px`;
             }
-            // ログに追加
+            this.deleteDisplayElement(name);
             this.appendDisplayElement(name, userCcAreaElement);
         };
         // ユーザー字幕の取得
@@ -311,14 +311,16 @@ class UsersCcAreaElement {
         };
         this.displayElements = [];
         this.appendDisplayElement = (name, element) => {
-            this.displayElements = this.displayElements.filter((displayUserSpeash) => displayUserSpeash.name !== name);
             this.displayElements.push({
                 name: name,
                 time: new Date().getTime(),
                 element: element,
             });
         };
-        this.cclimitSecond = 7;
+        this.deleteDisplayElement = (name) => {
+            this.displayElements = this.displayElements.filter((displayUserSpeash) => displayUserSpeash.name !== name);
+        };
+        this.cclimitSecond = 8;
         this.intervalId = 0;
         this.runInterval = () => {
             // 一定時間表示した字幕は消す
