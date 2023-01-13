@@ -34,15 +34,14 @@ export class UsersAreaElement implements usersAreaElementInterface {
   findScreenSharingAreaElement = (): Element | undefined => {
     const usersAreaElement = this.getElement()
     if (!usersAreaElement) return undefined
-    const userAreaList = Array.from(usersAreaElement.children)
-    return userAreaList.find((element) => {
-      // 画面共有ようのエリアはinnerTextが取得できないのでその対応
-      const userNameArea = element.querySelector("[data-self-name]")
-      if (!userNameArea) {
-        return true
-      }
-      return false
-    })
+    const userAreaList = Array.from(
+      usersAreaElement.children
+    ) as HTMLDivElement[]
+    // 画面共有中は先頭のdivタグ内にZY8hPcクラスが含まれない。
+    if (userAreaList[0].querySelector(".ZY8hPc")) {
+      return undefined
+    }
+    return userAreaList[0]
   }
 
   // ユーザーのvideo要素を取得

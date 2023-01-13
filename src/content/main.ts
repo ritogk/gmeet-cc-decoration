@@ -79,6 +79,11 @@ export const main = async (): Promise<void> => {
     console.log(`imagePath: ${imagePath}`)
     console.log(`speach: ${speach}`)
 
+    if (usersAreaElement.findScreenSharingAreaElement()) {
+      console.log("画面共有中")
+    } else {
+      console.log("画面off")
+    }
     if (!usersCcAreaElement.getElement(name)) {
       usersCcAreaElement.createElement(name)
       usersCcAreaElement.appendCcElement(name, speach)
