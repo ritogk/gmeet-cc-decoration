@@ -55,7 +55,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcAreaElement.style.position = "absolute"
     userCcAreaElement.style.bottom = "0"
     userCcAreaElement.style.textAlign = "left"
-    userCcAreaElement.style.backgroundColor = "rgba(0,0,0,0.25)"
+    userCcAreaElement.style.backgroundColor = "rgba(0,0,0,0.35)"
     userCcAreaElement.style.margin = "0"
     userCcAreaElement.style.zIndex = "1000000"
     userCcAreaElement.style.left = "0"

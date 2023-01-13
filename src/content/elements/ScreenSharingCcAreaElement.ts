@@ -50,7 +50,7 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     element.style.position = "absolute"
     element.style.bottom = "0"
     element.style.textAlign = "left"
-    element.style.backgroundColor = "rgba(0,0,0,0.25)"
+    element.style.backgroundColor = "rgba(0,0,0,0.35)"
     element.style.margin = "0"
     element.style.zIndex = "1000000"
     element.style.left = "0"
