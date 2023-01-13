@@ -124,7 +124,6 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     ccElement.style.fontWeight = "700"
     ccElement.style.pointerEvents = "none"
     const fontSize = this.calcCcFontSize(videoElement)
-    debugger
     fontSize < 18
       ? (ccElement.style.fontSize = "15px")
       : (ccElement.style.fontSize = `${fontSize}px`)
