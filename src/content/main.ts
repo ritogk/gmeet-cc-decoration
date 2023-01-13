@@ -3,6 +3,7 @@ import { UsersAreaElement } from "@/content/elements/UsersAreaElement"
 import { UsersCcAreaElement } from "@/content/elements/UsersCcAreaElement"
 import { SwitchingButtonElement } from "@/content/elements/switchingButtonElement"
 import { CcAreaElement } from "@/content/elements/ccAreaElement"
+import { ScreenSharingCcAreaElement } from "@/content/elements/ScreenSharingCcAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
 
 export const main = async (): Promise<void> => {
@@ -11,6 +12,7 @@ export const main = async (): Promise<void> => {
   const usersAreaElement = new UsersAreaElement()
   const usersCcAreaElement = new UsersCcAreaElement()
   const ccAreaElement = new CcAreaElement()
+  const screenSharingCcAreaElement = new ScreenSharingCcAreaElement()
 
   /**
    * 設定ファイル変更時のコールバック関数
@@ -20,6 +22,7 @@ export const main = async (): Promise<void> => {
     console.log(JSON.stringify(config))
     // 字幕の透明度
     usersCcAreaElement.setUserCcOpacityRate(config.opacityRate)
+    screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate)
 
     // 字幕の表示非表示制御
     if (config.displayOriginalCc == DisplayOriginalCc.OK) {
@@ -33,12 +36,16 @@ export const main = async (): Promise<void> => {
   console.log(`load config: ${JSON.stringify(config.getConfig())}`)
   config.observeGoogleStorage()
 
+  // elementの初期設定
   usersCcAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate)
   if (config.getConfig().displayOriginalCc == DisplayOriginalCc.OK) {
     ccAreaElement.showElement()
   } else {
     ccAreaElement.hideElement()
   }
+  screenSharingCcAreaElement.setUserCcOpacityRate(
+    config.getConfig().opacityRate
+  )
 
   /**
    * コントロールボタン押下後のコールバック関数
@@ -50,13 +57,16 @@ export const main = async (): Promise<void> => {
       ccOveserver.run()
       console.log("start: observer")
       usersCcAreaElement.runInterval()
+      screenSharingCcAreaElement.runInterval()
       console.log("run: interval")
     } else {
       ccOveserver.stop()
       console.log("stop: observer")
       usersCcAreaElement.stopInterval()
+      screenSharingCcAreaElement.stopInterval()
       console.log("stop: interval")
       usersCcAreaElement.deleteElements()
+      screenSharingCcAreaElement.deleteElement()
       console.log("delete: cc elements")
     }
   }
@@ -81,6 +91,13 @@ export const main = async (): Promise<void> => {
 
     if (usersAreaElement.findScreenSharingAreaElement()) {
       console.log("画面共有中")
+      if (!screenSharingCcAreaElement.getElement()) {
+        screenSharingCcAreaElement.createElement()
+        screenSharingCcAreaElement.appendCcElement(name, speach)
+      } else {
+        screenSharingCcAreaElement.updateElement()
+        screenSharingCcAreaElement.updateCcElement(name, speach)
+      }
     } else {
       console.log("画面off")
     }

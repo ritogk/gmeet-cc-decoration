@@ -44,6 +44,25 @@ export class UsersAreaElement implements usersAreaElementInterface {
     return userAreaList[0]
   }
 
+  // 画面共有エリアのvideo要素を取得
+  findScreenSharingVideoElement = (): Element | undefined => {
+    const screenSharingAreaElement = this.findScreenSharingAreaElement()
+    if (!screenSharingAreaElement) return undefined
+
+    // 非表示のVideoタグが紛れる事があるのでその対応。
+    const videoAreaElements = screenSharingAreaElement.querySelectorAll("video")
+    let userVideoElement: HTMLVideoElement | null = null
+    if (videoAreaElements.length >= 2) {
+      videoAreaElements.forEach((element) => {
+        if (element.style.display == "none") return
+        userVideoElement = element
+      })
+    } else {
+      userVideoElement = videoAreaElements[0]
+    }
+    return userVideoElement !== null ? userVideoElement : undefined
+  }
+
   // ユーザーのvideo要素を取得
   findUserVideoElement = (name: string): HTMLVideoElement | undefined => {
     const userAreaElement = this.findUserAreaElement(name)

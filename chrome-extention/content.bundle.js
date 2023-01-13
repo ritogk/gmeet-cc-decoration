@@ -84,6 +84,201 @@ const selector = {
 
 /***/ }),
 
+/***/ "./src/content/elements/ScreenSharingCcAreaElement.ts":
+/*!************************************************************!*\
+  !*** ./src/content/elements/ScreenSharingCcAreaElement.ts ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ScreenSharingCcAreaElement": () => (/* binding */ ScreenSharingCcAreaElement)
+/* harmony export */ });
+/* harmony import */ var _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/UsersAreaElement */ "./src/content/elements/UsersAreaElement.ts");
+/* harmony import */ var _core_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/dom */ "./src/core/dom.ts");
+
+
+const screenSharingCcAreaClassName = "screen-sharing-cc-area-class-name";
+const screenSharingCcClassName = "screen-sharing-cc-class-name";
+/**
+ * 全ユーザーの字幕Elementに関するクラス
+ */
+class ScreenSharingCcAreaElement {
+    constructor() {
+        this.getElement = () => {
+            var _a, _b;
+            return ((_b = (_a = this.usersAreaElement
+                .findScreenSharingAreaElement()) === null || _a === void 0 ? void 0 : _a.querySelector("." + screenSharingCcAreaClassName)) !== null && _b !== void 0 ? _b : undefined);
+        };
+        // delete
+        this.deleteElement = () => {
+            this.displayElements.forEach((x) => {
+                (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
+            });
+        };
+        this.createElement = () => {
+            var _a;
+            const videoElement = this.usersAreaElement.findScreenSharingVideoElement();
+            if (!videoElement)
+                return;
+            const fontSize = this.calcCcFontSize(videoElement);
+            const ccAreaElement = document.createElement("div");
+            ccAreaElement.style.position = "absolute";
+            ccAreaElement.style.bottom = "0";
+            ccAreaElement.style.textAlign = "left";
+            ccAreaElement.style.backgroundColor = "rgba(0,0,0,0.25)";
+            ccAreaElement.style.margin = "0";
+            ccAreaElement.style.zIndex = "1000000";
+            ccAreaElement.style.left = "0";
+            ccAreaElement.style.right = "0";
+            ccAreaElement.style.pointerEvents = "none";
+            ccAreaElement.style.overflow = "hidden";
+            ccAreaElement.scrollTop = 1000;
+            ccAreaElement.className = screenSharingCcAreaClassName;
+            if (fontSize >= 16) {
+                ccAreaElement.style.height = `${videoElement.clientHeight / 3.3}px`;
+                const padding = (videoElement.clientWidth * 0.365) / 2;
+                ccAreaElement.style.paddingLeft = `${padding}px`;
+                ccAreaElement.style.paddingRight = `${padding}px`;
+            }
+            else {
+                ccAreaElement.style.paddingLeft = `10px`;
+                ccAreaElement.style.paddingRight = `10px`;
+            }
+            (_a = videoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(ccAreaElement);
+            this.appendDisplayElement(ccAreaElement);
+        };
+        this.updateElement = () => {
+            const videoElement = this.usersAreaElement.findScreenSharingVideoElement();
+            if (!videoElement)
+                return;
+            const screenSharingElement = this.usersAreaElement.findScreenSharingAreaElement();
+            if (!screenSharingElement)
+                return;
+            const ccAreaElement = (screenSharingElement.querySelector("." + screenSharingCcAreaClassName));
+            if (!ccAreaElement)
+                return;
+            if (ccAreaElement) {
+                ccAreaElement.scrollTop = 1000;
+            }
+            const fontSize = this.calcCcFontSize(videoElement);
+            if (fontSize >= 16) {
+                ccAreaElement.style.height = `${videoElement.clientHeight / 3.3}px`;
+                const padding = (videoElement.clientWidth * 0.365) / 2;
+                ccAreaElement.style.paddingLeft = `${padding}px`;
+                ccAreaElement.style.paddingRight = `${padding}px`;
+            }
+            else {
+                ccAreaElement.style.paddingLeft = `10px`;
+                ccAreaElement.style.paddingRight = `10px`;
+            }
+            this.deleteDisplayElement();
+            this.appendDisplayElement(ccAreaElement);
+        };
+        // 字幕の取得
+        this.findCcElement = () => {
+            const screenSharingAreaElement = this.usersAreaElement.findScreenSharingAreaElement();
+            if (!screenSharingAreaElement)
+                return undefined;
+            const ccElement = screenSharingAreaElement.querySelector("." + screenSharingCcClassName);
+            return ccElement !== null ? ccElement : undefined;
+        };
+        // 字幕 追加
+        this.appendCcElement = (name, speach) => {
+            var _a;
+            const videoElement = this.usersAreaElement.findScreenSharingVideoElement();
+            if (!videoElement)
+                return;
+            const ccElement = document.createElement("span");
+            ccElement.style.color = "white";
+            ccElement.style.margin = "0";
+            ccElement.style.zIndex = "1000001";
+            ccElement.textContent = speach;
+            ccElement.className = screenSharingCcClassName;
+            ccElement.style.opacity = "1";
+            ccElement.style.fontWeight = "700";
+            ccElement.style.pointerEvents = "none";
+            const fontSize = this.calcCcFontSize(videoElement);
+            debugger;
+            fontSize < 18
+                ? (ccElement.style.fontSize = "15px")
+                : (ccElement.style.fontSize = `${fontSize}px`);
+            fontSize < 27
+                ? (ccElement.style.webkitTextStroke = "1px #000")
+                : (ccElement.style.webkitTextStroke = "2px #000");
+            (_a = this.getElement()) === null || _a === void 0 ? void 0 : _a.appendChild(ccElement);
+        };
+        // 字幕 更新
+        this.updateCcElement = (name, speach) => {
+            const videoElement = this.usersAreaElement.findScreenSharingVideoElement();
+            if (!videoElement)
+                return;
+            const ccElement = this.findCcElement();
+            if (!ccElement)
+                return;
+            // // 直前の文字数より少ない場合は反映させない
+            // if ((ccElement.textContent?.length ?? 100) >= speach.length) return
+            ccElement.textContent = speach;
+            const fontSize = this.calcCcFontSize(videoElement);
+            fontSize < 18
+                ? (ccElement.style.fontSize = "15px")
+                : (ccElement.style.fontSize = `${fontSize}px`);
+            fontSize < 27
+                ? (ccElement.style.webkitTextStroke = "1px #000")
+                : (ccElement.style.webkitTextStroke = "2px #000");
+        };
+        // 字幕 削除
+        this.deleteCcElement = (name) => {
+            const displaySpeach = this.displayElements[0];
+            if (!displaySpeach)
+                return;
+            (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(displaySpeach.element, 2000);
+        };
+        // 字幕のフォントサイズを計算
+        this.calcCcFontSize = (element) => {
+            return Math.floor(element.clientWidth / 35);
+        };
+        // 字幕の透明度を変える
+        this.ccOpacityRate = 0.5;
+        this.setUserCcOpacityRate = (opacityRate) => {
+            this.ccOpacityRate = opacityRate;
+            this.displayElements.forEach((x) => {
+                x.element.style.opacity = this.ccOpacityRate.toString();
+            });
+        };
+        this.displayElements = [];
+        this.appendDisplayElement = (element) => {
+            this.displayElements.push({
+                time: new Date().getTime(),
+                element: element,
+            });
+        };
+        this.deleteDisplayElement = () => {
+            this.displayElements = [];
+        };
+        this.cclimitSecond = 8;
+        this.intervalId = 0;
+        this.runInterval = () => {
+            // 一定時間表示した字幕は消す
+            this.intervalId = window.setInterval(() => {
+                console.log(this.displayElements);
+                const oldDisplayElements = this.displayElements.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
+                oldDisplayElements.forEach((x) => {
+                    (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
+                });
+                this.displayElements = this.displayElements.filter((x) => (new Date().getTime() - x.time) / 1000 < this.cclimitSecond);
+            }, 3000);
+        };
+        this.stopInterval = () => {
+            clearInterval(this.intervalId);
+        };
+        this.usersAreaElement = new _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__.UsersAreaElement();
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/content/elements/UsersAreaElement.ts":
 /*!**************************************************!*\
   !*** ./src/content/elements/UsersAreaElement.ts ***!
@@ -133,6 +328,26 @@ class UsersAreaElement {
                 return undefined;
             }
             return userAreaList[0];
+        };
+        // 画面共有エリアのvideo要素を取得
+        this.findScreenSharingVideoElement = () => {
+            const screenSharingAreaElement = this.findScreenSharingAreaElement();
+            if (!screenSharingAreaElement)
+                return undefined;
+            // 非表示のVideoタグが紛れる事があるのでその対応。
+            const videoAreaElements = screenSharingAreaElement.querySelectorAll("video");
+            let userVideoElement = null;
+            if (videoAreaElements.length >= 2) {
+                videoAreaElements.forEach((element) => {
+                    if (element.style.display == "none")
+                        return;
+                    userVideoElement = element;
+                });
+            }
+            else {
+                userVideoElement = videoAreaElements[0];
+            }
+            return userVideoElement !== null ? userVideoElement : undefined;
         };
         // ユーザーのvideo要素を取得
         this.findUserVideoElement = (name) => {
@@ -541,7 +756,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/content/elements/UsersCcAreaElement */ "./src/content/elements/UsersCcAreaElement.ts");
 /* harmony import */ var _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/content/elements/switchingButtonElement */ "./src/content/elements/switchingButtonElement.ts");
 /* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
-/* harmony import */ var _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/content/core/ccOveserver */ "./src/content/core/ccOveserver.ts");
+/* harmony import */ var _content_elements_ScreenSharingCcAreaElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/content/elements/ScreenSharingCcAreaElement */ "./src/content/elements/ScreenSharingCcAreaElement.ts");
+/* harmony import */ var _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/content/core/ccOveserver */ "./src/content/core/ccOveserver.ts");
+
 
 
 
@@ -553,6 +770,7 @@ const main = async () => {
     const usersAreaElement = new _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
     const usersCcAreaElement = new _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersCcAreaElement();
     const ccAreaElement = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__.CcAreaElement();
+    const screenSharingCcAreaElement = new _content_elements_ScreenSharingCcAreaElement__WEBPACK_IMPORTED_MODULE_5__.ScreenSharingCcAreaElement();
     /**
      * 設定ファイル変更時のコールバック関数
      * @param config
@@ -561,6 +779,7 @@ const main = async () => {
         console.log(JSON.stringify(config));
         // 字幕の透明度
         usersCcAreaElement.setUserCcOpacityRate(config.opacityRate);
+        screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate);
         // 字幕の表示非表示制御
         if (config.displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
             ccAreaElement.showElement();
@@ -573,6 +792,7 @@ const main = async () => {
     await config.loadConfig();
     console.log(`load config: ${JSON.stringify(config.getConfig())}`);
     config.observeGoogleStorage();
+    // elementの初期設定
     usersCcAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate);
     if (config.getConfig().displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
         ccAreaElement.showElement();
@@ -580,6 +800,7 @@ const main = async () => {
     else {
         ccAreaElement.hideElement();
     }
+    screenSharingCcAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate);
     /**
      * コントロールボタン押下後のコールバック関数
      * @param clicked
@@ -590,14 +811,17 @@ const main = async () => {
             ccOveserver.run();
             console.log("start: observer");
             usersCcAreaElement.runInterval();
+            screenSharingCcAreaElement.runInterval();
             console.log("run: interval");
         }
         else {
             ccOveserver.stop();
             console.log("stop: observer");
             usersCcAreaElement.stopInterval();
+            screenSharingCcAreaElement.stopInterval();
             console.log("stop: interval");
             usersCcAreaElement.deleteElements();
+            screenSharingCcAreaElement.deleteElement();
             console.log("delete: cc elements");
         }
     };
@@ -616,6 +840,14 @@ const main = async () => {
         console.log(`speach: ${speach}`);
         if (usersAreaElement.findScreenSharingAreaElement()) {
             console.log("画面共有中");
+            if (!screenSharingCcAreaElement.getElement()) {
+                screenSharingCcAreaElement.createElement();
+                screenSharingCcAreaElement.appendCcElement(name, speach);
+            }
+            else {
+                screenSharingCcAreaElement.updateElement();
+                screenSharingCcAreaElement.updateCcElement(name, speach);
+            }
         }
         else {
             console.log("画面off");
@@ -629,7 +861,7 @@ const main = async () => {
             usersCcAreaElement.updateCcElement(name, speach);
         }
     };
-    const ccOveserver = new _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_5__.CcOveserver(callbackFuncObserver);
+    const ccOveserver = new _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_6__.CcOveserver(callbackFuncObserver);
 };
 // 動作確認用の入口
 document.addEventListener("runScript", (e) => {
