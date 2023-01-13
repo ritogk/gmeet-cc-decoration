@@ -12,7 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CcOveserver": () => (/* binding */ CcOveserver)
 /* harmony export */ });
-/* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
+/* harmony import */ var _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/original/ccAreaElement */ "./src/content/elements/original/ccAreaElement.ts");
 
 const config = { childList: true, subtree: true };
 /**
@@ -40,7 +40,7 @@ class CcOveserver {
                 }
             };
             this.observer = new MutationObserver(mutationCallback);
-            const oveserverNode = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__.CcAreaElement().getCcElement();
+            const oveserverNode = new _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__.CcAreaElement().getCcElement();
             this.observer.observe(oveserverNode, config);
         };
         this.stop = () => {
@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ScreenSharingCcAreaElement": () => (/* binding */ ScreenSharingCcAreaElement)
 /* harmony export */ });
-/* harmony import */ var _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/UsersAreaElement */ "./src/content/elements/UsersAreaElement.ts");
+/* harmony import */ var _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/original/UsersAreaElement */ "./src/content/elements/original/UsersAreaElement.ts");
 /* harmony import */ var _core_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/dom */ "./src/core/dom.ts");
 
 
@@ -312,103 +312,7 @@ class ScreenSharingCcAreaElement {
         this.stopInterval = () => {
             clearInterval(this.intervalId);
         };
-        this.usersAreaElement = new _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__.UsersAreaElement();
-    }
-}
-
-
-/***/ }),
-
-/***/ "./src/content/elements/UsersAreaElement.ts":
-/*!**************************************************!*\
-  !*** ./src/content/elements/UsersAreaElement.ts ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "UsersAreaElement": () => (/* binding */ UsersAreaElement)
-/* harmony export */ });
-/* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
-
-/**
- * ユーザーエリアのElementに関するクラス
- */
-class UsersAreaElement {
-    constructor() {
-        this.getElement = () => {
-            return document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.usersArea);
-        };
-        // ユーザーエリアの要素を取得
-        this.findUserAreaElement = (name) => {
-            const usersAreaElement = this.getElement();
-            if (!usersAreaElement)
-                return undefined;
-            const userAreaList = Array.from(usersAreaElement.children);
-            return userAreaList.find((element) => {
-                var _a;
-                // 画面共有ようのエリアはinnerTextが取得できないのでその対応
-                const userNameArea = element.querySelector("[data-self-name]");
-                if (!userNameArea)
-                    return false;
-                if ((_a = userNameArea.textContent) === null || _a === void 0 ? void 0 : _a.startsWith(name)) {
-                    return true;
-                }
-                return false;
-            });
-        };
-        // 画面共有エリアの要素を取得
-        this.findScreenSharingAreaElement = () => {
-            const usersAreaElement = this.getElement();
-            if (!usersAreaElement)
-                return undefined;
-            const userAreaList = Array.from(usersAreaElement.children);
-            // 画面共有中は先頭のdivタグ内にZY8hPcクラスが含まれない。
-            if (userAreaList[0].querySelector(".ZY8hPc")) {
-                return undefined;
-            }
-            return userAreaList[0];
-        };
-        // 画面共有エリアのvideo要素を取得
-        this.findScreenSharingVideoElement = () => {
-            const screenSharingAreaElement = this.findScreenSharingAreaElement();
-            if (!screenSharingAreaElement)
-                return undefined;
-            // 非表示のVideoタグが紛れる事があるのでその対応。
-            const videoAreaElements = screenSharingAreaElement.querySelectorAll("video");
-            let userVideoElement = null;
-            if (videoAreaElements.length >= 2) {
-                videoAreaElements.forEach((element) => {
-                    if (element.style.display == "none")
-                        return;
-                    userVideoElement = element;
-                });
-            }
-            else {
-                userVideoElement = videoAreaElements[0];
-            }
-            return userVideoElement !== null ? userVideoElement : undefined;
-        };
-        // ユーザーのvideo要素を取得
-        this.findUserVideoElement = (name) => {
-            const userAreaElement = this.findUserAreaElement(name);
-            if (!userAreaElement)
-                return undefined;
-            // 非表示のVideoタグが紛れる事があるのでその対応。
-            const videoAreaElements = userAreaElement.querySelectorAll("video");
-            let userVideoElement = null;
-            if (videoAreaElements.length >= 2) {
-                videoAreaElements.forEach((element) => {
-                    if (element.style.display == "none")
-                        return;
-                    userVideoElement = element;
-                });
-            }
-            else {
-                userVideoElement = videoAreaElements[0];
-            }
-            return userVideoElement !== null ? userVideoElement : undefined;
-        };
+        this.usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__.UsersAreaElement();
     }
 }
 
@@ -425,7 +329,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UsersCcAreaElement": () => (/* binding */ UsersCcAreaElement)
 /* harmony export */ });
-/* harmony import */ var _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/UsersAreaElement */ "./src/content/elements/UsersAreaElement.ts");
+/* harmony import */ var _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/original/UsersAreaElement */ "./src/content/elements/original/UsersAreaElement.ts");
 /* harmony import */ var _core_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/dom */ "./src/core/dom.ts");
 
 
@@ -611,17 +515,113 @@ class UsersCcAreaElement {
         this.stopInterval = () => {
             clearInterval(this.intervalId);
         };
-        this.usersAreaElement = new _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__.UsersAreaElement();
+        this.usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__.UsersAreaElement();
     }
 }
 
 
 /***/ }),
 
-/***/ "./src/content/elements/ccAreaElement.ts":
-/*!***********************************************!*\
-  !*** ./src/content/elements/ccAreaElement.ts ***!
-  \***********************************************/
+/***/ "./src/content/elements/original/UsersAreaElement.ts":
+/*!***********************************************************!*\
+  !*** ./src/content/elements/original/UsersAreaElement.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UsersAreaElement": () => (/* binding */ UsersAreaElement)
+/* harmony export */ });
+/* harmony import */ var _content_core_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/core/selector */ "./src/content/core/selector.ts");
+
+/**
+ * ユーザーエリアのElementに関するクラス
+ */
+class UsersAreaElement {
+    constructor() {
+        this.getElement = () => {
+            return document.querySelector(_content_core_selector__WEBPACK_IMPORTED_MODULE_0__.selector.usersArea);
+        };
+        // ユーザーエリアの要素を取得
+        this.findUserAreaElement = (name) => {
+            const usersAreaElement = this.getElement();
+            if (!usersAreaElement)
+                return undefined;
+            const userAreaList = Array.from(usersAreaElement.children);
+            return userAreaList.find((element) => {
+                var _a;
+                // 画面共有ようのエリアはinnerTextが取得できないのでその対応
+                const userNameArea = element.querySelector("[data-self-name]");
+                if (!userNameArea)
+                    return false;
+                if ((_a = userNameArea.textContent) === null || _a === void 0 ? void 0 : _a.startsWith(name)) {
+                    return true;
+                }
+                return false;
+            });
+        };
+        // 画面共有エリアの要素を取得
+        this.findScreenSharingAreaElement = () => {
+            const usersAreaElement = this.getElement();
+            if (!usersAreaElement)
+                return undefined;
+            const userAreaList = Array.from(usersAreaElement.children);
+            // 画面共有中は先頭のdivタグ内にZY8hPcクラスが含まれない。
+            if (userAreaList[0].querySelector(".ZY8hPc")) {
+                return undefined;
+            }
+            return userAreaList[0];
+        };
+        // 画面共有エリアのvideo要素を取得
+        this.findScreenSharingVideoElement = () => {
+            const screenSharingAreaElement = this.findScreenSharingAreaElement();
+            if (!screenSharingAreaElement)
+                return undefined;
+            // 非表示のVideoタグが紛れる事があるのでその対応。
+            const videoAreaElements = screenSharingAreaElement.querySelectorAll("video");
+            let userVideoElement = null;
+            if (videoAreaElements.length >= 2) {
+                videoAreaElements.forEach((element) => {
+                    if (element.style.display == "none")
+                        return;
+                    userVideoElement = element;
+                });
+            }
+            else {
+                userVideoElement = videoAreaElements[0];
+            }
+            return userVideoElement !== null ? userVideoElement : undefined;
+        };
+        // ユーザーのvideo要素を取得
+        this.findUserVideoElement = (name) => {
+            const userAreaElement = this.findUserAreaElement(name);
+            if (!userAreaElement)
+                return undefined;
+            // 非表示のVideoタグが紛れる事があるのでその対応。
+            const videoAreaElements = userAreaElement.querySelectorAll("video");
+            let userVideoElement = null;
+            if (videoAreaElements.length >= 2) {
+                videoAreaElements.forEach((element) => {
+                    if (element.style.display == "none")
+                        return;
+                    userVideoElement = element;
+                });
+            }
+            else {
+                userVideoElement = videoAreaElements[0];
+            }
+            return userVideoElement !== null ? userVideoElement : undefined;
+        };
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/content/elements/original/ccAreaElement.ts":
+/*!********************************************************!*\
+  !*** ./src/content/elements/original/ccAreaElement.ts ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -662,10 +662,10 @@ class CcAreaElement {
 
 /***/ }),
 
-/***/ "./src/content/elements/controlAreaElement.ts":
-/*!****************************************************!*\
-  !*** ./src/content/elements/controlAreaElement.ts ***!
-  \****************************************************/
+/***/ "./src/content/elements/original/controlAreaElement.ts":
+/*!*************************************************************!*\
+  !*** ./src/content/elements/original/controlAreaElement.ts ***!
+  \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -704,7 +704,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "SwitchingButtonElement": () => (/* binding */ SwitchingButtonElement)
 /* harmony export */ });
-/* harmony import */ var _content_elements_controlAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/controlAreaElement */ "./src/content/elements/controlAreaElement.ts");
+/* harmony import */ var _content_elements_original_controlAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/original/controlAreaElement */ "./src/content/elements/original/controlAreaElement.ts");
 
 /**
  * システムのスイッチングボタンに関するクラス
@@ -720,7 +720,7 @@ class SwitchingButtonElement {
             element.addEventListener("mouseover", this.callbackFuncMouseOver);
             element.addEventListener("mouseleave", this.callbackFuncMouseLeave);
             element.addEventListener("click", this.callbackFuncClick);
-            const ccButtonElement = new _content_elements_controlAreaElement__WEBPACK_IMPORTED_MODULE_0__.ControlAreaElement().getCcBottomElement();
+            const ccButtonElement = new _content_elements_original_controlAreaElement__WEBPACK_IMPORTED_MODULE_0__.ControlAreaElement().getCcBottomElement();
             if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
                 ccButtonElement.parentNode.insertBefore(element, ccButtonElement.nextElementSibling);
                 this.changeStyle();
@@ -965,10 +965,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "main": () => (/* binding */ main)
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
-/* harmony import */ var _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/content/elements/UsersAreaElement */ "./src/content/elements/UsersAreaElement.ts");
+/* harmony import */ var _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/content/elements/original/UsersAreaElement */ "./src/content/elements/original/UsersAreaElement.ts");
 /* harmony import */ var _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/content/elements/UsersCcAreaElement */ "./src/content/elements/UsersCcAreaElement.ts");
 /* harmony import */ var _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/content/elements/switchingButtonElement */ "./src/content/elements/switchingButtonElement.ts");
-/* harmony import */ var _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/content/elements/ccAreaElement */ "./src/content/elements/ccAreaElement.ts");
+/* harmony import */ var _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/content/elements/original/ccAreaElement */ "./src/content/elements/original/ccAreaElement.ts");
 /* harmony import */ var _content_elements_ScreenSharingCcAreaElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/content/elements/ScreenSharingCcAreaElement */ "./src/content/elements/ScreenSharingCcAreaElement.ts");
 /* harmony import */ var _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/content/core/ccOveserver */ "./src/content/core/ccOveserver.ts");
 
@@ -980,9 +980,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const main = async () => {
     console.log("start: application");
-    const usersAreaElement = new _content_elements_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
+    const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
     const usersCcAreaElement = new _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersCcAreaElement();
-    const ccAreaElement = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__.CcAreaElement();
+    const ccAreaElement = new _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__.CcAreaElement();
     const screenSharingCcAreaElement = new _content_elements_ScreenSharingCcAreaElement__WEBPACK_IMPORTED_MODULE_5__.ScreenSharingCcAreaElement();
     let screenShared = false;
     /**

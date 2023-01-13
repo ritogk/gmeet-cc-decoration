@@ -1,4 +1,4 @@
-import { CcAreaElement } from "@/content/elements/ccAreaElement"
+import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
 export interface ccOveserverInterface {
   run: () => void
   stop: () => void

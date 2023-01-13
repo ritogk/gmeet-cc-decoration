@@ -1,8 +1,8 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
-import { UsersAreaElement } from "@/content/elements/UsersAreaElement"
+import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { UsersCcAreaElement } from "@/content/elements/UsersCcAreaElement"
 import { SwitchingButtonElement } from "@/content/elements/switchingButtonElement"
-import { CcAreaElement } from "@/content/elements/ccAreaElement"
+import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
 import { ScreenSharingCcAreaElement } from "@/content/elements/ScreenSharingCcAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
 

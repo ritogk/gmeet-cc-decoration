@@ -1,4 +1,4 @@
-import { UsersAreaElement } from "@/content/elements/UsersAreaElement"
+import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { removeElement } from "@/core/dom"
 export interface usersCcAreaElementInterface {
   getElements(): NodeListOf<Element> | undefined

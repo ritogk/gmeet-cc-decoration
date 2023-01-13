@@ -1,4 +1,4 @@
-import { ControlAreaElement } from "@/content/elements/controlAreaElement"
+import { ControlAreaElement } from "@/content/elements/original/controlAreaElement"
 export interface SwitchingButtonElementInterface {
   createElement(): void
   deleteElement(): void

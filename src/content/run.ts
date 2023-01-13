@@ -1,4 +1,4 @@
-import { CcAreaElement } from "@/content/elements/ccAreaElement"
+import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
 import { main } from "@/content/main"
 const run = (): void => {
   const ccAreaElement = new CcAreaElement()
