@@ -19,8 +19,8 @@ export const run = async (): Promise<void> => {
     console.log("changeElement")
     configData.opacityRate = opacityRate
     configData.displayOriginalCc = displayOriginalCc
-    setStorage("opacityRate", opacityRate)
-    setStorage("displayOriginalCc", displayOriginalCc)
+    setStorage("configOpacityRate", opacityRate)
+    setStorage("configDisplayOriginalCc", displayOriginalCc)
   }
   const elements = new Elements(
     configData.opacityRate,

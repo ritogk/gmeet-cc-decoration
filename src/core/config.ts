@@ -42,19 +42,20 @@ export class Config implements ConfigInterface {
 
   loadConfig = async (): Promise<void> => {
     this.config.opacityRate =
-      (await getStorage("opacityRate")) ?? this.config.opacityRate
+      (await getStorage("configOpacityRate")) ?? this.config.opacityRate
     this.config.displayOriginalCc =
-      (await getStorage("displayOriginalCc")) ?? this.config.displayOriginalCc
+      (await getStorage("configDisplayOriginalCc")) ??
+      this.config.displayOriginalCc
   }
 
   observeGoogleStorage = (): void => {
     chrome.storage.onChanged.addListener((changes, namespace) => {
       const config = this.config
-      if ("opacityRate" in changes) {
-        config.opacityRate = changes.opacityRate.newValue
+      if ("configOpacityRate" in changes) {
+        config.opacityRate = changes.configOpacityRate.newValue
       }
-      if ("displayOriginalCc" in changes) {
-        config.displayOriginalCc = changes.displayOriginalCc.newValue
+      if ("configDisplayOriginalCc" in changes) {
+        config.displayOriginalCc = changes.configDisplayOriginalCc.newValue
       }
       this.setConfig(config)
     })

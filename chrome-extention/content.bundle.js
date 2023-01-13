@@ -990,18 +990,18 @@ class Config {
         this.loadConfig = async () => {
             var _a, _b;
             this.config.opacityRate =
-                (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("opacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
+                (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configOpacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
             this.config.displayOriginalCc =
-                (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("displayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
+                (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configDisplayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
         };
         this.observeGoogleStorage = () => {
             chrome.storage.onChanged.addListener((changes, namespace) => {
                 const config = this.config;
-                if ("opacityRate" in changes) {
-                    config.opacityRate = changes.opacityRate.newValue;
+                if ("configOpacityRate" in changes) {
+                    config.opacityRate = changes.configOpacityRate.newValue;
                 }
-                if ("displayOriginalCc" in changes) {
-                    config.displayOriginalCc = changes.displayOriginalCc.newValue;
+                if ("configDisplayOriginalCc" in changes) {
+                    config.displayOriginalCc = changes.configDisplayOriginalCc.newValue;
                 }
                 this.setConfig(config);
             });
