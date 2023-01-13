@@ -199,7 +199,6 @@ class ScreenSharingCcAreaElement {
             ccElement.style.fontWeight = "700";
             ccElement.style.pointerEvents = "none";
             const fontSize = this.calcCcFontSize(videoElement);
-            debugger;
             fontSize < 18
                 ? (ccElement.style.fontSize = "15px")
                 : (ccElement.style.fontSize = `${fontSize}px`);
@@ -771,6 +770,7 @@ const main = async () => {
     const usersCcAreaElement = new _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersCcAreaElement();
     const ccAreaElement = new _content_elements_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__.CcAreaElement();
     const screenSharingCcAreaElement = new _content_elements_ScreenSharingCcAreaElement__WEBPACK_IMPORTED_MODULE_5__.ScreenSharingCcAreaElement();
+    let screenShared = false;
     /**
      * 設定ファイル変更時のコールバック関数
      * @param config
@@ -839,7 +839,12 @@ const main = async () => {
         console.log(`imagePath: ${imagePath}`);
         console.log(`speach: ${speach}`);
         if (usersAreaElement.findScreenSharingAreaElement()) {
-            console.log("画面共有中");
+            // 画面共有on
+            if (!screenShared) {
+                usersCcAreaElement.deleteElements();
+                screenSharingCcAreaElement.deleteElement();
+                screenShared = true;
+            }
             if (!screenSharingCcAreaElement.getElement()) {
                 screenSharingCcAreaElement.createElement();
                 screenSharingCcAreaElement.appendCcElement(name, speach);
@@ -850,7 +855,12 @@ const main = async () => {
             }
         }
         else {
-            console.log("画面off");
+            // 画面共有off
+            if (screenShared) {
+                usersCcAreaElement.deleteElements();
+                screenSharingCcAreaElement.deleteElement();
+                screenShared = false;
+            }
         }
         if (!usersCcAreaElement.getElement(name)) {
             usersCcAreaElement.createElement(name);

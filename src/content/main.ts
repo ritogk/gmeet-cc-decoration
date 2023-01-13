@@ -13,7 +13,7 @@ export const main = async (): Promise<void> => {
   const usersCcAreaElement = new UsersCcAreaElement()
   const ccAreaElement = new CcAreaElement()
   const screenSharingCcAreaElement = new ScreenSharingCcAreaElement()
-
+  let screenShared = false
   /**
    * 設定ファイル変更時のコールバック関数
    * @param config
@@ -90,7 +90,12 @@ export const main = async (): Promise<void> => {
     console.log(`speach: ${speach}`)
 
     if (usersAreaElement.findScreenSharingAreaElement()) {
-      console.log("画面共有中")
+      // 画面共有on
+      if (!screenShared) {
+        usersCcAreaElement.deleteElements()
+        screenSharingCcAreaElement.deleteElement()
+        screenShared = true
+      }
       if (!screenSharingCcAreaElement.getElement()) {
         screenSharingCcAreaElement.createElement()
         screenSharingCcAreaElement.appendCcElement(name, speach)
@@ -99,7 +104,12 @@ export const main = async (): Promise<void> => {
         screenSharingCcAreaElement.updateCcElement(name, speach)
       }
     } else {
-      console.log("画面off")
+      // 画面共有off
+      if (screenShared) {
+        usersCcAreaElement.deleteElements()
+        screenSharingCcAreaElement.deleteElement()
+        screenShared = false
+      }
     }
     if (!usersCcAreaElement.getElement(name)) {
       usersCcAreaElement.createElement(name)
