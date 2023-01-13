@@ -122,6 +122,21 @@ class UsersAreaElement {
                 return false;
             });
         };
+        // 画面共有エリアの要素を取得
+        this.findScreenSharingAreaElement = () => {
+            const usersAreaElement = this.getElement();
+            if (!usersAreaElement)
+                return undefined;
+            const userAreaList = Array.from(usersAreaElement.children);
+            return userAreaList.find((element) => {
+                // 画面共有ようのエリアはinnerTextが取得できないのでその対応
+                const userNameArea = element.querySelector("[data-self-name]");
+                if (!userNameArea) {
+                    return true;
+                }
+                return false;
+            });
+        };
         // ユーザーのvideo要素を取得
         this.findUserVideoElement = (name) => {
             const userAreaElement = this.findUserAreaElement(name);

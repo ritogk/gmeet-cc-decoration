@@ -2,6 +2,7 @@ import { selector } from "@/content/core/selector"
 export interface usersAreaElementInterface {
   getElement(): HTMLElement | null
   findUserAreaElement: (name: string) => Element | undefined
+  findScreenSharingAreaElement: () => Element | undefined
   findUserVideoElement: (name: string) => HTMLVideoElement | undefined
 }
 
@@ -17,13 +18,27 @@ export class UsersAreaElement implements usersAreaElementInterface {
   findUserAreaElement = (name: string): Element | undefined => {
     const usersAreaElement = this.getElement()
     if (!usersAreaElement) return undefined
-
     const userAreaList = Array.from(usersAreaElement.children)
     return userAreaList.find((element) => {
       // 画面共有ようのエリアはinnerTextが取得できないのでその対応
       const userNameArea = element.querySelector("[data-self-name]")
       if (!userNameArea) return false
       if (userNameArea.textContent?.startsWith(name)) {
+        return true
+      }
+      return false
+    })
+  }
+
+  // 画面共有エリアの要素を取得
+  findScreenSharingAreaElement = (): Element | undefined => {
+    const usersAreaElement = this.getElement()
+    if (!usersAreaElement) return undefined
+    const userAreaList = Array.from(usersAreaElement.children)
+    return userAreaList.find((element) => {
+      // 画面共有ようのエリアはinnerTextが取得できないのでその対応
+      const userNameArea = element.querySelector("[data-self-name]")
+      if (!userNameArea) {
         return true
       }
       return false
