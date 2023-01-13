@@ -99,7 +99,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const screenSharingCcAreaClassName = "screen-sharing-cc-area-class-name";
-const screenSharingCcClassName = "screen-sharing-cc-class-name";
+const screenSharingNameClassName = "screen-sharing-name-class-name";
+const screenSharingSpeachClassName = "screen-sharing-speach-class-name";
 /**
  * 全ユーザーの字幕Elementに関するクラス
  */
@@ -122,31 +123,31 @@ class ScreenSharingCcAreaElement {
             if (!videoElement)
                 return;
             const fontSize = this.calcCcFontSize(videoElement);
-            const ccAreaElement = document.createElement("div");
-            ccAreaElement.style.position = "absolute";
-            ccAreaElement.style.bottom = "0";
-            ccAreaElement.style.textAlign = "left";
-            ccAreaElement.style.backgroundColor = "rgba(0,0,0,0.25)";
-            ccAreaElement.style.margin = "0";
-            ccAreaElement.style.zIndex = "1000000";
-            ccAreaElement.style.left = "0";
-            ccAreaElement.style.right = "0";
-            ccAreaElement.style.pointerEvents = "none";
-            ccAreaElement.style.overflow = "hidden";
-            ccAreaElement.scrollTop = 1000;
-            ccAreaElement.className = screenSharingCcAreaClassName;
+            const element = document.createElement("div");
+            element.style.position = "absolute";
+            element.style.bottom = "0";
+            element.style.textAlign = "left";
+            element.style.backgroundColor = "rgba(0,0,0,0.25)";
+            element.style.margin = "0";
+            element.style.zIndex = "1000000";
+            element.style.left = "0";
+            element.style.right = "0";
+            element.style.pointerEvents = "none";
+            element.style.overflow = "hidden";
+            element.scrollTop = 1000;
+            element.className = screenSharingCcAreaClassName;
             if (fontSize >= 16) {
-                ccAreaElement.style.height = `${videoElement.clientHeight / 3.3}px`;
+                element.style.height = `${videoElement.clientHeight / 3.3}px`;
                 const padding = (videoElement.clientWidth * 0.365) / 2;
-                ccAreaElement.style.paddingLeft = `${padding}px`;
-                ccAreaElement.style.paddingRight = `${padding}px`;
+                element.style.paddingLeft = `${padding}px`;
+                element.style.paddingRight = `${padding}px`;
             }
             else {
-                ccAreaElement.style.paddingLeft = `10px`;
-                ccAreaElement.style.paddingRight = `10px`;
+                element.style.paddingLeft = `10px`;
+                element.style.paddingRight = `10px`;
             }
-            (_a = videoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(ccAreaElement);
-            this.appendDisplayElement(ccAreaElement);
+            (_a = videoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(element);
+            this.appendDisplayElement(element);
         };
         this.updateElement = () => {
             const videoElement = this.usersAreaElement.findScreenSharingVideoElement();
@@ -155,71 +156,110 @@ class ScreenSharingCcAreaElement {
             const screenSharingElement = this.usersAreaElement.findScreenSharingAreaElement();
             if (!screenSharingElement)
                 return;
-            const ccAreaElement = (screenSharingElement.querySelector("." + screenSharingCcAreaClassName));
-            if (!ccAreaElement)
+            const element = (screenSharingElement.querySelector("." + screenSharingCcAreaClassName));
+            if (!element)
                 return;
-            if (ccAreaElement) {
-                ccAreaElement.scrollTop = 1000;
+            if (element) {
+                element.scrollTop = 1000;
             }
             const fontSize = this.calcCcFontSize(videoElement);
             if (fontSize >= 16) {
-                ccAreaElement.style.height = `${videoElement.clientHeight / 3.3}px`;
+                element.style.height = `${videoElement.clientHeight / 3.3}px`;
                 const padding = (videoElement.clientWidth * 0.365) / 2;
-                ccAreaElement.style.paddingLeft = `${padding}px`;
-                ccAreaElement.style.paddingRight = `${padding}px`;
+                element.style.paddingLeft = `${padding}px`;
+                element.style.paddingRight = `${padding}px`;
             }
             else {
-                ccAreaElement.style.paddingLeft = `10px`;
-                ccAreaElement.style.paddingRight = `10px`;
+                element.style.paddingLeft = `10px`;
+                element.style.paddingRight = `10px`;
             }
             this.deleteDisplayElement();
-            this.appendDisplayElement(ccAreaElement);
+            this.appendDisplayElement(element);
         };
-        // 字幕の取得
-        this.findCcElement = () => {
+        // 会話の要素を取得
+        this.findSpeachElement = () => {
             const screenSharingAreaElement = this.usersAreaElement.findScreenSharingAreaElement();
             if (!screenSharingAreaElement)
                 return undefined;
-            const ccElement = screenSharingAreaElement.querySelector("." + screenSharingCcClassName);
+            const ccElement = screenSharingAreaElement.querySelector("." + screenSharingSpeachClassName);
             return ccElement !== null ? ccElement : undefined;
         };
-        // 字幕 追加
+        // 名前の要素を取得
+        this.findNameElement = () => {
+            const screenSharingAreaElement = this.usersAreaElement.findScreenSharingAreaElement();
+            if (!screenSharingAreaElement)
+                return undefined;
+            const nameElement = screenSharingAreaElement.querySelector("." + screenSharingNameClassName);
+            return nameElement !== null ? nameElement : undefined;
+        };
+        // 字幕を追加
         this.appendCcElement = (name, speach) => {
-            var _a;
+            var _a, _b;
             const videoElement = this.usersAreaElement.findScreenSharingVideoElement();
             if (!videoElement)
                 return;
-            const ccElement = document.createElement("span");
-            ccElement.style.color = "white";
-            ccElement.style.margin = "0";
-            ccElement.style.zIndex = "1000001";
-            ccElement.textContent = speach;
-            ccElement.className = screenSharingCcClassName;
-            ccElement.style.opacity = this.ccOpacityRate.toString();
-            ccElement.style.fontWeight = "700";
-            ccElement.style.pointerEvents = "none";
             const fontSize = this.calcCcFontSize(videoElement);
+            // 名前
+            const nameElement = document.createElement("div");
+            nameElement.style.color = "white";
+            nameElement.style.margin = "0";
+            nameElement.style.zIndex = "1000001";
+            nameElement.textContent = `【${name}】a`;
+            nameElement.className = screenSharingNameClassName;
+            nameElement.style.opacity = this.ccOpacityRate.toString();
+            nameElement.style.fontWeight = "700";
+            nameElement.style.pointerEvents = "none";
             fontSize < 18
-                ? (ccElement.style.fontSize = "15px")
-                : (ccElement.style.fontSize = `${fontSize}px`);
+                ? (nameElement.style.fontSize = "15px")
+                : (nameElement.style.fontSize = `${fontSize}px`);
             fontSize < 27
-                ? (ccElement.style.webkitTextStroke = "1px #000")
-                : (ccElement.style.webkitTextStroke = "2px #000");
-            (_a = this.getElement()) === null || _a === void 0 ? void 0 : _a.appendChild(ccElement);
+                ? (nameElement.style.webkitTextStroke = "1px #000")
+                : (nameElement.style.webkitTextStroke = "2px #000");
+            (_a = this.getElement()) === null || _a === void 0 ? void 0 : _a.appendChild(nameElement);
+            // 会話
+            const speachElement = document.createElement("span");
+            speachElement.style.color = "white";
+            speachElement.style.margin = "0";
+            speachElement.style.zIndex = "1000001";
+            speachElement.textContent = `${speach}`;
+            speachElement.className = screenSharingSpeachClassName;
+            speachElement.style.opacity = this.ccOpacityRate.toString();
+            speachElement.style.fontWeight = "700";
+            speachElement.style.pointerEvents = "none";
+            fontSize < 18
+                ? (speachElement.style.fontSize = "15px")
+                : (speachElement.style.fontSize = `${fontSize}px`);
+            fontSize < 27
+                ? (speachElement.style.webkitTextStroke = "1px #000")
+                : (speachElement.style.webkitTextStroke = "2px #000");
+            (_b = this.getElement()) === null || _b === void 0 ? void 0 : _b.appendChild(speachElement);
         };
-        // 字幕 更新
+        // 字幕を更新
         this.updateCcElement = (name, speach) => {
             const videoElement = this.usersAreaElement.findScreenSharingVideoElement();
             if (!videoElement)
                 return;
-            const ccElement = this.findCcElement();
+            let fontSize = this.calcCcFontSize(videoElement);
+            // 名前
+            const nameElement = this.findNameElement();
+            if (!nameElement)
+                return;
+            nameElement.style.opacity = this.ccOpacityRate.toString();
+            nameElement.textContent = `【${name}】`;
+            fontSize < 18
+                ? (nameElement.style.fontSize = "15px")
+                : (nameElement.style.fontSize = `${fontSize}px`);
+            fontSize < 27
+                ? (nameElement.style.webkitTextStroke = "1px #000")
+                : (nameElement.style.webkitTextStroke = "2px #000");
+            // 会話
+            const ccElement = this.findSpeachElement();
             if (!ccElement)
                 return;
             // // 直前の文字数より少ない場合は反映させない
             // if ((ccElement.textContent?.length ?? 100) >= speach.length) return
             ccElement.style.opacity = this.ccOpacityRate.toString();
-            ccElement.textContent = speach;
-            const fontSize = this.calcCcFontSize(videoElement);
+            ccElement.textContent = `${speach}`;
             fontSize < 18
                 ? (ccElement.style.fontSize = "15px")
                 : (ccElement.style.fontSize = `${fontSize}px`);
