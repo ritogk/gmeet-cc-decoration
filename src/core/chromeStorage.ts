@@ -1,5 +1,3 @@
-import { ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
-
 type ChromeStorageKey = "configOpacityRate" | "configDisplayOriginalCc"
 
 export const getStorage = async <T>(
