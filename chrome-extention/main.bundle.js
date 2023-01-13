@@ -195,7 +195,7 @@ class ScreenSharingCcAreaElement {
             ccElement.style.zIndex = "1000001";
             ccElement.textContent = speach;
             ccElement.className = screenSharingCcClassName;
-            ccElement.style.opacity = "1";
+            ccElement.style.opacity = this.ccOpacityRate.toString();
             ccElement.style.fontWeight = "700";
             ccElement.style.pointerEvents = "none";
             const fontSize = this.calcCcFontSize(videoElement);
@@ -217,6 +217,7 @@ class ScreenSharingCcAreaElement {
                 return;
             // // 直前の文字数より少ない場合は反映させない
             // if ((ccElement.textContent?.length ?? 100) >= speach.length) return
+            ccElement.style.opacity = this.ccOpacityRate.toString();
             ccElement.textContent = speach;
             const fontSize = this.calcCcFontSize(videoElement);
             fontSize < 18
@@ -514,6 +515,7 @@ class UsersCcAreaElement {
             // 直前の文字数より少ない場合は反映させない
             if (((_b = (_a = userCcElement.textContent) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 100) >= speach.length)
                 return;
+            userCcElement.style.opacity = this.userCcOpacityRate.toString();
             userCcElement.textContent = speach;
             const fontSize = this.calcCcFontSize(userVideoElement);
             fontSize < 18

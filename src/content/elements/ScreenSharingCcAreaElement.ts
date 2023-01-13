@@ -120,7 +120,7 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     ccElement.style.zIndex = "1000001"
     ccElement.textContent = speach
     ccElement.className = screenSharingCcClassName
-    ccElement.style.opacity = "1"
+    ccElement.style.opacity = this.ccOpacityRate.toString()
     ccElement.style.fontWeight = "700"
     ccElement.style.pointerEvents = "none"
     const fontSize = this.calcCcFontSize(videoElement)
@@ -142,6 +142,7 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     if (!ccElement) return
     // // 直前の文字数より少ない場合は反映させない
     // if ((ccElement.textContent?.length ?? 100) >= speach.length) return
+    ccElement.style.opacity = this.ccOpacityRate.toString()
     ccElement.textContent = speach
     const fontSize = this.calcCcFontSize(videoElement)
     fontSize < 18
