@@ -135,7 +135,7 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     nameElement.style.color = "white"
     nameElement.style.margin = "0"
     nameElement.style.zIndex = "1000001"
-    nameElement.textContent = `【${name}】a`
+    nameElement.textContent = `【${name}】`
     nameElement.className = screenSharingNameClassName
     nameElement.style.opacity = this.ccOpacityRate.toString()
     nameElement.style.fontWeight = "700"
