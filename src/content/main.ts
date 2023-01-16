@@ -5,21 +5,24 @@ import { SwitchingButtonElement } from "@/content/elements/switchingButtonElemen
 import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
 import { ScreenSharingCcAreaElement } from "@/content/elements/ScreenSharingCcAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
+import { Logger } from "@/core/logger"
 
 export const main = async (): Promise<void> => {
-  console.log("start: application")
+  const logger = new Logger(true)
+  logger.log("start: application")
 
   const usersAreaElement = new UsersAreaElement()
   const usersCcAreaElement = new UsersCcAreaElement()
   const ccAreaElement = new CcAreaElement()
   const screenSharingCcAreaElement = new ScreenSharingCcAreaElement()
   let screenShared = false
+
   /**
    * 設定ファイル変更時のコールバック関数
    * @param config
    */
   const callbackFuncChangeConfig = (config: ConfigObjectInterface) => {
-    console.log(JSON.stringify(config))
+    logger.log(JSON.stringify(config))
     // 字幕の透明度
     usersCcAreaElement.setUserCcOpacityRate(config.opacityRate)
     screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate)
@@ -33,7 +36,7 @@ export const main = async (): Promise<void> => {
   }
   const config = new Config(callbackFuncChangeConfig)
   await config.loadConfig()
-  console.log(`load config: ${JSON.stringify(config.getConfig())}`)
+  logger.log(`load config: ${JSON.stringify(config.getConfig())}`)
   config.observeGoogleStorage()
 
   // elementの初期設定
@@ -52,22 +55,22 @@ export const main = async (): Promise<void> => {
    * @param clicked
    */
   const callbackFuncClick = (clicked: boolean) => {
-    console.log("click: controlButton")
+    logger.log("click: controlButton")
     if (clicked) {
       ccOveserver.run()
-      console.log("start: observer")
+      logger.log("start: observer")
       usersCcAreaElement.runInterval()
       screenSharingCcAreaElement.runInterval()
-      console.log("run: interval")
+      logger.log("run: interval")
     } else {
       ccOveserver.stop()
-      console.log("stop: observer")
+      logger.log("stop: observer")
       usersCcAreaElement.stopInterval()
       screenSharingCcAreaElement.stopInterval()
-      console.log("stop: interval")
+      logger.log("stop: interval")
       usersCcAreaElement.deleteElements()
       screenSharingCcAreaElement.deleteElement()
-      console.log("delete: cc elements")
+      logger.log("delete: cc elements")
     }
   }
   const controlButtonElement = new SwitchingButtonElement(callbackFuncClick)
@@ -84,10 +87,10 @@ export const main = async (): Promise<void> => {
     imagePath: string,
     speach: string
   ) => {
-    console.log("mutate: cc")
-    console.log(`name: ${name}`)
-    console.log(`imagePath: ${imagePath}`)
-    console.log(`speach: ${speach}`)
+    logger.log("mutate: cc")
+    logger.log(`name: ${name}`)
+    logger.log(`imagePath: ${imagePath}`)
+    logger.log(`speach: ${speach}`)
 
     if (usersAreaElement.findScreenSharingAreaElement()) {
       // 画面共有on

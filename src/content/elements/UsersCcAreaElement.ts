@@ -203,7 +203,6 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   runInterval = (): void => {
     // 一定時間表示した字幕は消す
     this.intervalId = window.setInterval(() => {
-      console.log(this.displayElements)
       const oldDisplayElements = this.displayElements.filter(
         (x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond
       )

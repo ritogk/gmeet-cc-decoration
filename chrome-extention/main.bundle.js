@@ -301,7 +301,6 @@ class ScreenSharingCcAreaElement {
         this.runInterval = () => {
             // 一定時間表示した字幕は消す
             this.intervalId = window.setInterval(() => {
-                console.log(this.displayElements);
                 const oldDisplayElements = this.displayElements.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
                 oldDisplayElements.forEach((x) => {
                     (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
@@ -502,7 +501,6 @@ class UsersCcAreaElement {
         this.runInterval = () => {
             // 一定時間表示した字幕は消す
             this.intervalId = window.setInterval(() => {
-                console.log(this.displayElements);
                 const oldDisplayElements = this.displayElements.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
                 oldDisplayElements.forEach((x) => {
                     (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(x.element, 2000);
@@ -894,6 +892,31 @@ const removeElement = (el, speed) => {
 
 
 
+/***/ }),
+
+/***/ "./src/core/logger.ts":
+/*!****************************!*\
+  !*** ./src/core/logger.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Logger": () => (/* binding */ Logger)
+/* harmony export */ });
+class Logger {
+    constructor(isOutput) {
+        this.isOutput = false;
+        this.log = (text) => {
+            if (!this.isOutput)
+                return;
+            console.log(text);
+        };
+        this.isOutput = isOutput;
+    }
+}
+
+
 /***/ })
 
 /******/ 	});
@@ -969,6 +992,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/content/elements/original/ccAreaElement */ "./src/content/elements/original/ccAreaElement.ts");
 /* harmony import */ var _content_elements_ScreenSharingCcAreaElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/content/elements/ScreenSharingCcAreaElement */ "./src/content/elements/ScreenSharingCcAreaElement.ts");
 /* harmony import */ var _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/content/core/ccOveserver */ "./src/content/core/ccOveserver.ts");
+/* harmony import */ var _core_logger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/core/logger */ "./src/core/logger.ts");
+
 
 
 
@@ -977,7 +1002,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const main = async () => {
-    console.log("start: application");
+    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_7__.Logger(true);
+    logger.log("start: application");
     const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
     const usersCcAreaElement = new _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersCcAreaElement();
     const ccAreaElement = new _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__.CcAreaElement();
@@ -988,7 +1014,7 @@ const main = async () => {
      * @param config
      */
     const callbackFuncChangeConfig = (config) => {
-        console.log(JSON.stringify(config));
+        logger.log(JSON.stringify(config));
         // 字幕の透明度
         usersCcAreaElement.setUserCcOpacityRate(config.opacityRate);
         screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate);
@@ -1002,7 +1028,7 @@ const main = async () => {
     };
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
-    console.log(`load config: ${JSON.stringify(config.getConfig())}`);
+    logger.log(`load config: ${JSON.stringify(config.getConfig())}`);
     config.observeGoogleStorage();
     // elementの初期設定
     usersCcAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate);
@@ -1018,23 +1044,23 @@ const main = async () => {
      * @param clicked
      */
     const callbackFuncClick = (clicked) => {
-        console.log("click: controlButton");
+        logger.log("click: controlButton");
         if (clicked) {
             ccOveserver.run();
-            console.log("start: observer");
+            logger.log("start: observer");
             usersCcAreaElement.runInterval();
             screenSharingCcAreaElement.runInterval();
-            console.log("run: interval");
+            logger.log("run: interval");
         }
         else {
             ccOveserver.stop();
-            console.log("stop: observer");
+            logger.log("stop: observer");
             usersCcAreaElement.stopInterval();
             screenSharingCcAreaElement.stopInterval();
-            console.log("stop: interval");
+            logger.log("stop: interval");
             usersCcAreaElement.deleteElements();
             screenSharingCcAreaElement.deleteElement();
-            console.log("delete: cc elements");
+            logger.log("delete: cc elements");
         }
     };
     const controlButtonElement = new _content_elements_switchingButtonElement__WEBPACK_IMPORTED_MODULE_3__.SwitchingButtonElement(callbackFuncClick);
@@ -1046,10 +1072,10 @@ const main = async () => {
      * @param speach
      */
     const callbackFuncObserver = (name, imagePath, speach) => {
-        console.log("mutate: cc");
-        console.log(`name: ${name}`);
-        console.log(`imagePath: ${imagePath}`);
-        console.log(`speach: ${speach}`);
+        logger.log("mutate: cc");
+        logger.log(`name: ${name}`);
+        logger.log(`imagePath: ${imagePath}`);
+        logger.log(`speach: ${speach}`);
         if (usersAreaElement.findScreenSharingAreaElement()) {
             // 画面共有on
             if (!screenShared) {

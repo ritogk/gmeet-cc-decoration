@@ -89,6 +89,31 @@ class Config {
 
 /***/ }),
 
+/***/ "./src/core/logger.ts":
+/*!****************************!*\
+  !*** ./src/core/logger.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Logger": () => (/* binding */ Logger)
+/* harmony export */ });
+class Logger {
+    constructor(isOutput) {
+        this.isOutput = false;
+        this.log = (text) => {
+            if (!this.isOutput)
+                return;
+            console.log(text);
+        };
+        this.isOutput = isOutput;
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/popup/elements.ts":
 /*!*******************************!*\
   !*** ./src/popup/elements.ts ***!
@@ -155,30 +180,24 @@ class Elements {
             this.elemets.displayOriginalCc[1].checked = true;
         }
         this.elemets.opacityRate.addEventListener("change", (event) => {
-            console.log("change opacityRate");
             if (event.target instanceof HTMLInputElement) {
-                console.log(event.target.value);
                 this.callbackFuncChange(Number(event.target.value), this.getDisplayOriginalCcElementChecked()
                     .value);
             }
         });
         this.elemets.displayOriginalCc[0].addEventListener("change", (event) => {
             var _a, _b;
-            console.log("change displayOriginalCcElements");
             if (event.target instanceof HTMLInputElement) {
                 if (!event.target.checked)
                     return;
-                console.log(event.target.value);
                 this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value);
             }
         });
         this.elemets.displayOriginalCc[1].addEventListener("change", (event) => {
             var _a, _b;
-            console.log("change displayOriginalCcElements");
             if (event.target instanceof HTMLInputElement) {
                 if (!event.target.checked)
                     return;
-                console.log(event.target.value);
                 this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value);
             }
         });
@@ -257,20 +276,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 /* harmony import */ var _popup_elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/popup/elements */ "./src/popup/elements.ts");
 /* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
+/* harmony import */ var _core_logger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/core/logger */ "./src/core/logger.ts");
+
 
 
 
 const run = async () => {
-    console.log("start: popup");
+    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_3__.Logger(false);
+    logger.log("start: popup");
     // config読み込み
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config((config) => { });
     await config.loadConfig();
     const configData = config.getConfig();
-    console.log(`load config: ${JSON.stringify(configData)}`);
+    logger.log(`load config: ${JSON.stringify(configData)}`);
     // elementsの変更後のコールバック関数
     const callbackFuncChangeElement = (opacityRate, displayOriginalCc) => {
         // configとストレージを更新
-        console.log("changeElement");
+        logger.log("changeElement");
         configData.opacityRate = opacityRate;
         configData.displayOriginalCc = displayOriginalCc;
         (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configOpacityRate", opacityRate);

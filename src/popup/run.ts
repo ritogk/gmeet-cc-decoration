@@ -1,14 +1,17 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 import { Elements } from "@/popup/elements"
 import { setStorage } from "@/core/chromeStorage"
+import { Logger } from "@/core/logger"
+
 export const run = async (): Promise<void> => {
-  console.log("start: popup")
+  const logger = new Logger(false)
+  logger.log("start: popup")
 
   // config読み込み
   const config = new Config((config: ConfigObjectInterface) => {})
   await config.loadConfig()
   const configData = config.getConfig()
-  console.log(`load config: ${JSON.stringify(configData)}`)
+  logger.log(`load config: ${JSON.stringify(configData)}`)
 
   // elementsの変更後のコールバック関数
   const callbackFuncChangeElement = (
@@ -16,7 +19,7 @@ export const run = async (): Promise<void> => {
     displayOriginalCc: DisplayOriginalCc
   ) => {
     // configとストレージを更新
-    console.log("changeElement")
+    logger.log("changeElement")
     configData.opacityRate = opacityRate
     configData.displayOriginalCc = displayOriginalCc
     setStorage("configOpacityRate", opacityRate)

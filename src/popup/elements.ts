@@ -44,9 +44,7 @@ export class Elements {
     }
 
     this.elemets.opacityRate.addEventListener("change", (event: Event) => {
-      console.log("change opacityRate")
       if (event.target instanceof HTMLInputElement) {
-        console.log(event.target.value)
         this.callbackFuncChange(
           Number(event.target.value),
           (this.getDisplayOriginalCcElementChecked() as HTMLInputElement)
@@ -56,10 +54,8 @@ export class Elements {
     })
 
     this.elemets.displayOriginalCc[0].addEventListener("change", (event) => {
-      console.log("change displayOriginalCcElements")
       if (event.target instanceof HTMLInputElement) {
         if (!event.target.checked) return
-        console.log(event.target.value)
         this.callbackFuncChange(
           Number(this.getOpacityRateElement()?.value ?? "0"),
           event.target.value as DisplayOriginalCc
@@ -67,10 +63,8 @@ export class Elements {
       }
     })
     this.elemets.displayOriginalCc[1].addEventListener("change", (event) => {
-      console.log("change displayOriginalCcElements")
       if (event.target instanceof HTMLInputElement) {
         if (!event.target.checked) return
-        console.log(event.target.value)
         this.callbackFuncChange(
           Number(this.getOpacityRateElement()?.value ?? "0"),
           event.target.value as DisplayOriginalCc
