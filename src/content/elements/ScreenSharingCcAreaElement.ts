@@ -60,7 +60,7 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     element.scrollTop = 1000
     element.className = screenSharingCcAreaClassName
     if (fontSize >= 16) {
-      element.style.height = `${videoElement.clientHeight / 3.3}px`
+      element.style.height = `${videoElement.clientHeight / 3.1}px`
       const padding = (videoElement.clientWidth * 0.365) / 2
       element.style.paddingLeft = `${padding}px`
       element.style.paddingRight = `${padding}px`
@@ -89,7 +89,7 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     }
     const fontSize = this.calcCcFontSize(videoElement)
     if (fontSize >= 16) {
-      element.style.height = `${videoElement.clientHeight / 3.3}px`
+      element.style.height = `${videoElement.clientHeight / 3.1}px`
       const padding = (videoElement.clientWidth * 0.365) / 2
       element.style.paddingLeft = `${padding}px`
       element.style.paddingRight = `${padding}px`
@@ -210,7 +210,7 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
 
   // 字幕のフォントサイズを計算
   calcCcFontSize = (element: Element): number => {
-    return Math.floor(element.clientWidth / 35)
+    return Math.floor(element.clientWidth / 33)
   }
 
   // 字幕の透明度を変える

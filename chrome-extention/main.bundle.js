@@ -137,7 +137,7 @@ class ScreenSharingCcAreaElement {
             element.scrollTop = 1000;
             element.className = screenSharingCcAreaClassName;
             if (fontSize >= 16) {
-                element.style.height = `${videoElement.clientHeight / 3.3}px`;
+                element.style.height = `${videoElement.clientHeight / 3.1}px`;
                 const padding = (videoElement.clientWidth * 0.365) / 2;
                 element.style.paddingLeft = `${padding}px`;
                 element.style.paddingRight = `${padding}px`;
@@ -164,7 +164,7 @@ class ScreenSharingCcAreaElement {
             }
             const fontSize = this.calcCcFontSize(videoElement);
             if (fontSize >= 16) {
-                element.style.height = `${videoElement.clientHeight / 3.3}px`;
+                element.style.height = `${videoElement.clientHeight / 3.1}px`;
                 const padding = (videoElement.clientWidth * 0.365) / 2;
                 element.style.paddingLeft = `${padding}px`;
                 element.style.paddingRight = `${padding}px`;
@@ -276,7 +276,7 @@ class ScreenSharingCcAreaElement {
         };
         // 字幕のフォントサイズを計算
         this.calcCcFontSize = (element) => {
-            return Math.floor(element.clientWidth / 35);
+            return Math.floor(element.clientWidth / 33);
         };
         // 字幕の透明度を変える
         this.ccOpacityRate = 0.5;
@@ -376,7 +376,7 @@ class UsersCcAreaElement {
             userCcAreaElement.scrollTop = 1000;
             userCcAreaElement.className = userCcAreaClassName;
             if (fontSize >= 16) {
-                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.1}px`;
                 const padding = (userVideoElement.clientWidth * 0.365) / 2;
                 userCcAreaElement.style.paddingLeft = `${padding}px`;
                 userCcAreaElement.style.paddingRight = `${padding}px`;
@@ -403,7 +403,7 @@ class UsersCcAreaElement {
             }
             const fontSize = this.calcCcFontSize(userVideoElement);
             if (fontSize >= 16) {
-                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.1}px`;
                 const padding = (userVideoElement.clientWidth * 0.365) / 2;
                 userCcAreaElement.style.paddingLeft = `${padding}px`;
                 userCcAreaElement.style.paddingRight = `${padding}px`;
@@ -476,7 +476,7 @@ class UsersCcAreaElement {
         };
         // 字幕のフォントサイズを計算
         this.calcCcFontSize = (element) => {
-            return Math.floor(element.clientWidth / 35);
+            return Math.floor(element.clientWidth / 33);
         };
         // 字幕の透明度を変える
         this.userCcOpacityRate = 0.5;

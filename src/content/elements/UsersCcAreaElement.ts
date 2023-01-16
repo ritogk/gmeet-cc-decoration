@@ -66,7 +66,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcAreaElement.className = userCcAreaClassName
     if (fontSize >= 16) {
       userCcAreaElement.style.height = `${
-        userVideoElement.clientHeight / 3.3
+        userVideoElement.clientHeight / 3.1
       }px`
       const padding = (userVideoElement.clientWidth * 0.365) / 2
       userCcAreaElement.style.paddingLeft = `${padding}px`
@@ -96,7 +96,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     const fontSize = this.calcCcFontSize(userVideoElement)
     if (fontSize >= 16) {
       userCcAreaElement.style.height = `${
-        userVideoElement.clientHeight / 3.3
+        userVideoElement.clientHeight / 3.1
       }px`
       const padding = (userVideoElement.clientWidth * 0.365) / 2
       userCcAreaElement.style.paddingLeft = `${padding}px`
@@ -168,7 +168,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
 
   // 字幕のフォントサイズを計算
   calcCcFontSize = (element: Element): number => {
-    return Math.floor(element.clientWidth / 35)
+    return Math.floor(element.clientWidth / 33)
   }
 
   // 字幕の透明度を変える
