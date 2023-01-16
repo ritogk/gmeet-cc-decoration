@@ -449,16 +449,14 @@ class UsersCcAreaElement {
         };
         // 字幕 更新
         this.updateCcElement = (name, speach) => {
-            var _a, _b;
             const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
             const userCcElement = this.findCcElement(name);
             if (!userCcElement)
                 return;
-            // 直前の文字数より少ない場合は反映させない
-            if (((_b = (_a = userCcElement.textContent) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 100) >= speach.length)
-                return;
+            // // 直前の文字数より少ない場合は反映させない
+            // if ((userCcElement.textContent?.length ?? 100) >= speach.length) return
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
             userCcElement.textContent = speach;
             const fontSize = this.calcCcFontSize(userVideoElement);

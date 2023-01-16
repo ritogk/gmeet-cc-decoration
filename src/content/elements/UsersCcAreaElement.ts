@@ -146,8 +146,8 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     if (!userVideoElement) return
     const userCcElement = this.findCcElement(name)
     if (!userCcElement) return
-    // 直前の文字数より少ない場合は反映させない
-    if ((userCcElement.textContent?.length ?? 100) >= speach.length) return
+    // // 直前の文字数より少ない場合は反映させない
+    // if ((userCcElement.textContent?.length ?? 100) >= speach.length) return
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
     userCcElement.textContent = speach
     const fontSize = this.calcCcFontSize(userVideoElement)
