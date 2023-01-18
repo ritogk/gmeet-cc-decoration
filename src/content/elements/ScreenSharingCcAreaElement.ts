@@ -169,6 +169,9 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
 
   // 字幕を更新
   updateCcElement = (name: string, speach: string): void => {
+    // 空白文字の場合は更新させない。
+    if (speach.trim().length === 0) return
+
     const videoElement = this.usersAreaElement.findScreenSharingVideoElement()
     if (!videoElement) return
 
@@ -189,8 +192,7 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     // 会話
     const ccElement = this.findSpeachElement()
     if (!ccElement) return
-    // // 直前の文字数より少ない場合は反映させない
-    // if ((ccElement.textContent?.length ?? 100) >= speach.length) return
+
     ccElement.style.opacity = this.ccOpacityRate.toString()
     ccElement.textContent = `${speach}`
     fontSize < 18

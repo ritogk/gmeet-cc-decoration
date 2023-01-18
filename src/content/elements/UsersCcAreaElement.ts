@@ -142,6 +142,9 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
 
   // 字幕 更新
   updateCcElement = (name: string, speach: string): void => {
+    // 空白文字の場合は更新させない。
+    if (speach.trim().length === 0) return
+
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
     const userCcElement = this.findCcElement(name)

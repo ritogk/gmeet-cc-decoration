@@ -126,14 +126,17 @@ export const main = async (): Promise<void> => {
 
   // ↓ 呼び出しスクリプト
   // document.dispatchEvent(
-  //   new CustomEvent("runScript", { bubbles: true, detail: { name: "あなた" } })
+  //   new CustomEvent("runScript", {
+  //     bubbles: true,
+  //     detail: {
+  //       name: "あなた",
+  //       speach:
+  //         "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほぱぴぷぺぽらりるれろ",
+  //     },
+  //   })
   // )
   // 動作確認用の入口
   document.addEventListener("runScript", (e: any) => {
-    callbackFuncObserver(
-      e.detail.name,
-      "c:/a/b",
-      "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほぱぴぷぺぽらりるれろ"
-    )
+    callbackFuncObserver(e.detail.name, "c:/a/b", e.detail.speach)
   })
 }

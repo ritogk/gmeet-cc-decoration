@@ -236,6 +236,9 @@ class ScreenSharingCcAreaElement {
         };
         // 字幕を更新
         this.updateCcElement = (name, speach) => {
+            // 空白文字の場合は更新させない。
+            if (speach.trim().length === 0)
+                return;
             const videoElement = this.usersAreaElement.findScreenSharingVideoElement();
             if (!videoElement)
                 return;
@@ -256,8 +259,6 @@ class ScreenSharingCcAreaElement {
             const ccElement = this.findSpeachElement();
             if (!ccElement)
                 return;
-            // // 直前の文字数より少ない場合は反映させない
-            // if ((ccElement.textContent?.length ?? 100) >= speach.length) return
             ccElement.style.opacity = this.ccOpacityRate.toString();
             ccElement.textContent = `${speach}`;
             fontSize < 18
@@ -448,6 +449,9 @@ class UsersCcAreaElement {
         };
         // 字幕 更新
         this.updateCcElement = (name, speach) => {
+            // 空白文字の場合は更新させない。
+            if (speach.trim().length === 0)
+                return;
             const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
@@ -915,11 +919,18 @@ const main = async () => {
     const ccOveserver = new _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_6__.CcOveserver(callbackFuncObserver);
     // ↓ 呼び出しスクリプト
     // document.dispatchEvent(
-    //   new CustomEvent("runScript", { bubbles: true, detail: { name: "あなた" } })
+    //   new CustomEvent("runScript", {
+    //     bubbles: true,
+    //     detail: {
+    //       name: "あなた",
+    //       speach:
+    //         "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほぱぴぷぺぽらりるれろ",
+    //     },
+    //   })
     // )
     // 動作確認用の入口
     document.addEventListener("runScript", (e) => {
-        callbackFuncObserver(e.detail.name, "c:/a/b", "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほぱぴぷぺぽらりるれろ");
+        callbackFuncObserver(e.detail.name, "c:/a/b", e.detail.speach);
     });
 };
 
