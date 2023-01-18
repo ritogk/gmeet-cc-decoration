@@ -16,18 +16,22 @@ export const run = async (): Promise<void> => {
   // elementsの変更後のコールバック関数
   const callbackFuncChangeElement = (
     opacityRate: number,
-    displayOriginalCc: DisplayOriginalCc
+    displayOriginalCc: DisplayOriginalCc,
+    fontSizeRate: number
   ) => {
     // configとストレージを更新
     logger.log("changeElement")
     configData.opacityRate = opacityRate
     configData.displayOriginalCc = displayOriginalCc
+    configData.fontSizeRate = fontSizeRate
     setStorage("configOpacityRate", opacityRate)
     setStorage("configDisplayOriginalCc", displayOriginalCc)
+    setStorage("configFontSizeRate", fontSizeRate)
   }
   const elements = new Elements(
     configData.opacityRate,
     configData.displayOriginalCc,
+    configData.fontSizeRate,
     callbackFuncChangeElement
   )
 }

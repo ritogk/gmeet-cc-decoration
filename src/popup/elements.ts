@@ -3,25 +3,30 @@ import { DisplayOriginalCc } from "@/core/config"
 export interface ElementsType {
   opacityRate: HTMLInputElement | null
   displayOriginalCc: NodeListOf<HTMLInputElement> | null
+  fontSizeRate: HTMLInputElement | null
 }
 
 export class Elements {
   private elemets: ElementsType = {
     opacityRate: null,
     displayOriginalCc: null,
+    fontSizeRate: null,
   }
 
   private callbackFuncChange: (
     opacityRate: number,
-    displayOriginalCc: DisplayOriginalCc
+    displayOriginalCc: DisplayOriginalCc,
+    fontSizeRate: number
   ) => void
 
   constructor(
     opacityRate: number,
     displayOriginalCc: DisplayOriginalCc,
+    fontSizeRate: number,
     callbackFuncChange: (
       opacityRate: number,
-      displayOriginalCc: DisplayOriginalCc
+      displayOriginalCc: DisplayOriginalCc,
+      fontSizeRate: number
     ) => void
   ) {
     this.callbackFuncChange = callbackFuncChange
@@ -30,6 +35,9 @@ export class Elements {
     )
     this.elemets.displayOriginalCc = <NodeListOf<HTMLInputElement>>(
       document.getElementsByName("displayOriginalCc")
+    )
+    this.elemets.fontSizeRate = <HTMLInputElement>(
+      document.getElementsByName("fontSizeRate")[0]
     )
 
     this.elemets.displayOriginalCc[0].value = DisplayOriginalCc.OK
@@ -42,13 +50,15 @@ export class Elements {
     } else {
       this.elemets.displayOriginalCc[1].checked = true
     }
+    this.elemets.fontSizeRate.value = fontSizeRate.toString()
 
     this.elemets.opacityRate.addEventListener("change", (event: Event) => {
       if (event.target instanceof HTMLInputElement) {
         this.callbackFuncChange(
           Number(event.target.value),
           (this.getDisplayOriginalCcElementChecked() as HTMLInputElement)
-            .value as DisplayOriginalCc
+            .value as DisplayOriginalCc,
+          Number(this.getFontSizeRateElement()?.value ?? "0")
         )
       }
     })
@@ -58,7 +68,8 @@ export class Elements {
         if (!event.target.checked) return
         this.callbackFuncChange(
           Number(this.getOpacityRateElement()?.value ?? "0"),
-          event.target.value as DisplayOriginalCc
+          event.target.value as DisplayOriginalCc,
+          Number(this.getFontSizeRateElement()?.value ?? "0")
         )
       }
     })
@@ -67,7 +78,19 @@ export class Elements {
         if (!event.target.checked) return
         this.callbackFuncChange(
           Number(this.getOpacityRateElement()?.value ?? "0"),
-          event.target.value as DisplayOriginalCc
+          event.target.value as DisplayOriginalCc,
+          Number(this.getFontSizeRateElement()?.value ?? "0")
+        )
+      }
+    })
+
+    this.elemets.fontSizeRate.addEventListener("change", (event: Event) => {
+      if (event.target instanceof HTMLInputElement) {
+        this.callbackFuncChange(
+          Number(this.getOpacityRateElement()?.value ?? "0"),
+          (this.getDisplayOriginalCcElementChecked() as HTMLInputElement)
+            .value as DisplayOriginalCc,
+          Number(event.target.value)
         )
       }
     })
@@ -111,5 +134,14 @@ export class Elements {
     } else {
       return this.elemets.displayOriginalCc[1]
     }
+  }
+
+  getFontSizeRateElement = (): HTMLInputElement | null => {
+    return this.elemets.fontSizeRate
+  }
+
+  setFontSizeRateElementValue = (fontSizeRate: number): void => {
+    if (!this.elemets.fontSizeRate) return
+    this.elemets.fontSizeRate.value = fontSizeRate.toString()
   }
 }
