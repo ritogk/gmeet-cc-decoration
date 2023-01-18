@@ -217,11 +217,12 @@ class ScreenSharingCcAreaElement {
                 : (nameElement.style.webkitTextStroke = "2px #000");
             (_a = this.getElement()) === null || _a === void 0 ? void 0 : _a.appendChild(nameElement);
             // 会話
-            const speachElement = document.createElement("span");
+            const speachElement = document.createElement("div");
             speachElement.style.color = "white";
             speachElement.style.margin = "0";
             speachElement.style.zIndex = "1000001";
-            speachElement.textContent = `${speach}`;
+            // 「。」で改行させる
+            speachElement.innerHTML = speach.replace(/\。/g, "<br>");
             speachElement.className = screenSharingSpeachClassName;
             speachElement.style.opacity = this.ccOpacityRate.toString();
             speachElement.style.fontWeight = "700";
@@ -260,7 +261,8 @@ class ScreenSharingCcAreaElement {
             if (!ccElement)
                 return;
             ccElement.style.opacity = this.ccOpacityRate.toString();
-            ccElement.textContent = `${speach}`;
+            // 「。」で改行させる
+            ccElement.innerHTML = speach.replace(/\。/g, "<br>");
             fontSize < 18
                 ? (ccElement.style.fontSize = "15px")
                 : (ccElement.style.fontSize = `${fontSize}px`);
@@ -429,11 +431,12 @@ class UsersCcAreaElement {
             const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
-            const userCcElement = document.createElement("span");
+            const userCcElement = document.createElement("div");
+            // 「。」で改行させる
+            userCcElement.innerHTML = speach.replace(/\。/g, "<br>");
             userCcElement.style.color = "white";
             userCcElement.style.margin = "0";
             userCcElement.style.zIndex = "1000001";
-            userCcElement.textContent = speach;
             userCcElement.className = userCcClassName;
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
             userCcElement.style.fontWeight = "700";
@@ -458,10 +461,9 @@ class UsersCcAreaElement {
             const userCcElement = this.findCcElement(name);
             if (!userCcElement)
                 return;
-            // // 直前の文字数より少ない場合は反映させない
-            // if ((userCcElement.textContent?.length ?? 100) >= speach.length) return
+            // 「。」で改行させる
+            userCcElement.innerHTML = speach.replace(/\。/g, "<br>");
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
-            userCcElement.textContent = speach;
             const fontSize = this.calcCcFontSize(userVideoElement);
             fontSize < 18
                 ? (userCcElement.style.fontSize = "15px")

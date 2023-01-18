@@ -149,11 +149,12 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     this.getElement()?.appendChild(nameElement)
 
     // 会話
-    const speachElement = document.createElement("span")
+    const speachElement = document.createElement("div")
     speachElement.style.color = "white"
     speachElement.style.margin = "0"
     speachElement.style.zIndex = "1000001"
-    speachElement.textContent = `${speach}`
+    // 「。」で改行させる
+    speachElement.innerHTML = speach.replace(/\。/g, "<br>")
     speachElement.className = screenSharingSpeachClassName
     speachElement.style.opacity = this.ccOpacityRate.toString()
     speachElement.style.fontWeight = "700"
@@ -194,7 +195,8 @@ export class ScreenSharingCcAreaElement implements screenSharingCcAreaElement {
     if (!ccElement) return
 
     ccElement.style.opacity = this.ccOpacityRate.toString()
-    ccElement.textContent = `${speach}`
+    // 「。」で改行させる
+    ccElement.innerHTML = speach.replace(/\。/g, "<br>")
     fontSize < 18
       ? (ccElement.style.fontSize = "15px")
       : (ccElement.style.fontSize = `${fontSize}px`)

@@ -120,11 +120,13 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   appendCcElement = (name: string, speach: string): void => {
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
-    const userCcElement = document.createElement("span")
+    const userCcElement = document.createElement("div")
+
+    // 「。」で改行させる
+    userCcElement.innerHTML = speach.replace(/\。/g, "<br>")
     userCcElement.style.color = "white"
     userCcElement.style.margin = "0"
     userCcElement.style.zIndex = "1000001"
-    userCcElement.textContent = speach
     userCcElement.className = userCcClassName
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
     userCcElement.style.fontWeight = "700"
@@ -149,10 +151,10 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     if (!userVideoElement) return
     const userCcElement = this.findCcElement(name)
     if (!userCcElement) return
-    // // 直前の文字数より少ない場合は反映させない
-    // if ((userCcElement.textContent?.length ?? 100) >= speach.length) return
+
+    // 「。」で改行させる
+    userCcElement.innerHTML = speach.replace(/\。/g, "<br>")
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
-    userCcElement.textContent = speach
     const fontSize = this.calcCcFontSize(userVideoElement)
     fontSize < 18
       ? (userCcElement.style.fontSize = "15px")
