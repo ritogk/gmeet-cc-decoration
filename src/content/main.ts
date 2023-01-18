@@ -14,7 +14,7 @@ export const main = async (): Promise<void> => {
   const usersAreaElement = new UsersAreaElement()
   const usersCcAreaElement = new UsersCcAreaElement()
   const ccAreaElement = new CcAreaElement()
-  const screenSharingCcAreaElement = new ScreenSharingCcAreaElement()
+  // const screenSharingCcAreaElement = new ScreenSharingCcAreaElement()
   let screenShared = false
 
   /**
@@ -25,7 +25,7 @@ export const main = async (): Promise<void> => {
     logger.log(JSON.stringify(config))
     // 字幕の透明度
     usersCcAreaElement.setUserCcOpacityRate(config.opacityRate)
-    screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate)
+    // screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate)
 
     // 字幕の表示非表示制御
     if (config.displayOriginalCc == DisplayOriginalCc.OK) {
@@ -46,9 +46,9 @@ export const main = async (): Promise<void> => {
   } else {
     ccAreaElement.hideElement()
   }
-  screenSharingCcAreaElement.setUserCcOpacityRate(
-    config.getConfig().opacityRate
-  )
+  // screenSharingCcAreaElement.setUserCcOpacityRate(
+  //   config.getConfig().opacityRate
+  // )
 
   /**
    * コントロールボタン押下後のコールバック関数
@@ -60,16 +60,16 @@ export const main = async (): Promise<void> => {
       ccOveserver.run()
       logger.log("start: observer")
       usersCcAreaElement.runInterval()
-      screenSharingCcAreaElement.runInterval()
+      // screenSharingCcAreaElement.runInterval()
       logger.log("run: interval")
     } else {
       ccOveserver.stop()
       logger.log("stop: observer")
       usersCcAreaElement.stopInterval()
-      screenSharingCcAreaElement.stopInterval()
+      // screenSharingCcAreaElement.stopInterval()
       logger.log("stop: interval")
       usersCcAreaElement.deleteElements()
-      screenSharingCcAreaElement.deleteElement()
+      // screenSharingCcAreaElement.deleteElement()
       logger.log("delete: cc elements")
     }
   }
@@ -96,21 +96,21 @@ export const main = async (): Promise<void> => {
       // 画面共有on
       if (!screenShared) {
         usersCcAreaElement.deleteElements()
-        screenSharingCcAreaElement.deleteElement()
+        // screenSharingCcAreaElement.deleteElement()
         screenShared = true
       }
-      if (!screenSharingCcAreaElement.getElement()) {
-        screenSharingCcAreaElement.createElement()
-        screenSharingCcAreaElement.appendCcElement(name, speach)
-      } else {
-        screenSharingCcAreaElement.updateElement()
-        screenSharingCcAreaElement.updateCcElement(name, speach)
-      }
+      // if (!screenSharingCcAreaElement.getElement()) {
+      //   screenSharingCcAreaElement.createElement()
+      //   screenSharingCcAreaElement.appendCcElement(name, speach)
+      // } else {
+      //   screenSharingCcAreaElement.updateElement()
+      //   screenSharingCcAreaElement.updateCcElement(name, speach)
+      // }
     } else {
       // 画面共有off
       if (screenShared) {
         usersCcAreaElement.deleteElements()
-        screenSharingCcAreaElement.deleteElement()
+        // screenSharingCcAreaElement.deleteElement()
         screenShared = false
       }
     }
