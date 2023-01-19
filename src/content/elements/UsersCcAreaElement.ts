@@ -64,7 +64,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcAreaElement.style.position = "absolute"
     userCcAreaElement.style.bottom = "0"
     userCcAreaElement.style.textAlign = "left"
-    userCcAreaElement.style.backgroundColor = "rgba(0,0,0,0.35)"
+    userCcAreaElement.style.backgroundColor = "rgba(0,0,0,0.28)"
     userCcAreaElement.style.margin = "0"
     userCcAreaElement.style.zIndex = "1000000"
     userCcAreaElement.style.left = "0"
@@ -216,7 +216,13 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   setUserCcOpacityRate = (opacityRate: number): void => {
     this.userCcOpacityRate = opacityRate
     this.displayElements.forEach((x) => {
-      x.element.style.opacity = this.userCcOpacityRate.toString()
+      const userVideoElement = this.usersAreaElement.findUserVideoElement(
+        x.name
+      )
+      if (!userVideoElement) return
+      const userCcElement = this.findCcElement(x.name)
+      if (!userCcElement) return
+      userCcElement.style.opacity = this.userCcOpacityRate.toString()
     })
   }
 
