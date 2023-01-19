@@ -100,11 +100,18 @@ __webpack_require__.r(__webpack_exports__);
 
 const userCcAreaClassName = "user-cc-area-class-name";
 const userCcClassName = "user-cc-class-name";
+var CcSize;
+(function (CcSize) {
+    CcSize[CcSize["SMALL"] = 0] = "SMALL";
+    CcSize[CcSize["Large"] = 1] = "Large";
+})(CcSize || (CcSize = {}));
 /**
  * 全ユーザーの字幕Elementに関するクラス
  */
 class UsersCcAreaElement {
     constructor() {
+        this.userCcOpacityRate = 0.5;
+        this.userCcFontSizeRate = 0.5;
         this.getElements = () => {
             var _a;
             return (_a = this.usersAreaElement
@@ -126,7 +133,6 @@ class UsersCcAreaElement {
             const userVideoElement = this.usersAreaElement.findUserVideoElement(name);
             if (!userVideoElement)
                 return;
-            const fontSize = this.calcCcFontSize(userVideoElement);
             const userCcAreaElement = document.createElement("div");
             userCcAreaElement.style.position = "absolute";
             userCcAreaElement.style.bottom = "0";
@@ -140,15 +146,19 @@ class UsersCcAreaElement {
             userCcAreaElement.style.overflow = "hidden";
             userCcAreaElement.scrollTop = 1000;
             userCcAreaElement.className = userCcAreaClassName;
-            if (fontSize >= 16) {
-                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
-                const padding = (userVideoElement.clientWidth * 0.365) / 2;
-                userCcAreaElement.style.paddingLeft = `${padding}px`;
-                userCcAreaElement.style.paddingRight = `${padding}px`;
-            }
-            else {
-                userCcAreaElement.style.paddingLeft = `10px`;
-                userCcAreaElement.style.paddingRight = `10px`;
+            const ccSize = this.calcCcSize(userVideoElement);
+            switch (ccSize) {
+                case CcSize.Large:
+                    userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                    const padding = (userVideoElement.clientWidth * 0.365) / 2;
+                    userCcAreaElement.style.paddingLeft = `${padding}px`;
+                    userCcAreaElement.style.paddingRight = `${padding}px`;
+                    break;
+                case CcSize.SMALL:
+                    userCcAreaElement.style.paddingLeft = `10px`;
+                    userCcAreaElement.style.paddingRight = `10px`;
+                default:
+                    break;
             }
             (_a = userVideoElement.parentElement) === null || _a === void 0 ? void 0 : _a.after(userCcAreaElement);
             this.appendDisplayElement(name, userCcAreaElement);
@@ -166,16 +176,19 @@ class UsersCcAreaElement {
             if (userCcAreaElement) {
                 userCcAreaElement.scrollTop = 1000;
             }
-            const fontSize = this.calcCcFontSize(userVideoElement);
-            if (fontSize >= 16) {
-                userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
-                const padding = (userVideoElement.clientWidth * 0.365) / 2;
-                userCcAreaElement.style.paddingLeft = `${padding}px`;
-                userCcAreaElement.style.paddingRight = `${padding}px`;
-            }
-            else {
-                userCcAreaElement.style.paddingLeft = `10px`;
-                userCcAreaElement.style.paddingRight = `10px`;
+            const ccSize = this.calcCcSize(userVideoElement);
+            switch (ccSize) {
+                case CcSize.Large:
+                    userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                    const padding = (userVideoElement.clientWidth * 0.365) / 2;
+                    userCcAreaElement.style.paddingLeft = `${padding}px`;
+                    userCcAreaElement.style.paddingRight = `${padding}px`;
+                    break;
+                case CcSize.SMALL:
+                    userCcAreaElement.style.paddingLeft = `10px`;
+                    userCcAreaElement.style.paddingRight = `10px`;
+                default:
+                    break;
             }
             this.deleteDisplayElement(name);
             this.appendDisplayElement(name, userCcAreaElement);
@@ -204,13 +217,20 @@ class UsersCcAreaElement {
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
             userCcElement.style.fontWeight = "700";
             userCcElement.style.pointerEvents = "none";
-            const fontSize = this.calcCcFontSize(userVideoElement);
-            fontSize < 18
-                ? (userCcElement.style.fontSize = "15px")
-                : (userCcElement.style.fontSize = `${fontSize}px`);
-            fontSize < 27
-                ? (userCcElement.style.webkitTextStroke = "1px #000")
-                : (userCcElement.style.webkitTextStroke = "2px #000");
+            const ccSize = this.calcCcSize(userVideoElement);
+            switch (ccSize) {
+                case CcSize.Large:
+                    const fontSize = Math.floor(userVideoElement.clientWidth / 35) *
+                        (this.userCcFontSizeRate * 2);
+                    userCcElement.style.fontSize = `${fontSize}px`;
+                    userCcElement.style.webkitTextStroke = "2px #000";
+                    break;
+                case CcSize.SMALL:
+                    userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`;
+                    userCcElement.style.webkitTextStroke = "1px #000";
+                default:
+                    break;
+            }
             (_a = this.getElement(name)) === null || _a === void 0 ? void 0 : _a.appendChild(userCcElement);
         };
         // 字幕 更新
@@ -227,13 +247,20 @@ class UsersCcAreaElement {
             // 「。」で改行させる
             userCcElement.innerHTML = speach.replace(/\。/g, "<br>");
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
-            const fontSize = this.calcCcFontSize(userVideoElement);
-            fontSize < 18
-                ? (userCcElement.style.fontSize = "15px")
-                : (userCcElement.style.fontSize = `${fontSize}px`);
-            fontSize < 27
-                ? (userCcElement.style.webkitTextStroke = "1px #000")
-                : (userCcElement.style.webkitTextStroke = "2px #000");
+            const ccSize = this.calcCcSize(userVideoElement);
+            switch (ccSize) {
+                case CcSize.Large:
+                    const fontSize = Math.floor(userVideoElement.clientWidth / 35) *
+                        (this.userCcFontSizeRate * 2);
+                    userCcElement.style.fontSize = `${fontSize}px`;
+                    userCcElement.style.webkitTextStroke = "2px #000";
+                    break;
+                case CcSize.SMALL:
+                    userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`;
+                    userCcElement.style.webkitTextStroke = "1px #000";
+                default:
+                    break;
+            }
         };
         // 字幕 削除
         this.deleteCcElement = (name) => {
@@ -243,15 +270,42 @@ class UsersCcAreaElement {
             (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(displaySpeach.element, 2000);
         };
         // 字幕のフォントサイズを計算
-        this.calcCcFontSize = (element) => {
-            return Math.floor(element.clientWidth / 35);
+        this.calcCcSize = (element) => {
+            return Math.floor(element.clientWidth / 35) >= 16
+                ? CcSize.Large
+                : CcSize.SMALL;
         };
         // 字幕の透明度を変える
-        this.userCcOpacityRate = 0.5;
         this.setUserCcOpacityRate = (opacityRate) => {
             this.userCcOpacityRate = opacityRate;
             this.displayElements.forEach((x) => {
                 x.element.style.opacity = this.userCcOpacityRate.toString();
+            });
+        };
+        // 字幕のフォントサイズを変える
+        this.setFontSizeRate = (fontSizeRate) => {
+            this.userCcFontSizeRate = fontSizeRate;
+            this.displayElements.forEach((x) => {
+                const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
+                if (!userVideoElement)
+                    return;
+                const ccSize = this.calcCcSize(userVideoElement);
+                const userCcElement = this.findCcElement(x.name);
+                if (!userCcElement)
+                    return;
+                switch (ccSize) {
+                    case CcSize.Large:
+                        const fontSize = Math.floor(userVideoElement.clientWidth / 35) *
+                            (this.userCcFontSizeRate * 2);
+                        userCcElement.style.fontSize = `${fontSize}px`;
+                        userCcElement.style.webkitTextStroke = "2px #000";
+                        break;
+                    case CcSize.SMALL:
+                        userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`;
+                        userCcElement.style.webkitTextStroke = "1px #000";
+                    default:
+                        break;
+                }
             });
         };
         this.displayElements = [];
@@ -798,6 +852,7 @@ const main = async () => {
         else {
             ccAreaElement.hideElement();
         }
+        usersCcAreaElement.setFontSizeRate(config.fontSizeRate);
     };
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
@@ -811,6 +866,7 @@ const main = async () => {
     else {
         ccAreaElement.hideElement();
     }
+    usersCcAreaElement.setFontSizeRate(config.getConfig().fontSizeRate);
     // screenSharingCcAreaElement.setUserCcOpacityRate(
     //   config.getConfig().opacityRate
     // )

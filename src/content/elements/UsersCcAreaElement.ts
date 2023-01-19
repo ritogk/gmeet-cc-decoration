@@ -10,6 +10,8 @@ export interface usersCcAreaElementInterface {
   appendCcElement: (name: string, speach: string) => void
   updateCcElement: (name: string, speach: string) => void
   deleteCcElement: (name: string) => void
+  setUserCcOpacityRate: (opacityRate: number) => void
+  setFontSizeRate: (fontSizeRate: number) => void
   runInterval: () => void
   stopInterval: () => void
 }
@@ -17,11 +19,19 @@ export interface usersCcAreaElementInterface {
 const userCcAreaClassName = "user-cc-area-class-name"
 const userCcClassName = "user-cc-class-name"
 
+enum CcSize {
+  SMALL,
+  Large,
+}
+
 /**
  * 全ユーザーの字幕Elementに関するクラス
  */
 export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private usersAreaElement: UsersAreaElement
+  private userCcOpacityRate = 0.5
+  private userCcFontSizeRate = 0.5
+
   constructor() {
     this.usersAreaElement = new UsersAreaElement()
   }
@@ -50,7 +60,6 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
 
-    const fontSize = this.calcCcFontSize(userVideoElement)
     const userCcAreaElement = document.createElement("div")
     userCcAreaElement.style.position = "absolute"
     userCcAreaElement.style.bottom = "0"
@@ -64,16 +73,21 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcAreaElement.style.overflow = "hidden"
     userCcAreaElement.scrollTop = 1000
     userCcAreaElement.className = userCcAreaClassName
-    if (fontSize >= 16) {
-      userCcAreaElement.style.height = `${
-        userVideoElement.clientHeight / 3.3
-      }px`
-      const padding = (userVideoElement.clientWidth * 0.365) / 2
-      userCcAreaElement.style.paddingLeft = `${padding}px`
-      userCcAreaElement.style.paddingRight = `${padding}px`
-    } else {
-      userCcAreaElement.style.paddingLeft = `10px`
-      userCcAreaElement.style.paddingRight = `10px`
+    const ccSize = this.calcCcSize(userVideoElement)
+    switch (ccSize) {
+      case CcSize.Large:
+        userCcAreaElement.style.height = `${
+          userVideoElement.clientHeight / 3.3
+        }px`
+        const padding = (userVideoElement.clientWidth * 0.365) / 2
+        userCcAreaElement.style.paddingLeft = `${padding}px`
+        userCcAreaElement.style.paddingRight = `${padding}px`
+        break
+      case CcSize.SMALL:
+        userCcAreaElement.style.paddingLeft = `10px`
+        userCcAreaElement.style.paddingRight = `10px`
+      default:
+        break
     }
     userVideoElement.parentElement?.after(userCcAreaElement)
     this.appendDisplayElement(name, userCcAreaElement)
@@ -93,17 +107,21 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     if (userCcAreaElement) {
       userCcAreaElement.scrollTop = 1000
     }
-    const fontSize = this.calcCcFontSize(userVideoElement)
-    if (fontSize >= 16) {
-      userCcAreaElement.style.height = `${
-        userVideoElement.clientHeight / 3.3
-      }px`
-      const padding = (userVideoElement.clientWidth * 0.365) / 2
-      userCcAreaElement.style.paddingLeft = `${padding}px`
-      userCcAreaElement.style.paddingRight = `${padding}px`
-    } else {
-      userCcAreaElement.style.paddingLeft = `10px`
-      userCcAreaElement.style.paddingRight = `10px`
+    const ccSize = this.calcCcSize(userVideoElement)
+    switch (ccSize) {
+      case CcSize.Large:
+        userCcAreaElement.style.height = `${
+          userVideoElement.clientHeight / 3.3
+        }px`
+        const padding = (userVideoElement.clientWidth * 0.365) / 2
+        userCcAreaElement.style.paddingLeft = `${padding}px`
+        userCcAreaElement.style.paddingRight = `${padding}px`
+        break
+      case CcSize.SMALL:
+        userCcAreaElement.style.paddingLeft = `10px`
+        userCcAreaElement.style.paddingRight = `10px`
+      default:
+        break
     }
     this.deleteDisplayElement(name)
     this.appendDisplayElement(name, userCcAreaElement)
@@ -131,14 +149,21 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
     userCcElement.style.fontWeight = "700"
     userCcElement.style.pointerEvents = "none"
-    const fontSize = this.calcCcFontSize(userVideoElement)
-    fontSize < 18
-      ? (userCcElement.style.fontSize = "15px")
-      : (userCcElement.style.fontSize = `${fontSize}px`)
-    fontSize < 27
-      ? (userCcElement.style.webkitTextStroke = "1px #000")
-      : (userCcElement.style.webkitTextStroke = "2px #000")
-
+    const ccSize = this.calcCcSize(userVideoElement)
+    switch (ccSize) {
+      case CcSize.Large:
+        const fontSize =
+          Math.floor(userVideoElement.clientWidth / 35) *
+          (this.userCcFontSizeRate * 2)
+        userCcElement.style.fontSize = `${fontSize}px`
+        userCcElement.style.webkitTextStroke = "2px #000"
+        break
+      case CcSize.SMALL:
+        userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`
+        userCcElement.style.webkitTextStroke = "1px #000"
+      default:
+        break
+    }
     this.getElement(name)?.appendChild(userCcElement)
   }
 
@@ -155,13 +180,22 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     // 「。」で改行させる
     userCcElement.innerHTML = speach.replace(/\。/g, "<br>")
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
-    const fontSize = this.calcCcFontSize(userVideoElement)
-    fontSize < 18
-      ? (userCcElement.style.fontSize = "15px")
-      : (userCcElement.style.fontSize = `${fontSize}px`)
-    fontSize < 27
-      ? (userCcElement.style.webkitTextStroke = "1px #000")
-      : (userCcElement.style.webkitTextStroke = "2px #000")
+
+    const ccSize = this.calcCcSize(userVideoElement)
+    switch (ccSize) {
+      case CcSize.Large:
+        const fontSize =
+          Math.floor(userVideoElement.clientWidth / 35) *
+          (this.userCcFontSizeRate * 2)
+        userCcElement.style.fontSize = `${fontSize}px`
+        userCcElement.style.webkitTextStroke = "2px #000"
+        break
+      case CcSize.SMALL:
+        userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`
+        userCcElement.style.webkitTextStroke = "1px #000"
+      default:
+        break
+    }
   }
 
   // 字幕 削除
@@ -172,18 +206,50 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   }
 
   // 字幕のフォントサイズを計算
-  calcCcFontSize = (element: Element): number => {
-    return Math.floor(element.clientWidth / 35)
+  calcCcSize = (element: Element): CcSize => {
+    return Math.floor(element.clientWidth / 35) >= 16
+      ? CcSize.Large
+      : CcSize.SMALL
   }
 
   // 字幕の透明度を変える
-  private userCcOpacityRate = 0.5
-  setUserCcOpacityRate = (opacityRate: number) => {
+  setUserCcOpacityRate = (opacityRate: number): void => {
     this.userCcOpacityRate = opacityRate
     this.displayElements.forEach((x) => {
       x.element.style.opacity = this.userCcOpacityRate.toString()
     })
   }
+
+  // 字幕のフォントサイズを変える
+  setFontSizeRate = (fontSizeRate: number): void => {
+    this.userCcFontSizeRate = fontSizeRate
+    this.displayElements.forEach((x) => {
+      const userVideoElement = this.usersAreaElement.findUserVideoElement(
+        x.name
+      )
+      if (!userVideoElement) return
+      const ccSize = this.calcCcSize(userVideoElement)
+      const userCcElement = this.findCcElement(x.name)
+      if (!userCcElement) return
+      switch (ccSize) {
+        case CcSize.Large:
+          const fontSize =
+            Math.floor(userVideoElement.clientWidth / 35) *
+            (this.userCcFontSizeRate * 2)
+          userCcElement.style.fontSize = `${fontSize}px`
+          userCcElement.style.webkitTextStroke = "2px #000"
+          break
+        case CcSize.SMALL:
+          userCcElement.style.fontSize = `${
+            15 * (this.userCcFontSizeRate * 2)
+          }px`
+          userCcElement.style.webkitTextStroke = "1px #000"
+        default:
+          break
+      }
+    })
+  }
+
   private displayElements: {
     name: string
     time: number
