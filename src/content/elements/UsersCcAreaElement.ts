@@ -141,7 +141,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     const userCcElement = document.createElement("div")
 
     // 「。」で改行させる
-    userCcElement.innerHTML = speach.replace(/\。/g, "<br>")
+    userCcElement.innerHTML = speach.replace(/\。/g, "。<br>")
     userCcElement.style.color = "white"
     userCcElement.style.margin = "0"
     userCcElement.style.zIndex = "1000001"
@@ -178,7 +178,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     if (!userCcElement) return
 
     // 「。」で改行させる
-    userCcElement.innerHTML = speach.replace(/\。/g, "<br>")
+    userCcElement.innerHTML = speach.replace(/\。/g, "。<br>")
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
 
     const ccSize = this.calcCcSize(userVideoElement)

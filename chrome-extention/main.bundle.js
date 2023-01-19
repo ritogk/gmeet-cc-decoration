@@ -209,7 +209,7 @@ class UsersCcAreaElement {
                 return;
             const userCcElement = document.createElement("div");
             // 「。」で改行させる
-            userCcElement.innerHTML = speach.replace(/\。/g, "<br>");
+            userCcElement.innerHTML = speach.replace(/\。/g, "。<br>");
             userCcElement.style.color = "white";
             userCcElement.style.margin = "0";
             userCcElement.style.zIndex = "1000001";
@@ -245,7 +245,7 @@ class UsersCcAreaElement {
             if (!userCcElement)
                 return;
             // 「。」で改行させる
-            userCcElement.innerHTML = speach.replace(/\。/g, "<br>");
+            userCcElement.innerHTML = speach.replace(/\。/g, "。<br>");
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
