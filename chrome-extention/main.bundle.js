@@ -150,7 +150,7 @@ class UsersCcAreaElement {
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
                 case CcSize.Large:
-                    userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                    userCcAreaElement.style.height = `${userVideoElement.clientHeight / 2.8}px`;
                     const padding = (userVideoElement.clientWidth * 0.28) / 2;
                     userCcAreaElement.style.paddingLeft = `${padding}px`;
                     userCcAreaElement.style.paddingRight = `${padding}px`;
@@ -180,7 +180,7 @@ class UsersCcAreaElement {
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
                 case CcSize.Large:
-                    userCcAreaElement.style.height = `${userVideoElement.clientHeight / 3.3}px`;
+                    userCcAreaElement.style.height = `${userVideoElement.clientHeight / 2.9}px`;
                     const padding = (userVideoElement.clientWidth * 0.28) / 2;
                     userCcAreaElement.style.paddingLeft = `${padding}px`;
                     userCcAreaElement.style.paddingRight = `${padding}px`;
@@ -837,7 +837,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const main = async () => {
-    const debug = true;
+    const debug = false;
     const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(debug);
     logger.log("start: application");
     const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();

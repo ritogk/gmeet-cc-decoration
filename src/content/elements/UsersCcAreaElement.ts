@@ -79,7 +79,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     switch (ccSize) {
       case CcSize.Large:
         userCcAreaElement.style.height = `${
-          userVideoElement.clientHeight / 3.3
+          userVideoElement.clientHeight / 2.8
         }px`
         const padding = (userVideoElement.clientWidth * 0.28) / 2
         userCcAreaElement.style.paddingLeft = `${padding}px`
@@ -113,7 +113,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     switch (ccSize) {
       case CcSize.Large:
         userCcAreaElement.style.height = `${
-          userVideoElement.clientHeight / 3.3
+          userVideoElement.clientHeight / 2.9
         }px`
         const padding = (userVideoElement.clientWidth * 0.28) / 2
         userCcAreaElement.style.paddingLeft = `${padding}px`

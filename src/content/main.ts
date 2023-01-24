@@ -8,7 +8,7 @@ import { CcOveserver } from "@/content/core/ccOveserver"
 import { Logger } from "@/core/logger"
 
 export const main = async (): Promise<void> => {
-  const debug = true
+  const debug = false
 
   const logger = new Logger(debug)
   logger.log("start: application")
