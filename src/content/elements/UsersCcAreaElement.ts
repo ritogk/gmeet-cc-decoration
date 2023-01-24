@@ -28,11 +28,13 @@ enum CcSize {
  * 全ユーザーの字幕Elementに関するクラス
  */
 export class UsersCcAreaElement implements usersCcAreaElementInterface {
+  private interval_excuting = false
   private usersAreaElement: UsersAreaElement
   private userCcOpacityRate = 0.5
   private userCcFontSizeRate = 0.5
 
-  constructor() {
+  constructor(interval_excuting: boolean) {
+    this.interval_excuting = interval_excuting
     this.usersAreaElement = new UsersAreaElement()
   }
 
@@ -276,6 +278,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private readonly cclimitSecond = 8
   private intervalId: number = 0
   runInterval = (): void => {
+    if (!this.interval_excuting) return
     // 一定時間表示した字幕は消す
     this.intervalId = window.setInterval(() => {
       const oldDisplayElements = this.displayElements.filter(

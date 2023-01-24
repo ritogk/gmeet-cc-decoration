@@ -109,7 +109,8 @@ var CcSize;
  * 全ユーザーの字幕Elementに関するクラス
  */
 class UsersCcAreaElement {
-    constructor() {
+    constructor(interval_excuting) {
+        this.interval_excuting = false;
         this.userCcOpacityRate = 0.5;
         this.userCcFontSizeRate = 0.5;
         this.getElements = () => {
@@ -326,6 +327,8 @@ class UsersCcAreaElement {
         this.cclimitSecond = 8;
         this.intervalId = 0;
         this.runInterval = () => {
+            if (!this.interval_excuting)
+                return;
             // 一定時間表示した字幕は消す
             this.intervalId = window.setInterval(() => {
                 const oldDisplayElements = this.displayElements.filter((x) => (new Date().getTime() - x.time) / 1000 > this.cclimitSecond);
@@ -338,6 +341,7 @@ class UsersCcAreaElement {
         this.stopInterval = () => {
             clearInterval(this.intervalId);
         };
+        this.interval_excuting = interval_excuting;
         this.usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_0__.UsersAreaElement();
     }
 }
@@ -833,10 +837,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const main = async () => {
-    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(true);
+    const debug = true;
+    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(debug);
     logger.log("start: application");
     const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
-    const usersCcAreaElement = new _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersCcAreaElement();
+    const usersCcAreaElement = new _content_elements_UsersCcAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersCcAreaElement(debug);
     const ccAreaElement = new _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_4__.CcAreaElement();
     // const screenSharingCcAreaElement = new ScreenSharingCcAreaElement()
     let screenShared = false;

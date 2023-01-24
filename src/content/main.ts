@@ -8,11 +8,13 @@ import { CcOveserver } from "@/content/core/ccOveserver"
 import { Logger } from "@/core/logger"
 
 export const main = async (): Promise<void> => {
-  const logger = new Logger(true)
+  const debug = true
+
+  const logger = new Logger(debug)
   logger.log("start: application")
 
   const usersAreaElement = new UsersAreaElement()
-  const usersCcAreaElement = new UsersCcAreaElement()
+  const usersCcAreaElement = new UsersCcAreaElement(debug)
   const ccAreaElement = new CcAreaElement()
   // const screenSharingCcAreaElement = new ScreenSharingCcAreaElement()
   let screenShared = false
