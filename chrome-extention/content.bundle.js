@@ -220,7 +220,7 @@ class UsersCcAreaElement {
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
                 case CcSize.Large:
-                    const fontSize = Math.floor(userVideoElement.clientWidth / 35) *
+                    const fontSize = Math.floor(userVideoElement.clientWidth / 30) *
                         (this.userCcFontSizeRate * 2);
                     userCcElement.style.fontSize = `${fontSize}px`;
                     userCcElement.style.webkitTextStroke = "2px #000";
@@ -250,7 +250,7 @@ class UsersCcAreaElement {
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
                 case CcSize.Large:
-                    const fontSize = Math.floor(userVideoElement.clientWidth / 35) *
+                    const fontSize = Math.floor(userVideoElement.clientWidth / 30) *
                         (this.userCcFontSizeRate * 2);
                     userCcElement.style.fontSize = `${fontSize}px`;
                     userCcElement.style.webkitTextStroke = "2px #000";
@@ -271,9 +271,7 @@ class UsersCcAreaElement {
         };
         // 字幕のフォントサイズを計算
         this.calcCcSize = (element) => {
-            return Math.floor(element.clientWidth / 35) >= 16
-                ? CcSize.Large
-                : CcSize.SMALL;
+            return element.clientWidth >= 550 ? CcSize.Large : CcSize.SMALL;
         };
         // 字幕の透明度を変える
         this.setUserCcOpacityRate = (opacityRate) => {
@@ -301,7 +299,7 @@ class UsersCcAreaElement {
                     return;
                 switch (ccSize) {
                     case CcSize.Large:
-                        const fontSize = Math.floor(userVideoElement.clientWidth / 35) *
+                        const fontSize = Math.floor(userVideoElement.clientWidth / 30) *
                             (this.userCcFontSizeRate * 2);
                         userCcElement.style.fontSize = `${fontSize}px`;
                         userCcElement.style.webkitTextStroke = "2px #000";

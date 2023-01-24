@@ -153,7 +153,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     switch (ccSize) {
       case CcSize.Large:
         const fontSize =
-          Math.floor(userVideoElement.clientWidth / 35) *
+          Math.floor(userVideoElement.clientWidth / 30) *
           (this.userCcFontSizeRate * 2)
         userCcElement.style.fontSize = `${fontSize}px`
         userCcElement.style.webkitTextStroke = "2px #000"
@@ -185,7 +185,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     switch (ccSize) {
       case CcSize.Large:
         const fontSize =
-          Math.floor(userVideoElement.clientWidth / 35) *
+          Math.floor(userVideoElement.clientWidth / 30) *
           (this.userCcFontSizeRate * 2)
         userCcElement.style.fontSize = `${fontSize}px`
         userCcElement.style.webkitTextStroke = "2px #000"
@@ -207,9 +207,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
 
   // 字幕のフォントサイズを計算
   calcCcSize = (element: Element): CcSize => {
-    return Math.floor(element.clientWidth / 35) >= 16
-      ? CcSize.Large
-      : CcSize.SMALL
+    return element.clientWidth >= 550 ? CcSize.Large : CcSize.SMALL
   }
 
   // 字幕の透明度を変える
@@ -240,7 +238,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       switch (ccSize) {
         case CcSize.Large:
           const fontSize =
-            Math.floor(userVideoElement.clientWidth / 35) *
+            Math.floor(userVideoElement.clientWidth / 30) *
             (this.userCcFontSizeRate * 2)
           userCcElement.style.fontSize = `${fontSize}px`
           userCcElement.style.webkitTextStroke = "2px #000"
