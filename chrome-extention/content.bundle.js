@@ -218,20 +218,9 @@ class UsersCcAreaElement {
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
             userCcElement.style.fontWeight = "700";
             userCcElement.style.pointerEvents = "none";
-            const ccSize = this.calcCcSize(userVideoElement);
-            switch (ccSize) {
-                case CcSize.Large:
-                    const fontSize = Math.floor(userVideoElement.clientWidth / 30) *
-                        (this.userCcFontSizeRate * 2);
-                    userCcElement.style.fontSize = `${fontSize}px`;
-                    userCcElement.style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
-                    break;
-                case CcSize.SMALL:
-                    userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`;
-                    userCcElement.style.webkitTextStroke = "1px #000";
-                default:
-                    break;
-            }
+            const style = this.generateUserCcStyle(userVideoElement.clientWidth);
+            userCcElement.style.fontSize = style.fontSize;
+            userCcElement.style.webkitTextStroke = style.webkitTextStroke;
             (_a = this.getElement(name)) === null || _a === void 0 ? void 0 : _a.appendChild(userCcElement);
         };
         // 字幕 更新
@@ -248,20 +237,9 @@ class UsersCcAreaElement {
             // 「。」で改行させる
             userCcElement.innerHTML = speach.replace(/\。/g, "。<br>");
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
-            const ccSize = this.calcCcSize(userVideoElement);
-            switch (ccSize) {
-                case CcSize.Large:
-                    const fontSize = Math.floor(userVideoElement.clientWidth / 30) *
-                        (this.userCcFontSizeRate * 2);
-                    userCcElement.style.fontSize = `${fontSize}px`;
-                    userCcElement.style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
-                    break;
-                case CcSize.SMALL:
-                    userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`;
-                    userCcElement.style.webkitTextStroke = "1px #000";
-                default:
-                    break;
-            }
+            const style = this.generateUserCcStyle(userVideoElement.clientWidth);
+            userCcElement.style.fontSize = style.fontSize;
+            userCcElement.style.webkitTextStroke = style.webkitTextStroke;
         };
         // 字幕 削除
         this.deleteCcElement = (name) => {
@@ -294,24 +272,31 @@ class UsersCcAreaElement {
                 const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
                 if (!userVideoElement)
                     return;
-                const ccSize = this.calcCcSize(userVideoElement);
+                const style = this.generateUserCcStyle(userVideoElement.clientWidth);
                 const userCcElement = this.findCcElement(x.name);
                 if (!userCcElement)
                     return;
-                switch (ccSize) {
-                    case CcSize.Large:
-                        const fontSize = Math.floor(userVideoElement.clientWidth / 30) *
-                            (this.userCcFontSizeRate * 2);
-                        userCcElement.style.fontSize = `${fontSize}px`;
-                        userCcElement.style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
-                        break;
-                    case CcSize.SMALL:
-                        userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`;
-                        userCcElement.style.webkitTextStroke = "1px #000";
-                    default:
-                        break;
-                }
+                userCcElement.style.fontSize = style.fontSize;
+                userCcElement.style.webkitTextStroke = style.webkitTextStroke;
             });
+        };
+        // 字幕のstyleを生成する
+        this.generateUserCcStyle = (baseWidth) => {
+            const style = { fontSize: "15px", webkitTextStroke: "1px #000" };
+            const ccSize = baseWidth >= 550 ? CcSize.Large : CcSize.SMALL;
+            switch (ccSize) {
+                case CcSize.Large:
+                    const fontSize = Math.floor(baseWidth / 30) * (this.userCcFontSizeRate * 2);
+                    style.fontSize = `${fontSize}px`;
+                    style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
+                    break;
+                case CcSize.SMALL:
+                    style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`;
+                    style.webkitTextStroke = "1px #000";
+                default:
+                    break;
+            }
+            return style;
         };
         this.displayElements = [];
         this.appendDisplayElement = (name, element) => {
