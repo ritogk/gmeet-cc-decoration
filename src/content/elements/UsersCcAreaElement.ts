@@ -61,6 +61,8 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   createElement = (name: string): void => {
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
+    const userAreaElement = this.usersAreaElement.findUserAreaElement(name)
+    if (!userAreaElement) return
 
     const userCcAreaElement = document.createElement("div")
     userCcAreaElement.style.position = "absolute"
@@ -75,19 +77,19 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcAreaElement.style.overflow = "hidden"
     userCcAreaElement.scrollTop = 1000
     userCcAreaElement.className = userCcAreaClassName
-    const ccSize = this.calcCcSize(userVideoElement)
+    const ccSize = this.calcCcSize(userAreaElement)
     switch (ccSize) {
       case CcSize.Large:
         userCcAreaElement.style.height = `${
-          (userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
+          (userAreaElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
         }px`
-        const padding = (userVideoElement.clientWidth * 0.28) / 2
+        const padding = (userAreaElement.clientWidth * 0.28) / 2
         userCcAreaElement.style.paddingLeft = `${padding}px`
         userCcAreaElement.style.paddingRight = `${padding}px`
         break
       case CcSize.SMALL:
         userCcAreaElement.style.height = `${
-          (userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
+          (userAreaElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
         }px`
         userCcAreaElement.style.paddingLeft = `10px`
         userCcAreaElement.style.paddingRight = `10px`
@@ -112,19 +114,19 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     if (userCcAreaElement) {
       userCcAreaElement.scrollTop = 1000
     }
-    const ccSize = this.calcCcSize(userVideoElement)
+    const ccSize = this.calcCcSize(userCcAreaElement)
     switch (ccSize) {
       case CcSize.Large:
         userCcAreaElement.style.height = `${
-          (userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
+          (userAreaElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
         }px`
-        const padding = (userVideoElement.clientWidth * 0.28) / 2
+        const padding = (userAreaElement.clientWidth * 0.28) / 2
         userCcAreaElement.style.paddingLeft = `${padding}px`
         userCcAreaElement.style.paddingRight = `${padding}px`
         break
       case CcSize.SMALL:
         userCcAreaElement.style.height = `${
-          (userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
+          (userAreaElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
         }px`
         userCcAreaElement.style.paddingLeft = `10px`
         userCcAreaElement.style.paddingRight = `10px`
@@ -146,6 +148,9 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   appendCcElement = (name: string, speach: string): void => {
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
+    const userAreaElement = this.usersAreaElement.findUserAreaElement(name)
+    if (!userAreaElement) return
+
     const userCcElement = document.createElement("div")
 
     // 「。」で改行させる
@@ -158,7 +163,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcElement.style.fontWeight = "700"
     userCcElement.style.pointerEvents = "none"
 
-    const style = this.generateUserCcStyle(userVideoElement.clientWidth)
+    const style = this.generateUserCcStyle(userAreaElement.clientWidth)
     userCcElement.style.fontSize = style.fontSize
     userCcElement.style.webkitTextStroke = style.webkitTextStroke
     this.getElement(name)?.appendChild(userCcElement)
@@ -171,6 +176,8 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
 
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
+    const userAreaElement = this.usersAreaElement.findUserAreaElement(name)
+    if (!userAreaElement) return
     const userCcElement = this.findCcElement(name)
     if (!userCcElement) return
 
@@ -178,7 +185,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcElement.innerHTML = speach.replace(/\。/g, "。<br>")
     userCcElement.style.opacity = this.userCcOpacityRate.toString()
 
-    const style = this.generateUserCcStyle(userVideoElement.clientWidth)
+    const style = this.generateUserCcStyle(userAreaElement.clientWidth)
     userCcElement.style.fontSize = style.fontSize
     userCcElement.style.webkitTextStroke = style.webkitTextStroke
   }
@@ -217,20 +224,22 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
         x.name
       )
       if (!userVideoElement) return
+      const userAreaElement = this.usersAreaElement.findUserAreaElement(x.name)
+      if (!userAreaElement) return
 
-      const ccSize = this.calcCcSize(userVideoElement)
+      const ccSize = this.calcCcSize(userAreaElement)
       switch (ccSize) {
         case CcSize.Large:
           x.element.style.height = `${
-            (userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
+            (userAreaElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
           }px`
-          const padding = (userVideoElement.clientWidth * 0.28) / 2
+          const padding = (userAreaElement.clientWidth * 0.28) / 2
           x.element.style.paddingLeft = `${padding}px`
           x.element.style.paddingRight = `${padding}px`
           break
         case CcSize.SMALL:
           x.element.style.height = `${
-            (userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
+            (userAreaElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
           }px`
           x.element.style.paddingLeft = `10px`
           x.element.style.paddingRight = `10px`
@@ -238,7 +247,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
           break
       }
 
-      const style = this.generateUserCcStyle(userVideoElement.clientWidth)
+      const style = this.generateUserCcStyle(userAreaElement.clientWidth)
       const userCcElement = this.findCcElement(x.name)
       if (!userCcElement) return
       userCcElement.style.fontSize = style.fontSize
