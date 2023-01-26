@@ -1,7 +1,7 @@
 type ChromeStorageKey =
   | "configOpacityRate"
   | "configDisplayOriginalCc"
-  | "configFontSizeRate"
+  | "configCcSizeRate"
 
 export const getStorage = async <T>(
   key: ChromeStorageKey

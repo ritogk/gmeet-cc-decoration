@@ -112,7 +112,7 @@ class UsersCcAreaElement {
     constructor(interval_excuting) {
         this.interval_excuting = false;
         this.userCcOpacityRate = 0.5;
-        this.userCcFontSizeRate = 0.5;
+        this.userCcSizeRate = 0.5;
         this.getElements = () => {
             var _a;
             return (_a = this.usersAreaElement
@@ -150,13 +150,13 @@ class UsersCcAreaElement {
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
                 case CcSize.Large:
-                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.8) * (this.userCcFontSizeRate * 2)}px`;
+                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)}px`;
                     const padding = (userVideoElement.clientWidth * 0.28) / 2;
                     userCcAreaElement.style.paddingLeft = `${padding}px`;
                     userCcAreaElement.style.paddingRight = `${padding}px`;
                     break;
                 case CcSize.SMALL:
-                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.1) * (this.userCcFontSizeRate * 2)}px`;
+                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)}px`;
                     userCcAreaElement.style.paddingLeft = `10px`;
                     userCcAreaElement.style.paddingRight = `10px`;
                 default:
@@ -181,13 +181,13 @@ class UsersCcAreaElement {
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
                 case CcSize.Large:
-                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.8) * (this.userCcFontSizeRate * 2)}px`;
+                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)}px`;
                     const padding = (userVideoElement.clientWidth * 0.28) / 2;
                     userCcAreaElement.style.paddingLeft = `${padding}px`;
                     userCcAreaElement.style.paddingRight = `${padding}px`;
                     break;
                 case CcSize.SMALL:
-                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.1) * (this.userCcFontSizeRate * 2)}px`;
+                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)}px`;
                     userCcAreaElement.style.paddingLeft = `10px`;
                     userCcAreaElement.style.paddingRight = `10px`;
                 default:
@@ -267,9 +267,9 @@ class UsersCcAreaElement {
                 userCcElement.style.opacity = this.userCcOpacityRate.toString();
             });
         };
-        // 字幕のフォントサイズを変える
-        this.setFontSizeRate = (fontSizeRate) => {
-            this.userCcFontSizeRate = fontSizeRate;
+        // 字幕のサイズを変える
+        this.setCcSizeRate = (ccSizeRate) => {
+            this.userCcSizeRate = ccSizeRate;
             this.displayElements.forEach((x) => {
                 const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
                 if (!userVideoElement)
@@ -277,15 +277,13 @@ class UsersCcAreaElement {
                 const ccSize = this.calcCcSize(userVideoElement);
                 switch (ccSize) {
                     case CcSize.Large:
-                        x.element.style.height = `${(userVideoElement.clientHeight / 2.8) *
-                            (this.userCcFontSizeRate * 2)}px`;
+                        x.element.style.height = `${(userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)}px`;
                         const padding = (userVideoElement.clientWidth * 0.28) / 2;
                         x.element.style.paddingLeft = `${padding}px`;
                         x.element.style.paddingRight = `${padding}px`;
                         break;
                     case CcSize.SMALL:
-                        x.element.style.height = `${(userVideoElement.clientHeight / 2.1) *
-                            (this.userCcFontSizeRate * 2)}px`;
+                        x.element.style.height = `${(userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)}px`;
                         x.element.style.paddingLeft = `10px`;
                         x.element.style.paddingRight = `10px`;
                     default:
@@ -305,12 +303,12 @@ class UsersCcAreaElement {
             const ccSize = baseWidth >= 550 ? CcSize.Large : CcSize.SMALL;
             switch (ccSize) {
                 case CcSize.Large:
-                    const fontSize = Math.floor(baseWidth / 30) * (this.userCcFontSizeRate * 2);
+                    const fontSize = Math.floor(baseWidth / 30) * (this.userCcSizeRate * 2);
                     style.fontSize = `${fontSize}px`;
                     style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
                     break;
                 case CcSize.SMALL:
-                    style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`;
+                    style.fontSize = `${15 * (this.userCcSizeRate * 2)}px`;
                     style.webkitTextStroke = "1px #000";
                 default:
                     break;
@@ -662,7 +660,7 @@ const main = async () => {
         else {
             ccAreaElement.hideElement();
         }
-        usersCcAreaElement.setFontSizeRate(config.fontSizeRate);
+        usersCcAreaElement.setCcSizeRate(config.ccSizeRate);
     };
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
@@ -676,7 +674,7 @@ const main = async () => {
     else {
         ccAreaElement.hideElement();
     }
-    usersCcAreaElement.setFontSizeRate(config.getConfig().fontSizeRate);
+    usersCcAreaElement.setCcSizeRate(config.getConfig().ccSizeRate);
     // screenSharingCcAreaElement.setUserCcOpacityRate(
     //   config.getConfig().opacityRate
     // )
@@ -823,7 +821,7 @@ class Config {
         this.config = {
             opacityRate: 0.5,
             displayOriginalCc: DisplayOriginalCc.OK,
-            fontSizeRate: 0.5,
+            ccSizeRate: 0.5,
         };
         this.getConfig = () => {
             return this.config;
@@ -838,8 +836,8 @@ class Config {
                 (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configOpacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
             this.config.displayOriginalCc =
                 (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configDisplayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
-            this.config.fontSizeRate =
-                (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configFontSizeRate"))) !== null && _c !== void 0 ? _c : this.config.opacityRate;
+            this.config.ccSizeRate =
+                (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcSizeRate"))) !== null && _c !== void 0 ? _c : this.config.opacityRate;
         };
         this.observeGoogleStorage = () => {
             chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -850,8 +848,8 @@ class Config {
                 if ("configDisplayOriginalCc" in changes) {
                     config.displayOriginalCc = changes.configDisplayOriginalCc.newValue;
                 }
-                if ("configFontSizeRate" in changes) {
-                    config.fontSizeRate = changes.configFontSizeRate.newValue;
+                if ("configCcSizeRate" in changes) {
+                    config.ccSizeRate = changes.configCcSizeRate.newValue;
                 }
                 this.setConfig(config);
             });

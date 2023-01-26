@@ -11,7 +11,7 @@ export interface usersCcAreaElementInterface {
   updateCcElement: (name: string, speach: string) => void
   deleteCcElement: (name: string) => void
   setUserCcOpacityRate: (opacityRate: number) => void
-  setFontSizeRate: (fontSizeRate: number) => void
+  setCcSizeRate: (ccSizeRate: number) => void
   runInterval: () => void
   stopInterval: () => void
 }
@@ -31,7 +31,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private interval_excuting = false
   private usersAreaElement: UsersAreaElement
   private userCcOpacityRate = 0.5
-  private userCcFontSizeRate = 0.5
+  private userCcSizeRate = 0.5
 
   constructor(interval_excuting: boolean) {
     this.interval_excuting = interval_excuting
@@ -79,7 +79,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     switch (ccSize) {
       case CcSize.Large:
         userCcAreaElement.style.height = `${
-          (userVideoElement.clientHeight / 2.8) * (this.userCcFontSizeRate * 2)
+          (userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
         }px`
         const padding = (userVideoElement.clientWidth * 0.28) / 2
         userCcAreaElement.style.paddingLeft = `${padding}px`
@@ -87,7 +87,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
         break
       case CcSize.SMALL:
         userCcAreaElement.style.height = `${
-          (userVideoElement.clientHeight / 2.1) * (this.userCcFontSizeRate * 2)
+          (userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
         }px`
         userCcAreaElement.style.paddingLeft = `10px`
         userCcAreaElement.style.paddingRight = `10px`
@@ -116,7 +116,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     switch (ccSize) {
       case CcSize.Large:
         userCcAreaElement.style.height = `${
-          (userVideoElement.clientHeight / 2.8) * (this.userCcFontSizeRate * 2)
+          (userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
         }px`
         const padding = (userVideoElement.clientWidth * 0.28) / 2
         userCcAreaElement.style.paddingLeft = `${padding}px`
@@ -124,7 +124,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
         break
       case CcSize.SMALL:
         userCcAreaElement.style.height = `${
-          (userVideoElement.clientHeight / 2.1) * (this.userCcFontSizeRate * 2)
+          (userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
         }px`
         userCcAreaElement.style.paddingLeft = `10px`
         userCcAreaElement.style.paddingRight = `10px`
@@ -209,9 +209,9 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     })
   }
 
-  // 字幕のフォントサイズを変える
-  setFontSizeRate = (fontSizeRate: number): void => {
-    this.userCcFontSizeRate = fontSizeRate
+  // 字幕のサイズを変える
+  setCcSizeRate = (ccSizeRate: number): void => {
+    this.userCcSizeRate = ccSizeRate
     this.displayElements.forEach((x) => {
       const userVideoElement = this.usersAreaElement.findUserVideoElement(
         x.name
@@ -222,8 +222,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       switch (ccSize) {
         case CcSize.Large:
           x.element.style.height = `${
-            (userVideoElement.clientHeight / 2.8) *
-            (this.userCcFontSizeRate * 2)
+            (userVideoElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
           }px`
           const padding = (userVideoElement.clientWidth * 0.28) / 2
           x.element.style.paddingLeft = `${padding}px`
@@ -231,8 +230,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
           break
         case CcSize.SMALL:
           x.element.style.height = `${
-            (userVideoElement.clientHeight / 2.1) *
-            (this.userCcFontSizeRate * 2)
+            (userVideoElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
           }px`
           x.element.style.paddingLeft = `10px`
           x.element.style.paddingRight = `10px`
@@ -256,13 +254,12 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     const ccSize = baseWidth >= 550 ? CcSize.Large : CcSize.SMALL
     switch (ccSize) {
       case CcSize.Large:
-        const fontSize =
-          Math.floor(baseWidth / 30) * (this.userCcFontSizeRate * 2)
+        const fontSize = Math.floor(baseWidth / 30) * (this.userCcSizeRate * 2)
         style.fontSize = `${fontSize}px`
         style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`
         break
       case CcSize.SMALL:
-        style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`
+        style.fontSize = `${15 * (this.userCcSizeRate * 2)}px`
         style.webkitTextStroke = "1px #000"
       default:
         break

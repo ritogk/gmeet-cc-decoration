@@ -35,7 +35,7 @@ export const main = async (): Promise<void> => {
     } else {
       ccAreaElement.hideElement()
     }
-    usersCcAreaElement.setFontSizeRate(config.fontSizeRate)
+    usersCcAreaElement.setCcSizeRate(config.ccSizeRate)
   }
   const config = new Config(callbackFuncChangeConfig)
   await config.loadConfig()
@@ -49,7 +49,7 @@ export const main = async (): Promise<void> => {
   } else {
     ccAreaElement.hideElement()
   }
-  usersCcAreaElement.setFontSizeRate(config.getConfig().fontSizeRate)
+  usersCcAreaElement.setCcSizeRate(config.getConfig().ccSizeRate)
   // screenSharingCcAreaElement.setUserCcOpacityRate(
   //   config.getConfig().opacityRate
   // )

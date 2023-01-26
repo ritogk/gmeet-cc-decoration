@@ -14,7 +14,7 @@ export enum DisplayOriginalCc {
 export interface ConfigObjectInterface {
   opacityRate: number
   displayOriginalCc: DisplayOriginalCc
-  fontSizeRate: number
+  ccSizeRate: number
 }
 
 /**
@@ -24,7 +24,7 @@ export class Config implements ConfigInterface {
   private config: ConfigObjectInterface = {
     opacityRate: 0.5,
     displayOriginalCc: DisplayOriginalCc.OK,
-    fontSizeRate: 0.5,
+    ccSizeRate: 0.5,
   }
 
   private callbackFuncChangeConfig: (config: ConfigObjectInterface) => void
@@ -48,8 +48,8 @@ export class Config implements ConfigInterface {
     this.config.displayOriginalCc =
       (await getStorage("configDisplayOriginalCc")) ??
       this.config.displayOriginalCc
-    this.config.fontSizeRate =
-      (await getStorage("configFontSizeRate")) ?? this.config.opacityRate
+    this.config.ccSizeRate =
+      (await getStorage("configCcSizeRate")) ?? this.config.opacityRate
   }
 
   observeGoogleStorage = (): void => {
@@ -61,8 +61,8 @@ export class Config implements ConfigInterface {
       if ("configDisplayOriginalCc" in changes) {
         config.displayOriginalCc = changes.configDisplayOriginalCc.newValue
       }
-      if ("configFontSizeRate" in changes) {
-        config.fontSizeRate = changes.configFontSizeRate.newValue
+      if ("configCcSizeRate" in changes) {
+        config.ccSizeRate = changes.configCcSizeRate.newValue
       }
       this.setConfig(config)
     })

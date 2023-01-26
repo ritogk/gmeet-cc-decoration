@@ -55,7 +55,7 @@ class Config {
         this.config = {
             opacityRate: 0.5,
             displayOriginalCc: DisplayOriginalCc.OK,
-            fontSizeRate: 0.5,
+            ccSizeRate: 0.5,
         };
         this.getConfig = () => {
             return this.config;
@@ -70,8 +70,8 @@ class Config {
                 (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configOpacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
             this.config.displayOriginalCc =
                 (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configDisplayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
-            this.config.fontSizeRate =
-                (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configFontSizeRate"))) !== null && _c !== void 0 ? _c : this.config.opacityRate;
+            this.config.ccSizeRate =
+                (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcSizeRate"))) !== null && _c !== void 0 ? _c : this.config.opacityRate;
         };
         this.observeGoogleStorage = () => {
             chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -82,8 +82,8 @@ class Config {
                 if ("configDisplayOriginalCc" in changes) {
                     config.displayOriginalCc = changes.configDisplayOriginalCc.newValue;
                 }
-                if ("configFontSizeRate" in changes) {
-                    config.fontSizeRate = changes.configFontSizeRate.newValue;
+                if ("configCcSizeRate" in changes) {
+                    config.ccSizeRate = changes.configCcSizeRate.newValue;
                 }
                 this.setConfig(config);
             });
@@ -133,11 +133,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 
 class Elements {
-    constructor(opacityRate, displayOriginalCc, fontSizeRate, callbackFuncChange) {
+    constructor(opacityRate, displayOriginalCc, ccSizeRate, callbackFuncChange) {
         this.elemets = {
             opacityRate: null,
             displayOriginalCc: null,
-            fontSizeRate: null,
+            ccSizeRate: null,
         };
         this.getElements = () => {
             return this.elemets;
@@ -173,18 +173,18 @@ class Elements {
                 return this.elemets.displayOriginalCc[1];
             }
         };
-        this.getFontSizeRateElement = () => {
-            return this.elemets.fontSizeRate;
+        this.getCcSizeRateElement = () => {
+            return this.elemets.ccSizeRate;
         };
-        this.setFontSizeRateElementValue = (fontSizeRate) => {
-            if (!this.elemets.fontSizeRate)
+        this.setCcSizeRateElementValue = (ccSizeRate) => {
+            if (!this.elemets.ccSizeRate)
                 return;
-            this.elemets.fontSizeRate.value = fontSizeRate.toString();
+            this.elemets.ccSizeRate.value = ccSizeRate.toString();
         };
         this.callbackFuncChange = callbackFuncChange;
         this.elemets.opacityRate = (document.getElementsByName("opacityRate")[0]);
         this.elemets.displayOriginalCc = (document.getElementsByName("displayOriginalCc"));
-        this.elemets.fontSizeRate = (document.getElementsByName("fontSizeRate")[0]);
+        this.elemets.ccSizeRate = (document.getElementsByName("ccSizeRate")[0]);
         this.elemets.displayOriginalCc[0].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK;
         this.elemets.displayOriginalCc[1].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.NG;
         // 初期値
@@ -195,12 +195,12 @@ class Elements {
         else {
             this.elemets.displayOriginalCc[1].checked = true;
         }
-        this.elemets.fontSizeRate.value = fontSizeRate.toString();
+        this.elemets.ccSizeRate.value = ccSizeRate.toString();
         this.elemets.opacityRate.addEventListener("change", (event) => {
             var _a, _b;
             if (event.target instanceof HTMLInputElement) {
                 this.callbackFuncChange(Number(event.target.value), this.getDisplayOriginalCcElementChecked()
-                    .value, Number((_b = (_a = this.getFontSizeRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"));
+                    .value, Number((_b = (_a = this.getCcSizeRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"));
             }
         });
         this.elemets.displayOriginalCc[0].addEventListener("change", (event) => {
@@ -208,7 +208,7 @@ class Elements {
             if (event.target instanceof HTMLInputElement) {
                 if (!event.target.checked)
                     return;
-                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value, Number((_d = (_c = this.getFontSizeRateElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"));
+                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value, Number((_d = (_c = this.getCcSizeRateElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"));
             }
         });
         this.elemets.displayOriginalCc[1].addEventListener("change", (event) => {
@@ -216,10 +216,10 @@ class Elements {
             if (event.target instanceof HTMLInputElement) {
                 if (!event.target.checked)
                     return;
-                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value, Number((_d = (_c = this.getFontSizeRateElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"));
+                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value, Number((_d = (_c = this.getCcSizeRateElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"));
             }
         });
-        this.elemets.fontSizeRate.addEventListener("change", (event) => {
+        this.elemets.ccSizeRate.addEventListener("change", (event) => {
             var _a, _b;
             if (event.target instanceof HTMLInputElement) {
                 this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), this.getDisplayOriginalCcElementChecked()
@@ -315,17 +315,17 @@ const run = async () => {
     const configData = config.getConfig();
     logger.log(`load config: ${JSON.stringify(configData)}`);
     // elementsの変更後のコールバック関数
-    const callbackFuncChangeElement = (opacityRate, displayOriginalCc, fontSizeRate) => {
+    const callbackFuncChangeElement = (opacityRate, displayOriginalCc, ccSizeRate) => {
         // configとストレージを更新
         logger.log("changeElement");
         configData.opacityRate = opacityRate;
         configData.displayOriginalCc = displayOriginalCc;
-        configData.fontSizeRate = fontSizeRate;
+        configData.ccSizeRate = ccSizeRate;
         (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configOpacityRate", opacityRate);
         (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configDisplayOriginalCc", displayOriginalCc);
-        (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configFontSizeRate", fontSizeRate);
+        (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configCcSizeRate", ccSizeRate);
     };
-    const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc, configData.fontSizeRate, callbackFuncChangeElement);
+    const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc, configData.ccSizeRate, callbackFuncChangeElement);
 };
 window.addEventListener("load", run, false);
 
