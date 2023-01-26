@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "author": "ritogk",
-  "name": "Visual Perception of Google Meet",
+  "name": "字幕ぷらす GoogleMeet",
   "description": "GoogleMeetの字幕をもっと認知しやすくするための拡張機能です。",
   "version": "1.0.0",
   "icons": {
