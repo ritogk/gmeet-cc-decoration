@@ -158,7 +158,9 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
           Math.floor(userVideoElement.clientWidth / 30) *
           (this.userCcFontSizeRate * 2)
         userCcElement.style.fontSize = `${fontSize}px`
-        userCcElement.style.webkitTextStroke = "2px #000"
+        userCcElement.style.webkitTextStroke = `${
+          fontSize >= 23 ? 2 : 1
+        }px #000`
         break
       case CcSize.SMALL:
         userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`
@@ -190,7 +192,9 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
           Math.floor(userVideoElement.clientWidth / 30) *
           (this.userCcFontSizeRate * 2)
         userCcElement.style.fontSize = `${fontSize}px`
-        userCcElement.style.webkitTextStroke = "2px #000"
+        userCcElement.style.webkitTextStroke = `${
+          fontSize >= 23 ? 2 : 1
+        }px #000`
         break
       case CcSize.SMALL:
         userCcElement.style.fontSize = `${15 * (this.userCcFontSizeRate * 2)}px`
@@ -243,7 +247,9 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
             Math.floor(userVideoElement.clientWidth / 30) *
             (this.userCcFontSizeRate * 2)
           userCcElement.style.fontSize = `${fontSize}px`
-          userCcElement.style.webkitTextStroke = "2px #000"
+          userCcElement.style.webkitTextStroke = `${
+            fontSize >= 23 ? 2 : 1
+          }px #000`
           break
         case CcSize.SMALL:
           userCcElement.style.fontSize = `${
@@ -278,7 +284,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private readonly cclimitSecond = 8
   private intervalId: number = 0
   runInterval = (): void => {
-    if (!this.interval_excuting) return
+    if (this.interval_excuting) return
     // 一定時間表示した字幕は消す
     this.intervalId = window.setInterval(() => {
       const oldDisplayElements = this.displayElements.filter(
