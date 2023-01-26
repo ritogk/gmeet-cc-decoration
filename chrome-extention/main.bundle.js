@@ -150,12 +150,13 @@ class UsersCcAreaElement {
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
                 case CcSize.Large:
-                    userCcAreaElement.style.height = `${userVideoElement.clientHeight / 2.8}px`;
+                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.8) * (this.userCcFontSizeRate * 2)}px`;
                     const padding = (userVideoElement.clientWidth * 0.28) / 2;
                     userCcAreaElement.style.paddingLeft = `${padding}px`;
                     userCcAreaElement.style.paddingRight = `${padding}px`;
                     break;
                 case CcSize.SMALL:
+                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.1) * (this.userCcFontSizeRate * 2)}px`;
                     userCcAreaElement.style.paddingLeft = `10px`;
                     userCcAreaElement.style.paddingRight = `10px`;
                 default:
@@ -180,12 +181,13 @@ class UsersCcAreaElement {
             const ccSize = this.calcCcSize(userVideoElement);
             switch (ccSize) {
                 case CcSize.Large:
-                    userCcAreaElement.style.height = `${userVideoElement.clientHeight / 2.9}px`;
+                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.8) * (this.userCcFontSizeRate * 2)}px`;
                     const padding = (userVideoElement.clientWidth * 0.28) / 2;
                     userCcAreaElement.style.paddingLeft = `${padding}px`;
                     userCcAreaElement.style.paddingRight = `${padding}px`;
                     break;
                 case CcSize.SMALL:
+                    userCcAreaElement.style.height = `${(userVideoElement.clientHeight / 2.1) * (this.userCcFontSizeRate * 2)}px`;
                     userCcAreaElement.style.paddingLeft = `10px`;
                     userCcAreaElement.style.paddingRight = `10px`;
                 default:
@@ -272,6 +274,23 @@ class UsersCcAreaElement {
                 const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
                 if (!userVideoElement)
                     return;
+                const ccSize = this.calcCcSize(userVideoElement);
+                switch (ccSize) {
+                    case CcSize.Large:
+                        x.element.style.height = `${(userVideoElement.clientHeight / 2.8) *
+                            (this.userCcFontSizeRate * 2)}px`;
+                        const padding = (userVideoElement.clientWidth * 0.28) / 2;
+                        x.element.style.paddingLeft = `${padding}px`;
+                        x.element.style.paddingRight = `${padding}px`;
+                        break;
+                    case CcSize.SMALL:
+                        x.element.style.height = `${(userVideoElement.clientHeight / 2.1) *
+                            (this.userCcFontSizeRate * 2)}px`;
+                        x.element.style.paddingLeft = `10px`;
+                        x.element.style.paddingRight = `10px`;
+                    default:
+                        break;
+                }
                 const style = this.generateUserCcStyle(userVideoElement.clientWidth);
                 const userCcElement = this.findCcElement(x.name);
                 if (!userCcElement)
