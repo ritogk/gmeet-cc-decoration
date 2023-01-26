@@ -65,37 +65,30 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     if (!userAreaElement) return
 
     const userCcAreaElement = document.createElement("div")
-    userCcAreaElement.style.position = "absolute"
-    userCcAreaElement.style.bottom = "0"
-    userCcAreaElement.style.textAlign = "left"
-    userCcAreaElement.style.backgroundColor = "rgba(0,0,0,0.28)"
-    userCcAreaElement.style.margin = "0"
-    userCcAreaElement.style.zIndex = "1000000"
-    userCcAreaElement.style.left = "0"
-    userCcAreaElement.style.right = "0"
-    userCcAreaElement.style.pointerEvents = "none"
-    userCcAreaElement.style.overflow = "hidden"
+
+    // style
+    const style = this.generateElementStyle(
+      userAreaElement.clientWidth,
+      userAreaElement.clientHeight
+    )
+    userCcAreaElement.style.position = style.position
+    userCcAreaElement.style.bottom = style.bottom
+    userCcAreaElement.style.textAlign = style.textAlign
+    userCcAreaElement.style.backgroundColor = style.backgroundColor
+    userCcAreaElement.style.margin = style.margin
+    userCcAreaElement.style.zIndex = style.zIndex
+    userCcAreaElement.style.left = style.left
+    userCcAreaElement.style.right = style.right
+    userCcAreaElement.style.pointerEvents = style.pointerEvents
+    userCcAreaElement.style.overflow = style.overflow
+    userCcAreaElement.style.height = style.height
+    userCcAreaElement.style.paddingLeft = style.paddingLeft
+    userCcAreaElement.style.paddingRight = style.paddingRight
+
+    // 字幕を上スクロールさせる
     userCcAreaElement.scrollTop = 1000
     userCcAreaElement.className = userCcAreaClassName
-    const ccSize = this.calcCcSize(userAreaElement)
-    switch (ccSize) {
-      case CcSize.Large:
-        userCcAreaElement.style.height = `${
-          (userAreaElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
-        }px`
-        const padding = (userAreaElement.clientWidth * 0.28) / 2
-        userCcAreaElement.style.paddingLeft = `${padding}px`
-        userCcAreaElement.style.paddingRight = `${padding}px`
-        break
-      case CcSize.SMALL:
-        userCcAreaElement.style.height = `${
-          (userAreaElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
-        }px`
-        userCcAreaElement.style.paddingLeft = `10px`
-        userCcAreaElement.style.paddingRight = `10px`
-      default:
-        break
-    }
+
     userVideoElement.parentElement?.after(userCcAreaElement)
     this.appendDisplayElement(name, userCcAreaElement)
   }
@@ -114,29 +107,18 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     if (userCcAreaElement) {
       userCcAreaElement.scrollTop = 1000
     }
-    const ccSize = this.calcCcSize(userCcAreaElement)
-    switch (ccSize) {
-      case CcSize.Large:
-        userCcAreaElement.style.height = `${
-          (userAreaElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
-        }px`
-        const padding = (userAreaElement.clientWidth * 0.28) / 2
-        userCcAreaElement.style.paddingLeft = `${padding}px`
-        userCcAreaElement.style.paddingRight = `${padding}px`
-        break
-      case CcSize.SMALL:
-        userCcAreaElement.style.height = `${
-          (userAreaElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
-        }px`
-        userCcAreaElement.style.paddingLeft = `10px`
-        userCcAreaElement.style.paddingRight = `10px`
-      default:
-        break
-    }
+
+    const style = this.generateElementStyle(
+      userAreaElement.clientWidth,
+      userAreaElement.clientHeight
+    )
+    userCcAreaElement.style.height = style.height
+    userCcAreaElement.style.paddingLeft = style.paddingLeft
+    userCcAreaElement.style.paddingRight = style.paddingRight
     this.deleteDisplayElement(name)
     this.appendDisplayElement(name, userCcAreaElement)
   }
-  // ユーザー字幕の取得
+  // 字幕エリアの取得
   findCcElement = (name: string): HTMLSpanElement | undefined => {
     const userAreaElement = this.usersAreaElement.findUserAreaElement(name)
     if (!userAreaElement) return undefined
@@ -144,7 +126,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     return userCcElement !== null ? <HTMLDivElement>userCcElement : undefined
   }
 
-  // 字幕 追加
+  // 字幕エリア 追加
   appendCcElement = (name: string, speach: string): void => {
     const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
     if (!userVideoElement) return
@@ -169,7 +151,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     this.getElement(name)?.appendChild(userCcElement)
   }
 
-  // 字幕 更新
+  // 字幕エリア 更新
   updateCcElement = (name: string, speach: string): void => {
     // 空白文字の場合は更新させない。
     if (speach.trim().length === 0) return
@@ -190,16 +172,69 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcElement.style.webkitTextStroke = style.webkitTextStroke
   }
 
-  // 字幕 削除
+  // 字幕エリア 削除
   deleteCcElement = (name: string): void => {
     const displaySpeach = this.displayElements.find((x) => x.name === name)
     if (!displaySpeach) return
     removeElement(displaySpeach.element, 2000)
   }
 
+  // 字幕エリアのstyleを生成する
+  private generateElementStyle = (
+    baseWidth: number,
+    baseHeight: number
+  ): {
+    height: string
+    paddingLeft: string
+    paddingRight: string
+    position: string
+    bottom: string
+    textAlign: string
+    backgroundColor: string
+    margin: string
+    zIndex: string
+    left: string
+    right: string
+    pointerEvents: string
+    overflow: string
+  } => {
+    const style = {
+      height: "",
+      paddingLeft: "",
+      paddingRight: "",
+      position: "absolute",
+      bottom: "0",
+      textAlign: "left",
+      backgroundColor: "rgba(0,0,0,0.28)",
+      margin: "0",
+      zIndex: "1000000",
+      left: "0",
+      right: "0",
+      pointerEvents: "none",
+      overflow: "hidden",
+    }
+
+    const ccSize = this.calcCcSize(baseWidth)
+    switch (ccSize) {
+      case CcSize.Large:
+        style.height = `${(baseHeight / 2.8) * (this.userCcSizeRate * 2)}px`
+        const padding = (baseWidth * 0.28) / 2
+        style.paddingLeft = `${padding}px`
+        style.paddingRight = `${padding}px`
+        break
+      case CcSize.SMALL:
+        style.height = `${(baseHeight / 2.1) * (this.userCcSizeRate * 2)}px`
+        style.paddingLeft = `10px`
+        style.paddingRight = `10px`
+      default:
+        break
+    }
+    return style
+  }
+
   // 字幕のフォントサイズを計算
-  calcCcSize = (element: Element): CcSize => {
-    return element.clientWidth >= 550 ? CcSize.Large : CcSize.SMALL
+  calcCcSize = (baseWidth: number): CcSize => {
+    return baseWidth >= 550 ? CcSize.Large : CcSize.SMALL
   }
 
   // 字幕の透明度を変える
@@ -227,31 +262,21 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       const userAreaElement = this.usersAreaElement.findUserAreaElement(x.name)
       if (!userAreaElement) return
 
-      const ccSize = this.calcCcSize(userAreaElement)
-      switch (ccSize) {
-        case CcSize.Large:
-          x.element.style.height = `${
-            (userAreaElement.clientHeight / 2.8) * (this.userCcSizeRate * 2)
-          }px`
-          const padding = (userAreaElement.clientWidth * 0.28) / 2
-          x.element.style.paddingLeft = `${padding}px`
-          x.element.style.paddingRight = `${padding}px`
-          break
-        case CcSize.SMALL:
-          x.element.style.height = `${
-            (userAreaElement.clientHeight / 2.1) * (this.userCcSizeRate * 2)
-          }px`
-          x.element.style.paddingLeft = `10px`
-          x.element.style.paddingRight = `10px`
-        default:
-          break
-      }
+      const elementStyle = this.generateElementStyle(
+        userAreaElement.clientWidth,
+        userAreaElement.clientHeight
+      )
+      x.element.style.height = elementStyle.height
+      x.element.style.paddingLeft = elementStyle.paddingLeft
+      x.element.style.paddingRight = elementStyle.paddingRight
 
-      const style = this.generateUserCcStyle(userAreaElement.clientWidth)
       const userCcElement = this.findCcElement(x.name)
       if (!userCcElement) return
-      userCcElement.style.fontSize = style.fontSize
-      userCcElement.style.webkitTextStroke = style.webkitTextStroke
+      const UserCcElementStyle = this.generateUserCcStyle(
+        userAreaElement.clientWidth
+      )
+      userCcElement.style.fontSize = UserCcElementStyle.fontSize
+      userCcElement.style.webkitTextStroke = UserCcElementStyle.webkitTextStroke
     })
   }
 
