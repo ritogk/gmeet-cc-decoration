@@ -199,16 +199,17 @@ class UsersCcAreaElement {
             const userCcElement = document.createElement("div");
             // 「。」で改行させる
             userCcElement.innerHTML = speach.replace(/\。/g, "。<br>");
-            userCcElement.style.color = "white";
-            userCcElement.style.margin = "0";
-            userCcElement.style.zIndex = "1000001";
             userCcElement.className = userCcClassName;
-            userCcElement.style.opacity = this.userCcOpacityRate.toString();
-            userCcElement.style.fontWeight = "700";
-            userCcElement.style.pointerEvents = "none";
+            // style
             const style = this.generateUserCcStyle(userAreaElement.clientWidth);
             userCcElement.style.fontSize = style.fontSize;
             userCcElement.style.webkitTextStroke = style.webkitTextStroke;
+            userCcElement.style.color = style.color;
+            userCcElement.style.margin = style.margin;
+            userCcElement.style.zIndex = style.zIndex;
+            userCcElement.style.opacity = style.opacity;
+            userCcElement.style.fontWeight = style.fontWeight;
+            userCcElement.style.pointerEvents = style.pointerEvents;
             (_a = this.getElement(name)) === null || _a === void 0 ? void 0 : _a.appendChild(userCcElement);
         };
         // 字幕エリア 更新
@@ -314,8 +315,17 @@ class UsersCcAreaElement {
         };
         // 字幕のstyleを生成する
         this.generateUserCcStyle = (baseWidth) => {
-            const style = { fontSize: "15px", webkitTextStroke: "1px #000" };
-            const ccSize = baseWidth >= 550 ? CcSize.Large : CcSize.SMALL;
+            const style = {
+                color: "white",
+                margin: "0",
+                zIndex: "1000001",
+                opacity: this.userCcOpacityRate.toString(),
+                fontWeight: "700",
+                pointerEvents: "none",
+                fontSize: "15px",
+                webkitTextStroke: "1px #000",
+            };
+            const ccSize = this.calcCcSize(baseWidth);
             switch (ccSize) {
                 case CcSize.Large:
                     const fontSize = Math.floor(baseWidth / 30) * (this.userCcSizeRate * 2);
