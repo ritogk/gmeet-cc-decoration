@@ -140,6 +140,11 @@ class UsersCcAreaElement {
             const userCcAreaElement = document.createElement("div");
             // style
             const style = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
+            userCcAreaElement.style.height = style.height;
+            userCcAreaElement.style.fontSize = style.fontSize;
+            userCcAreaElement.style.webkitTextStroke = style.webkitTextStroke;
+            userCcAreaElement.style.paddingLeft = style.paddingLeft;
+            userCcAreaElement.style.paddingRight = style.paddingRight;
             userCcAreaElement.style.position = style.position;
             userCcAreaElement.style.bottom = style.bottom;
             userCcAreaElement.style.textAlign = style.textAlign;
@@ -150,9 +155,6 @@ class UsersCcAreaElement {
             userCcAreaElement.style.right = style.right;
             userCcAreaElement.style.pointerEvents = style.pointerEvents;
             userCcAreaElement.style.overflow = style.overflow;
-            userCcAreaElement.style.height = style.height;
-            userCcAreaElement.style.paddingLeft = style.paddingLeft;
-            userCcAreaElement.style.paddingRight = style.paddingRight;
             // 字幕を上スクロールさせる
             userCcAreaElement.scrollTop = 1000;
             userCcAreaElement.className = userCcAreaClassName;
@@ -174,6 +176,8 @@ class UsersCcAreaElement {
             }
             const style = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
             userCcAreaElement.style.height = style.height;
+            userCcAreaElement.style.fontSize = style.fontSize;
+            userCcAreaElement.style.webkitTextStroke = style.webkitTextStroke;
             userCcAreaElement.style.paddingLeft = style.paddingLeft;
             userCcAreaElement.style.paddingRight = style.paddingRight;
             this.deleteDisplayElement(name);
@@ -202,8 +206,6 @@ class UsersCcAreaElement {
             userCcElement.className = userCcClassName;
             // style
             const style = this.generateUserCcStyle(userAreaElement.clientWidth);
-            userCcElement.style.fontSize = style.fontSize;
-            userCcElement.style.webkitTextStroke = style.webkitTextStroke;
             userCcElement.style.color = style.color;
             userCcElement.style.margin = style.margin;
             userCcElement.style.zIndex = style.zIndex;
@@ -230,8 +232,6 @@ class UsersCcAreaElement {
             userCcElement.innerHTML = speach.replace(/\。/g, "。<br>");
             userCcElement.style.opacity = this.userCcOpacityRate.toString();
             const style = this.generateUserCcStyle(userAreaElement.clientWidth);
-            userCcElement.style.fontSize = style.fontSize;
-            userCcElement.style.webkitTextStroke = style.webkitTextStroke;
         };
         // 字幕エリア 削除
         this.deleteCcElement = (name) => {
@@ -244,6 +244,8 @@ class UsersCcAreaElement {
         this.generateElementStyle = (baseWidth, baseHeight) => {
             const style = {
                 height: "",
+                fontSize: "15px",
+                webkitTextStroke: "1px #000",
                 paddingLeft: "",
                 paddingRight: "",
                 position: "absolute",
@@ -264,11 +266,16 @@ class UsersCcAreaElement {
                     const padding = (baseWidth * 0.28) / 2;
                     style.paddingLeft = `${padding}px`;
                     style.paddingRight = `${padding}px`;
+                    const fontSize = Math.floor(baseWidth / 30) * (this.userCcSizeRate * 2);
+                    style.fontSize = `${fontSize}px`;
+                    style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
                     break;
                 case CcSize.SMALL:
                     style.height = `${(baseHeight / 2.1) * (this.userCcSizeRate * 2)}px`;
                     style.paddingLeft = `10px`;
                     style.paddingRight = `10px`;
+                    style.fontSize = `${15 * (this.userCcSizeRate * 2)}px`;
+                    style.webkitTextStroke = "1px #000";
                 default:
                     break;
             }
@@ -305,12 +312,8 @@ class UsersCcAreaElement {
                 x.element.style.height = elementStyle.height;
                 x.element.style.paddingLeft = elementStyle.paddingLeft;
                 x.element.style.paddingRight = elementStyle.paddingRight;
-                const userCcElement = this.findCcElement(x.name);
-                if (!userCcElement)
-                    return;
-                const UserCcElementStyle = this.generateUserCcStyle(userAreaElement.clientWidth);
-                userCcElement.style.fontSize = UserCcElementStyle.fontSize;
-                userCcElement.style.webkitTextStroke = UserCcElementStyle.webkitTextStroke;
+                x.element.style.fontSize = elementStyle.fontSize;
+                x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke;
             });
         };
         // 字幕のstyleを生成する
@@ -322,22 +325,8 @@ class UsersCcAreaElement {
                 opacity: this.userCcOpacityRate.toString(),
                 fontWeight: "700",
                 pointerEvents: "none",
-                fontSize: "15px",
-                webkitTextStroke: "1px #000",
             };
             const ccSize = this.calcCcSize(baseWidth);
-            switch (ccSize) {
-                case CcSize.Large:
-                    const fontSize = Math.floor(baseWidth / 30) * (this.userCcSizeRate * 2);
-                    style.fontSize = `${fontSize}px`;
-                    style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
-                    break;
-                case CcSize.SMALL:
-                    style.fontSize = `${15 * (this.userCcSizeRate * 2)}px`;
-                    style.webkitTextStroke = "1px #000";
-                default:
-                    break;
-            }
             return style;
         };
         this.displayElements = [];
@@ -864,7 +853,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const main = async () => {
-    const debug = false;
+    const debug = true;
     const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(debug);
     logger.log("start: application");
     const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
