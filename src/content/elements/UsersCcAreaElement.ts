@@ -10,7 +10,7 @@ export interface usersCcAreaElementInterface {
   appendCcElement: (name: string, speach: string) => void
   updateCcElement: (name: string, speach: string) => void
   deleteCcElement: (name: string) => void
-  setUserCcOpacityRate: (opacityRate: number) => void
+  setElementOpacityRate: (opacityRate: number) => void
   setCcSizeRate: (ccSizeRate: number) => void
   runInterval: () => void
   stopInterval: () => void
@@ -30,8 +30,8 @@ enum CcSize {
 export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private interval_excuting = false
   private usersAreaElement: UsersAreaElement
-  private userCcOpacityRate = 0.5
-  private userCcSizeRate = 0.5
+  private elementOpacityRate = 0.5
+  private elementSizeRate = 0.5
 
   constructor(interval_excuting: boolean) {
     this.interval_excuting = interval_excuting
@@ -87,6 +87,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcAreaElement.style.right = style.right
     userCcAreaElement.style.pointerEvents = style.pointerEvents
     userCcAreaElement.style.overflow = style.overflow
+    userCcAreaElement.style.opacity = style.opacity
 
     // 字幕を上スクロールさせる
     userCcAreaElement.scrollTop = 1000
@@ -121,6 +122,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcAreaElement.style.webkitTextStroke = style.webkitTextStroke
     userCcAreaElement.style.paddingLeft = style.paddingLeft
     userCcAreaElement.style.paddingRight = style.paddingRight
+    userCcAreaElement.style.opacity = style.opacity
     this.deleteDisplayElement(name)
     this.appendDisplayElement(name, userCcAreaElement)
   }
@@ -151,37 +153,10 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcElement.style.color = style.color
     userCcElement.style.margin = style.margin
     userCcElement.style.zIndex = style.zIndex
-    userCcElement.style.opacity = style.opacity
     userCcElement.style.fontWeight = style.fontWeight
     userCcElement.style.pointerEvents = style.pointerEvents
 
     this.getElement(name)?.appendChild(userCcElement)
-  }
-
-  // 字幕エリア 更新
-  updateCcElement = (name: string, speach: string): void => {
-    // 空白文字の場合は更新させない。
-    if (speach.trim().length === 0) return
-
-    const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
-    if (!userVideoElement) return
-    const userAreaElement = this.usersAreaElement.findUserAreaElement(name)
-    if (!userAreaElement) return
-    const userCcElement = this.findCcElement(name)
-    if (!userCcElement) return
-
-    // 「。」で改行させる
-    userCcElement.innerHTML = speach.replace(/\。/g, "。<br>")
-    userCcElement.style.opacity = this.userCcOpacityRate.toString()
-
-    const style = this.generateUserCcStyle(userAreaElement.clientWidth)
-  }
-
-  // 字幕エリア 削除
-  deleteCcElement = (name: string): void => {
-    const displaySpeach = this.displayElements.find((x) => x.name === name)
-    if (!displaySpeach) return
-    removeElement(displaySpeach.element, 2000)
   }
 
   // 字幕エリアのstyleを生成する
@@ -193,6 +168,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     fontSize: string
     lineHeight: string
     webkitTextStroke: string
+    opacity: string
     paddingLeft: string
     paddingRight: string
     position: string
@@ -211,6 +187,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       fontSize: "15px",
       lineHeight: "15px",
       webkitTextStroke: "1px #000",
+      opacity: this.elementOpacityRate.toString(),
       paddingLeft: "",
       paddingRight: "",
       position: "absolute",
@@ -225,7 +202,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       overflow: "hidden",
     }
 
-    const height = (baseHeight / 2.8) * (this.userCcSizeRate * 2)
+    const height = (baseHeight / 2.8) * (this.elementSizeRate * 2)
     style.height = `${height}px`
     const padding = (baseWidth * 0.28) / 2
     style.paddingLeft = `${padding}px`
@@ -238,28 +215,45 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     return style
   }
 
+  // 字幕エリアの透明度を変える
+  setElementOpacityRate = (opacityRate: number): void => {
+    this.elementOpacityRate = opacityRate
+    this.displayElements.forEach((x) => {
+      x.element.style.opacity = this.elementOpacityRate.toString()
+    })
+  }
+
+  // 字幕 更新
+  updateCcElement = (name: string, speach: string): void => {
+    // 空白文字の場合は更新させない。
+    if (speach.trim().length === 0) return
+
+    const userVideoElement = this.usersAreaElement.findUserVideoElement(name)
+    if (!userVideoElement) return
+    const userAreaElement = this.usersAreaElement.findUserAreaElement(name)
+    if (!userAreaElement) return
+    const userCcElement = this.findCcElement(name)
+    if (!userCcElement) return
+
+    // 「。」で改行させる
+    userCcElement.innerHTML = speach.replace(/\。/g, "。<br>")
+  }
+
+  // 字幕 削除
+  deleteCcElement = (name: string): void => {
+    const displaySpeach = this.displayElements.find((x) => x.name === name)
+    if (!displaySpeach) return
+    removeElement(displaySpeach.element, 2000)
+  }
+
   // 字幕のフォントサイズを計算
   calcCcSize = (baseWidth: number): CcSize => {
     return baseWidth >= 550 ? CcSize.Large : CcSize.SMALL
   }
 
-  // 字幕の透明度を変える
-  setUserCcOpacityRate = (opacityRate: number): void => {
-    this.userCcOpacityRate = opacityRate
-    this.displayElements.forEach((x) => {
-      const userVideoElement = this.usersAreaElement.findUserVideoElement(
-        x.name
-      )
-      if (!userVideoElement) return
-      const userCcElement = this.findCcElement(x.name)
-      if (!userCcElement) return
-      userCcElement.style.opacity = this.userCcOpacityRate.toString()
-    })
-  }
-
   // 字幕のサイズを変える
   setCcSizeRate = (ccSizeRate: number): void => {
-    this.userCcSizeRate = ccSizeRate
+    this.elementSizeRate = ccSizeRate
     this.displayElements.forEach((x) => {
       const userVideoElement = this.usersAreaElement.findUserVideoElement(
         x.name
@@ -278,6 +272,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       x.element.style.fontSize = elementStyle.fontSize
       x.element.style.lineHeight = elementStyle.lineHeight
       x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke
+      x.element.style.opacity = elementStyle.opacity
     })
   }
 
@@ -288,7 +283,6 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     color: string
     margin: string
     zIndex: string
-    opacity: string
     fontWeight: string
     pointerEvents: string
   } => {
@@ -296,7 +290,6 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       color: "white",
       margin: "0",
       zIndex: "1000001",
-      opacity: this.userCcOpacityRate.toString(),
       fontWeight: "700",
       pointerEvents: "none",
     }
