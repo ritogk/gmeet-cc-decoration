@@ -111,8 +111,8 @@ var CcSize;
 class UsersCcAreaElement {
     constructor(interval_excuting) {
         this.interval_excuting = false;
-        this.userCcOpacityRate = 0.5;
-        this.userCcSizeRate = 0.5;
+        this.elementOpacityRate = 0.5;
+        this.elementSizeRate = 0.5;
         this.getElements = () => {
             var _a;
             return (_a = this.usersAreaElement
@@ -142,6 +142,7 @@ class UsersCcAreaElement {
             const style = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
             userCcAreaElement.style.height = style.height;
             userCcAreaElement.style.fontSize = style.fontSize;
+            userCcAreaElement.style.lineHeight = style.lineHeight;
             userCcAreaElement.style.webkitTextStroke = style.webkitTextStroke;
             userCcAreaElement.style.paddingLeft = style.paddingLeft;
             userCcAreaElement.style.paddingRight = style.paddingRight;
@@ -155,6 +156,7 @@ class UsersCcAreaElement {
             userCcAreaElement.style.right = style.right;
             userCcAreaElement.style.pointerEvents = style.pointerEvents;
             userCcAreaElement.style.overflow = style.overflow;
+            userCcAreaElement.style.opacity = style.opacity;
             // 字幕を上スクロールさせる
             userCcAreaElement.scrollTop = 1000;
             userCcAreaElement.className = userCcAreaClassName;
@@ -177,9 +179,11 @@ class UsersCcAreaElement {
             const style = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
             userCcAreaElement.style.height = style.height;
             userCcAreaElement.style.fontSize = style.fontSize;
+            userCcAreaElement.style.lineHeight = style.lineHeight;
             userCcAreaElement.style.webkitTextStroke = style.webkitTextStroke;
             userCcAreaElement.style.paddingLeft = style.paddingLeft;
             userCcAreaElement.style.paddingRight = style.paddingRight;
+            userCcAreaElement.style.opacity = style.opacity;
             this.deleteDisplayElement(name);
             this.appendDisplayElement(name, userCcAreaElement);
         };
@@ -209,12 +213,71 @@ class UsersCcAreaElement {
             userCcElement.style.color = style.color;
             userCcElement.style.margin = style.margin;
             userCcElement.style.zIndex = style.zIndex;
-            userCcElement.style.opacity = style.opacity;
             userCcElement.style.fontWeight = style.fontWeight;
             userCcElement.style.pointerEvents = style.pointerEvents;
             (_a = this.getElement(name)) === null || _a === void 0 ? void 0 : _a.appendChild(userCcElement);
         };
-        // 字幕エリア 更新
+        // 字幕エリアのstyleを生成する
+        this.generateElementStyle = (baseWidth, baseHeight) => {
+            const style = {
+                height: "",
+                fontSize: "15px",
+                lineHeight: "15px",
+                webkitTextStroke: "1px #000",
+                opacity: this.elementOpacityRate.toString(),
+                paddingLeft: "",
+                paddingRight: "",
+                position: "absolute",
+                bottom: "0",
+                textAlign: "left",
+                backgroundColor: "rgba(0,0,0,0.28)",
+                margin: "0",
+                zIndex: "1000000",
+                left: "0",
+                right: "0",
+                pointerEvents: "none",
+                overflow: "hidden",
+            };
+            const height = (baseHeight / 2.8) * (this.elementSizeRate * 2);
+            style.height = `${height}px`;
+            const padding = (baseWidth * 0.28) / 2;
+            style.paddingLeft = `${padding}px`;
+            style.paddingRight = `${padding}px`;
+            const lineHeight = height / 4;
+            const fontSize = lineHeight * 0.7;
+            style.fontSize = `${fontSize}px`;
+            style.lineHeight = `${lineHeight}px`;
+            style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
+            return style;
+        };
+        // 字幕エリアの透明度を変える
+        this.setElementOpacityRate = (opacityRate) => {
+            this.elementOpacityRate = opacityRate;
+            this.displayElements.forEach((x) => {
+                x.element.style.opacity = this.elementOpacityRate.toString();
+            });
+        };
+        // 字幕エリアのサイズを変える
+        this.setElementSizeRate = (ccSizeRate) => {
+            this.elementSizeRate = ccSizeRate;
+            this.displayElements.forEach((x) => {
+                const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
+                if (!userVideoElement)
+                    return;
+                const userAreaElement = this.usersAreaElement.findUserAreaElement(x.name);
+                if (!userAreaElement)
+                    return;
+                const elementStyle = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
+                x.element.style.height = elementStyle.height;
+                x.element.style.paddingLeft = elementStyle.paddingLeft;
+                x.element.style.paddingRight = elementStyle.paddingRight;
+                x.element.style.fontSize = elementStyle.fontSize;
+                x.element.style.lineHeight = elementStyle.lineHeight;
+                x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke;
+                x.element.style.opacity = elementStyle.opacity;
+            });
+        };
+        // 字幕 更新
         this.updateCcElement = (name, speach) => {
             // 空白文字の場合は更新させない。
             if (speach.trim().length === 0)
@@ -230,91 +293,17 @@ class UsersCcAreaElement {
                 return;
             // 「。」で改行させる
             userCcElement.innerHTML = speach.replace(/\。/g, "。<br>");
-            userCcElement.style.opacity = this.userCcOpacityRate.toString();
-            const style = this.generateUserCcStyle(userAreaElement.clientWidth);
         };
-        // 字幕エリア 削除
+        // 字幕 削除
         this.deleteCcElement = (name) => {
             const displaySpeach = this.displayElements.find((x) => x.name === name);
             if (!displaySpeach)
                 return;
             (0,_core_dom__WEBPACK_IMPORTED_MODULE_1__.removeElement)(displaySpeach.element, 2000);
         };
-        // 字幕エリアのstyleを生成する
-        this.generateElementStyle = (baseWidth, baseHeight) => {
-            const style = {
-                height: "",
-                fontSize: "15px",
-                webkitTextStroke: "1px #000",
-                paddingLeft: "",
-                paddingRight: "",
-                position: "absolute",
-                bottom: "0",
-                textAlign: "left",
-                backgroundColor: "rgba(0,0,0,0.28)",
-                margin: "0",
-                zIndex: "1000000",
-                left: "0",
-                right: "0",
-                pointerEvents: "none",
-                overflow: "hidden",
-            };
-            const ccSize = this.calcCcSize(baseWidth);
-            switch (ccSize) {
-                case CcSize.Large:
-                    style.height = `${(baseHeight / 2.8) * (this.userCcSizeRate * 2)}px`;
-                    const padding = (baseWidth * 0.28) / 2;
-                    style.paddingLeft = `${padding}px`;
-                    style.paddingRight = `${padding}px`;
-                    const fontSize = Math.floor(baseWidth / 30) * (this.userCcSizeRate * 2);
-                    style.fontSize = `${fontSize}px`;
-                    style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
-                    break;
-                case CcSize.SMALL:
-                    style.height = `${(baseHeight / 2.1) * (this.userCcSizeRate * 2)}px`;
-                    style.paddingLeft = `10px`;
-                    style.paddingRight = `10px`;
-                    style.fontSize = `${15 * (this.userCcSizeRate * 2)}px`;
-                    style.webkitTextStroke = "1px #000";
-                default:
-                    break;
-            }
-            return style;
-        };
         // 字幕のフォントサイズを計算
         this.calcCcSize = (baseWidth) => {
             return baseWidth >= 550 ? CcSize.Large : CcSize.SMALL;
-        };
-        // 字幕の透明度を変える
-        this.setUserCcOpacityRate = (opacityRate) => {
-            this.userCcOpacityRate = opacityRate;
-            this.displayElements.forEach((x) => {
-                const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
-                if (!userVideoElement)
-                    return;
-                const userCcElement = this.findCcElement(x.name);
-                if (!userCcElement)
-                    return;
-                userCcElement.style.opacity = this.userCcOpacityRate.toString();
-            });
-        };
-        // 字幕のサイズを変える
-        this.setCcSizeRate = (ccSizeRate) => {
-            this.userCcSizeRate = ccSizeRate;
-            this.displayElements.forEach((x) => {
-                const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
-                if (!userVideoElement)
-                    return;
-                const userAreaElement = this.usersAreaElement.findUserAreaElement(x.name);
-                if (!userAreaElement)
-                    return;
-                const elementStyle = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
-                x.element.style.height = elementStyle.height;
-                x.element.style.paddingLeft = elementStyle.paddingLeft;
-                x.element.style.paddingRight = elementStyle.paddingRight;
-                x.element.style.fontSize = elementStyle.fontSize;
-                x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke;
-            });
         };
         // 字幕のstyleを生成する
         this.generateUserCcStyle = (baseWidth) => {
@@ -322,11 +311,9 @@ class UsersCcAreaElement {
                 color: "white",
                 margin: "0",
                 zIndex: "1000001",
-                opacity: this.userCcOpacityRate.toString(),
                 fontWeight: "700",
                 pointerEvents: "none",
             };
-            const ccSize = this.calcCcSize(baseWidth);
             return style;
         };
         this.displayElements = [];
@@ -853,7 +840,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const main = async () => {
-    const debug = true;
+    const debug = false;
     const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(debug);
     logger.log("start: application");
     const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
@@ -868,7 +855,7 @@ const main = async () => {
     const callbackFuncChangeConfig = (config) => {
         logger.log(JSON.stringify(config));
         // 字幕の透明度
-        usersCcAreaElement.setUserCcOpacityRate(config.opacityRate);
+        usersCcAreaElement.setElementOpacityRate(config.opacityRate);
         // screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate)
         // 字幕の表示非表示制御
         if (config.displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
@@ -877,21 +864,21 @@ const main = async () => {
         else {
             ccAreaElement.hideElement();
         }
-        usersCcAreaElement.setCcSizeRate(config.ccSizeRate);
+        usersCcAreaElement.setElementSizeRate(config.ccSizeRate);
     };
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
     logger.log(`load config: ${JSON.stringify(config.getConfig())}`);
     config.observeGoogleStorage();
     // elementの初期設定
-    usersCcAreaElement.setUserCcOpacityRate(config.getConfig().opacityRate);
+    usersCcAreaElement.setElementOpacityRate(config.getConfig().opacityRate);
     if (config.getConfig().displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
         ccAreaElement.showElement();
     }
     else {
         ccAreaElement.hideElement();
     }
-    usersCcAreaElement.setCcSizeRate(config.getConfig().ccSizeRate);
+    usersCcAreaElement.setElementSizeRate(config.getConfig().ccSizeRate);
     // screenSharingCcAreaElement.setUserCcOpacityRate(
     //   config.getConfig().opacityRate
     // )

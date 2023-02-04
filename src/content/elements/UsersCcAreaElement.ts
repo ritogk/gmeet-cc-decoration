@@ -6,12 +6,12 @@ export interface usersCcAreaElementInterface {
   getElement(name: string): Element | undefined
   createElement(name: string): void
   updateElement(name: string): void
+  setElementOpacityRate: (opacityRate: number) => void
+  setElementSizeRate: (ccSizeRate: number) => void
   findCcElement: (name: string) => HTMLSpanElement | undefined
   appendCcElement: (name: string, speach: string) => void
   updateCcElement: (name: string, speach: string) => void
   deleteCcElement: (name: string) => void
-  setElementOpacityRate: (opacityRate: number) => void
-  setCcSizeRate: (ccSizeRate: number) => void
   runInterval: () => void
   stopInterval: () => void
 }
@@ -223,6 +223,31 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     })
   }
 
+  // 字幕エリアのサイズを変える
+  setElementSizeRate = (ccSizeRate: number): void => {
+    this.elementSizeRate = ccSizeRate
+    this.displayElements.forEach((x) => {
+      const userVideoElement = this.usersAreaElement.findUserVideoElement(
+        x.name
+      )
+      if (!userVideoElement) return
+      const userAreaElement = this.usersAreaElement.findUserAreaElement(x.name)
+      if (!userAreaElement) return
+
+      const elementStyle = this.generateElementStyle(
+        userAreaElement.clientWidth,
+        userAreaElement.clientHeight
+      )
+      x.element.style.height = elementStyle.height
+      x.element.style.paddingLeft = elementStyle.paddingLeft
+      x.element.style.paddingRight = elementStyle.paddingRight
+      x.element.style.fontSize = elementStyle.fontSize
+      x.element.style.lineHeight = elementStyle.lineHeight
+      x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke
+      x.element.style.opacity = elementStyle.opacity
+    })
+  }
+
   // 字幕 更新
   updateCcElement = (name: string, speach: string): void => {
     // 空白文字の場合は更新させない。
@@ -249,31 +274,6 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   // 字幕のフォントサイズを計算
   calcCcSize = (baseWidth: number): CcSize => {
     return baseWidth >= 550 ? CcSize.Large : CcSize.SMALL
-  }
-
-  // 字幕のサイズを変える
-  setCcSizeRate = (ccSizeRate: number): void => {
-    this.elementSizeRate = ccSizeRate
-    this.displayElements.forEach((x) => {
-      const userVideoElement = this.usersAreaElement.findUserVideoElement(
-        x.name
-      )
-      if (!userVideoElement) return
-      const userAreaElement = this.usersAreaElement.findUserAreaElement(x.name)
-      if (!userAreaElement) return
-
-      const elementStyle = this.generateElementStyle(
-        userAreaElement.clientWidth,
-        userAreaElement.clientHeight
-      )
-      x.element.style.height = elementStyle.height
-      x.element.style.paddingLeft = elementStyle.paddingLeft
-      x.element.style.paddingRight = elementStyle.paddingRight
-      x.element.style.fontSize = elementStyle.fontSize
-      x.element.style.lineHeight = elementStyle.lineHeight
-      x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke
-      x.element.style.opacity = elementStyle.opacity
-    })
   }
 
   // 字幕のstyleを生成する
