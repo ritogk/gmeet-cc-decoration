@@ -205,8 +205,7 @@ class UsersCcAreaElement {
             if (!userAreaElement)
                 return;
             const userCcElement = document.createElement("div");
-            // 「。」で改行させる
-            userCcElement.innerHTML = speach.replace(/\。/g, "。<br>");
+            userCcElement.innerHTML = this.formatSpeach(speach);
             userCcElement.className = userCcClassName;
             // style
             const style = this.generateUserCcStyle(userAreaElement.clientWidth);
@@ -291,8 +290,7 @@ class UsersCcAreaElement {
             const userCcElement = this.findCcElement(name);
             if (!userCcElement)
                 return;
-            // 「。」で改行させる
-            userCcElement.innerHTML = speach.replace(/\。/g, "。<br>");
+            userCcElement.innerHTML = this.formatSpeach(speach);
         };
         // 字幕 削除
         this.deleteCcElement = (name) => {
@@ -315,6 +313,15 @@ class UsersCcAreaElement {
                 pointerEvents: "none",
             };
             return style;
+        };
+        // 整形する
+        this.formatSpeach = (speach) => {
+            let str = "";
+            // 連続する「。」を削除
+            str = speach.replace(/\。。/g, "。");
+            // 「。」で改行させる
+            str = str.replace(/\。/g, "。<br>");
+            return str;
         };
         this.displayElements = [];
         this.appendDisplayElement = (name, element) => {

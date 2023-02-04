@@ -144,8 +144,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
 
     const userCcElement = document.createElement("div")
 
-    // 「。」で改行させる
-    userCcElement.innerHTML = speach.replace(/\。/g, "。<br>")
+    userCcElement.innerHTML = this.formatSpeach(speach)
     userCcElement.className = userCcClassName
 
     // style
@@ -260,8 +259,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     const userCcElement = this.findCcElement(name)
     if (!userCcElement) return
 
-    // 「。」で改行させる
-    userCcElement.innerHTML = speach.replace(/\。/g, "。<br>")
+    userCcElement.innerHTML = this.formatSpeach(speach)
   }
 
   // 字幕 削除
@@ -294,6 +292,16 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       pointerEvents: "none",
     }
     return style
+  }
+
+  // 整形する
+  private formatSpeach = (speach: string): string => {
+    let str = ""
+    // 連続する「。」を削除
+    str = speach.replace(/\。。/g, "。")
+    // 「。」で改行させる
+    str = str.replace(/\。/g, "。<br>")
+    return str
   }
 
   private displayElements: {
