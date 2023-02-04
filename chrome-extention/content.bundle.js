@@ -142,6 +142,7 @@ class UsersCcAreaElement {
             const style = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
             userCcAreaElement.style.height = style.height;
             userCcAreaElement.style.fontSize = style.fontSize;
+            userCcAreaElement.style.lineHeight = style.lineHeight;
             userCcAreaElement.style.webkitTextStroke = style.webkitTextStroke;
             userCcAreaElement.style.paddingLeft = style.paddingLeft;
             userCcAreaElement.style.paddingRight = style.paddingRight;
@@ -177,6 +178,7 @@ class UsersCcAreaElement {
             const style = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
             userCcAreaElement.style.height = style.height;
             userCcAreaElement.style.fontSize = style.fontSize;
+            userCcAreaElement.style.lineHeight = style.lineHeight;
             userCcAreaElement.style.webkitTextStroke = style.webkitTextStroke;
             userCcAreaElement.style.paddingLeft = style.paddingLeft;
             userCcAreaElement.style.paddingRight = style.paddingRight;
@@ -245,6 +247,7 @@ class UsersCcAreaElement {
             const style = {
                 height: "",
                 fontSize: "15px",
+                lineHeight: "15px",
                 webkitTextStroke: "1px #000",
                 paddingLeft: "",
                 paddingRight: "",
@@ -259,26 +262,16 @@ class UsersCcAreaElement {
                 pointerEvents: "none",
                 overflow: "hidden",
             };
-            const ccSize = this.calcCcSize(baseWidth);
-            switch (ccSize) {
-                case CcSize.Large:
-                    style.height = `${(baseHeight / 2.8) * (this.userCcSizeRate * 2)}px`;
-                    const padding = (baseWidth * 0.28) / 2;
-                    style.paddingLeft = `${padding}px`;
-                    style.paddingRight = `${padding}px`;
-                    const fontSize = Math.floor(baseWidth / 30) * (this.userCcSizeRate * 2);
-                    style.fontSize = `${fontSize}px`;
-                    style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
-                    break;
-                case CcSize.SMALL:
-                    style.height = `${(baseHeight / 2.1) * (this.userCcSizeRate * 2)}px`;
-                    style.paddingLeft = `10px`;
-                    style.paddingRight = `10px`;
-                    style.fontSize = `${15 * (this.userCcSizeRate * 2)}px`;
-                    style.webkitTextStroke = "1px #000";
-                default:
-                    break;
-            }
+            const height = (baseHeight / 2.8) * (this.userCcSizeRate * 2);
+            style.height = `${height}px`;
+            const padding = (baseWidth * 0.28) / 2;
+            style.paddingLeft = `${padding}px`;
+            style.paddingRight = `${padding}px`;
+            const lineHeight = height / 4;
+            const fontSize = lineHeight * 0.7;
+            style.fontSize = `${fontSize}px`;
+            style.lineHeight = `${lineHeight}px`;
+            style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
             return style;
         };
         // 字幕のフォントサイズを計算
@@ -313,6 +306,7 @@ class UsersCcAreaElement {
                 x.element.style.paddingLeft = elementStyle.paddingLeft;
                 x.element.style.paddingRight = elementStyle.paddingRight;
                 x.element.style.fontSize = elementStyle.fontSize;
+                x.element.style.lineHeight = elementStyle.lineHeight;
                 x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke;
             });
         };
@@ -326,7 +320,6 @@ class UsersCcAreaElement {
                 fontWeight: "700",
                 pointerEvents: "none",
             };
-            const ccSize = this.calcCcSize(baseWidth);
             return style;
         };
         this.displayElements = [];
