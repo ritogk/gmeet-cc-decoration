@@ -14,8 +14,6 @@ export class ControlAreaElement implements ControlAreaElementInterface {
   }
 
   getCcBottomElement = (): HTMLElement | null => {
-    const element = this.getElement()
-    if (element === null) return null
-    return element.querySelector("div.Tmb7Fd > div > div.juFBl")
+    return document.querySelector(selector.controlCcButton)
   }
 }
