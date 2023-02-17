@@ -984,15 +984,23 @@ var __webpack_exports__ = {};
   \****************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/content/elements/original/ccAreaElement */ "./src/content/elements/original/ccAreaElement.ts");
-/* harmony import */ var _content_main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/content/main */ "./src/content/main.ts");
+/* harmony import */ var _content_elements_original_controlAreaElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/content/elements/original/controlAreaElement */ "./src/content/elements/original/controlAreaElement.ts");
+/* harmony import */ var _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/content/elements/original/UsersAreaElement */ "./src/content/elements/original/UsersAreaElement.ts");
+/* harmony import */ var _content_main__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/content/main */ "./src/content/main.ts");
+
+
 
 
 const run = () => {
     const ccAreaElement = new _content_elements_original_ccAreaElement__WEBPACK_IMPORTED_MODULE_0__.CcAreaElement();
+    const controlAreaElement = new _content_elements_original_controlAreaElement__WEBPACK_IMPORTED_MODULE_1__.ControlAreaElement();
+    const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersAreaElement();
     const jsLoaded = () => {
-        if (ccAreaElement.getElement()) {
+        if (ccAreaElement.getElement() &&
+            controlAreaElement.getElement() &&
+            usersAreaElement.getElement()) {
             clearInterval(jsInitCheckTimer);
-            (0,_content_main__WEBPACK_IMPORTED_MODULE_1__.main)();
+            (0,_content_main__WEBPACK_IMPORTED_MODULE_3__.main)();
         }
     };
     const jsInitCheckTimer = setInterval(jsLoaded, 1000);
