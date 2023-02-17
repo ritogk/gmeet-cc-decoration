@@ -15,6 +15,7 @@ export interface ConfigObjectInterface {
   opacityRate: number
   displayOriginalCc: DisplayOriginalCc
   ccSizeRate: number
+  ccRows: number
 }
 
 /**
@@ -25,6 +26,7 @@ export class Config implements ConfigInterface {
     opacityRate: 0.5,
     displayOriginalCc: DisplayOriginalCc.OK,
     ccSizeRate: 0.5,
+    ccRows: 5,
   }
 
   private callbackFuncChangeConfig: (config: ConfigObjectInterface) => void
@@ -50,6 +52,8 @@ export class Config implements ConfigInterface {
       this.config.displayOriginalCc
     this.config.ccSizeRate =
       (await getStorage("configCcSizeRate")) ?? this.config.opacityRate
+    this.config.ccRows =
+      (await getStorage("configCcRows")) ?? this.config.ccRows
   }
 
   observeGoogleStorage = (): void => {
@@ -63,6 +67,9 @@ export class Config implements ConfigInterface {
       }
       if ("configCcSizeRate" in changes) {
         config.ccSizeRate = changes.configCcSizeRate.newValue
+      }
+      if ("configCcRows" in changes) {
+        config.ccRows = changes.configCcRows.newValue
       }
       this.setConfig(config)
     })

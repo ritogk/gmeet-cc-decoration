@@ -17,21 +17,25 @@ export const run = async (): Promise<void> => {
   const callbackFuncChangeElement = (
     opacityRate: number,
     displayOriginalCc: DisplayOriginalCc,
-    ccSizeRate: number
+    ccSizeRate: number,
+    ccRows: number
   ) => {
     // configとストレージを更新
     logger.log("changeElement")
     configData.opacityRate = opacityRate
     configData.displayOriginalCc = displayOriginalCc
     configData.ccSizeRate = ccSizeRate
+    configData.ccRows = ccRows
     setStorage("configOpacityRate", opacityRate)
     setStorage("configDisplayOriginalCc", displayOriginalCc)
     setStorage("configCcSizeRate", ccSizeRate)
+    setStorage("configCcRows", ccRows)
   }
   const elements = new Elements(
     configData.opacityRate,
     configData.displayOriginalCc,
     configData.ccSizeRate,
+    configData.ccRows,
     callbackFuncChangeElement
   )
 }

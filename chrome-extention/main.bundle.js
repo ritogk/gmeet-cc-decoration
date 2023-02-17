@@ -670,6 +670,7 @@ class Config {
             opacityRate: 0.5,
             displayOriginalCc: DisplayOriginalCc.OK,
             ccSizeRate: 0.5,
+            ccRows: 5,
         };
         this.getConfig = () => {
             return this.config;
@@ -679,13 +680,15 @@ class Config {
             this.callbackFuncChangeConfig(this.config);
         };
         this.loadConfig = async () => {
-            var _a, _b, _c;
+            var _a, _b, _c, _d;
             this.config.opacityRate =
                 (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configOpacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
             this.config.displayOriginalCc =
                 (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configDisplayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
             this.config.ccSizeRate =
                 (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcSizeRate"))) !== null && _c !== void 0 ? _c : this.config.opacityRate;
+            this.config.ccRows =
+                (_d = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcRows"))) !== null && _d !== void 0 ? _d : this.config.ccRows;
         };
         this.observeGoogleStorage = () => {
             chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -698,6 +701,9 @@ class Config {
                 }
                 if ("configCcSizeRate" in changes) {
                     config.ccSizeRate = changes.configCcSizeRate.newValue;
+                }
+                if ("configCcRows" in changes) {
+                    config.ccRows = changes.configCcRows.newValue;
                 }
                 this.setConfig(config);
             });

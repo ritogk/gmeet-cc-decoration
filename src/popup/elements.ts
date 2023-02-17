@@ -4,6 +4,7 @@ export interface ElementsType {
   opacityRate: HTMLInputElement | null
   displayOriginalCc: NodeListOf<HTMLInputElement> | null
   ccSizeRate: HTMLInputElement | null
+  ccRows: HTMLInputElement | null
 }
 
 export class Elements {
@@ -11,22 +12,26 @@ export class Elements {
     opacityRate: null,
     displayOriginalCc: null,
     ccSizeRate: null,
+    ccRows: null,
   }
 
   private callbackFuncChange: (
     opacityRate: number,
     displayOriginalCc: DisplayOriginalCc,
-    ccSizeRate: number
+    ccSizeRate: number,
+    ccRows: number
   ) => void
 
   constructor(
     opacityRate: number,
     displayOriginalCc: DisplayOriginalCc,
     ccSizeRate: number,
+    ccRows: number,
     callbackFuncChange: (
       opacityRate: number,
       displayOriginalCc: DisplayOriginalCc,
-      ccSizeRate: number
+      ccSizeRate: number,
+      ccRows: number
     ) => void
   ) {
     this.callbackFuncChange = callbackFuncChange
@@ -38,6 +43,9 @@ export class Elements {
     )
     this.elemets.ccSizeRate = <HTMLInputElement>(
       document.getElementsByName("ccSizeRate")[0]
+    )
+    this.elemets.ccRows = <HTMLInputElement>(
+      document.getElementsByName("ccRows")[0]
     )
 
     this.elemets.displayOriginalCc[0].value = DisplayOriginalCc.OK
@@ -58,7 +66,8 @@ export class Elements {
           Number(event.target.value),
           (this.getDisplayOriginalCcElementChecked() as HTMLInputElement)
             .value as DisplayOriginalCc,
-          Number(this.getCcSizeRateElement()?.value ?? "0")
+          Number(this.getCcSizeRateElement()?.value ?? "0"),
+          Number(this.getCcRowsElement()?.value ?? "0")
         )
       }
     })
@@ -69,7 +78,8 @@ export class Elements {
         this.callbackFuncChange(
           Number(this.getOpacityRateElement()?.value ?? "0"),
           event.target.value as DisplayOriginalCc,
-          Number(this.getCcSizeRateElement()?.value ?? "0")
+          Number(this.getCcSizeRateElement()?.value ?? "0"),
+          Number(this.getCcRowsElement()?.value ?? "0")
         )
       }
     })
@@ -79,7 +89,8 @@ export class Elements {
         this.callbackFuncChange(
           Number(this.getOpacityRateElement()?.value ?? "0"),
           event.target.value as DisplayOriginalCc,
-          Number(this.getCcSizeRateElement()?.value ?? "0")
+          Number(this.getCcSizeRateElement()?.value ?? "0"),
+          Number(this.getCcRowsElement()?.value ?? "0")
         )
       }
     })
@@ -90,6 +101,19 @@ export class Elements {
           Number(this.getOpacityRateElement()?.value ?? "0"),
           (this.getDisplayOriginalCcElementChecked() as HTMLInputElement)
             .value as DisplayOriginalCc,
+          Number(event.target.value),
+          Number(this.getCcRowsElement()?.value ?? "0")
+        )
+      }
+    })
+
+    this.elemets.ccRows.addEventListener("change", (event: Event) => {
+      if (event.target instanceof HTMLInputElement) {
+        this.callbackFuncChange(
+          Number(this.getOpacityRateElement()?.value ?? "0"),
+          (this.getDisplayOriginalCcElementChecked() as HTMLInputElement)
+            .value as DisplayOriginalCc,
+          Number(this.getCcSizeRateElement()?.value ?? "0"),
           Number(event.target.value)
         )
       }
@@ -143,5 +167,14 @@ export class Elements {
   setCcSizeRateElementValue = (ccSizeRate: number): void => {
     if (!this.elemets.ccSizeRate) return
     this.elemets.ccSizeRate.value = ccSizeRate.toString()
+  }
+
+  getCcRowsElement = (): HTMLInputElement | null => {
+    return this.elemets.ccRows
+  }
+
+  setCcRowsElementValue = (ccRows: number): void => {
+    if (!this.elemets.ccRows) return
+    this.elemets.ccRows.value = ccRows.toString()
   }
 }
