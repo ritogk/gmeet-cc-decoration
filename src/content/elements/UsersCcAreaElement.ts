@@ -7,7 +7,7 @@ export interface usersCcAreaElementInterface {
   createElement(name: string): void
   updateElement(name: string): void
   setElementOpacityRate: (opacityRate: number) => void
-  setElementSizeRate: (ccSizeRate: number) => void
+  setElementSizeRate: (ccSizeRate: number, ccRows: number) => void
   findCcElement: (name: string) => HTMLSpanElement | undefined
   appendCcElement: (name: string, speach: string) => void
   updateCcElement: (name: string, speach: string) => void
@@ -32,6 +32,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private usersAreaElement: UsersAreaElement
   private elementOpacityRate = 0.5
   private elementSizeRate = 0.5
+  private elementCcRows = 4
 
   constructor(interval_excuting: boolean) {
     this.interval_excuting = interval_excuting
@@ -201,12 +202,15 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       overflow: "hidden",
     }
 
-    const height = (baseHeight / 2.8) * (this.elementSizeRate * 2)
+    // 4行を基準にして5行, 6行・・・を計算しているのできもい事になってる
+    const height =
+      (baseHeight / (2.8 * (4 / this.elementCcRows))) *
+      (this.elementSizeRate * 2)
     style.height = `${height}px`
     const padding = (baseWidth * 0.28) / 2
     style.paddingLeft = `${padding}px`
     style.paddingRight = `${padding}px`
-    const lineHeight = height / 4
+    const lineHeight = height / this.elementCcRows
     const fontSize = lineHeight * 0.7
     style.fontSize = `${fontSize}px`
     style.lineHeight = `${lineHeight}px`
@@ -223,8 +227,9 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   }
 
   // 字幕エリアのサイズを変える
-  setElementSizeRate = (ccSizeRate: number): void => {
+  setElementSizeRate = (ccSizeRate: number, ccRows: number): void => {
     this.elementSizeRate = ccSizeRate
+    this.elementCcRows = ccRows
     this.displayElements.forEach((x) => {
       const userVideoElement = this.usersAreaElement.findUserVideoElement(
         x.name

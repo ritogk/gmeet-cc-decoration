@@ -113,6 +113,7 @@ class UsersCcAreaElement {
         this.interval_excuting = false;
         this.elementOpacityRate = 0.5;
         this.elementSizeRate = 0.5;
+        this.elementCcRows = 4;
         this.getElements = () => {
             var _a;
             return (_a = this.usersAreaElement
@@ -237,12 +238,14 @@ class UsersCcAreaElement {
                 pointerEvents: "none",
                 overflow: "hidden",
             };
-            const height = (baseHeight / 2.8) * (this.elementSizeRate * 2);
+            // 4行を基準にして5行, 6行・・・を計算しているのできもい事になってる
+            const height = (baseHeight / (2.8 * (4 / this.elementCcRows))) *
+                (this.elementSizeRate * 2);
             style.height = `${height}px`;
             const padding = (baseWidth * 0.28) / 2;
             style.paddingLeft = `${padding}px`;
             style.paddingRight = `${padding}px`;
-            const lineHeight = height / 4;
+            const lineHeight = height / this.elementCcRows;
             const fontSize = lineHeight * 0.7;
             style.fontSize = `${fontSize}px`;
             style.lineHeight = `${lineHeight}px`;
@@ -257,8 +260,9 @@ class UsersCcAreaElement {
             });
         };
         // 字幕エリアのサイズを変える
-        this.setElementSizeRate = (ccSizeRate) => {
+        this.setElementSizeRate = (ccSizeRate, ccRows) => {
             this.elementSizeRate = ccSizeRate;
+            this.elementCcRows = ccRows;
             this.displayElements.forEach((x) => {
                 const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
                 if (!userVideoElement)
@@ -641,7 +645,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const main = async () => {
-    const debug = false;
+    const debug = true;
     const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(debug);
     logger.log("start: application");
     const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
@@ -665,7 +669,7 @@ const main = async () => {
         else {
             ccAreaElement.hideElement();
         }
-        usersCcAreaElement.setElementSizeRate(config.ccSizeRate);
+        usersCcAreaElement.setElementSizeRate(config.ccSizeRate, config.ccRows);
     };
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
@@ -679,7 +683,7 @@ const main = async () => {
     else {
         ccAreaElement.hideElement();
     }
-    usersCcAreaElement.setElementSizeRate(config.getConfig().ccSizeRate);
+    usersCcAreaElement.setElementSizeRate(config.getConfig().ccSizeRate, config.getConfig().ccRows);
     // screenSharingCcAreaElement.setUserCcOpacityRate(
     //   config.getConfig().opacityRate
     // )
@@ -754,16 +758,13 @@ const main = async () => {
     };
     const ccOveserver = new _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_5__.CcOveserver(callbackFuncObserver);
     // ↓ 呼び出しスクリプト
-    // document.dispatchEvent(
-    //   new CustomEvent("runScript", {
-    //     bubbles: true,
-    //     detail: {
-    //       name: "あなた",
-    //       speach:
-    //         "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほぱぴぷぺぽらりるれろ",
-    //     },
-    //   })
-    // )
+    document.dispatchEvent(new CustomEvent("runScript", {
+        bubbles: true,
+        detail: {
+            name: "あなた",
+            speach: "あいうえお。かきくけこ。さしすせそ。たちつてと。なにぬねのはひふへほぱぴぷぺぽらりるれろ",
+        },
+    }));
     // 動作確認用の入口
     document.addEventListener("runScript", (e) => {
         callbackFuncObserver(e.detail.name, "c:/a/b", e.detail.speach);

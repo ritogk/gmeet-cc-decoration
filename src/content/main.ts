@@ -8,7 +8,7 @@ import { CcOveserver } from "@/content/core/ccOveserver"
 import { Logger } from "@/core/logger"
 
 export const main = async (): Promise<void> => {
-  const debug = false
+  const debug = true
 
   const logger = new Logger(debug)
   logger.log("start: application")
@@ -35,7 +35,7 @@ export const main = async (): Promise<void> => {
     } else {
       ccAreaElement.hideElement()
     }
-    usersCcAreaElement.setElementSizeRate(config.ccSizeRate)
+    usersCcAreaElement.setElementSizeRate(config.ccSizeRate, config.ccRows)
   }
   const config = new Config(callbackFuncChangeConfig)
   await config.loadConfig()
@@ -49,7 +49,10 @@ export const main = async (): Promise<void> => {
   } else {
     ccAreaElement.hideElement()
   }
-  usersCcAreaElement.setElementSizeRate(config.getConfig().ccSizeRate)
+  usersCcAreaElement.setElementSizeRate(
+    config.getConfig().ccSizeRate,
+    config.getConfig().ccRows
+  )
   // screenSharingCcAreaElement.setUserCcOpacityRate(
   //   config.getConfig().opacityRate
   // )
@@ -129,16 +132,16 @@ export const main = async (): Promise<void> => {
   const ccOveserver = new CcOveserver(callbackFuncObserver)
 
   // ↓ 呼び出しスクリプト
-  // document.dispatchEvent(
-  //   new CustomEvent("runScript", {
-  //     bubbles: true,
-  //     detail: {
-  //       name: "あなた",
-  //       speach:
-  //         "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほぱぴぷぺぽらりるれろ",
-  //     },
-  //   })
-  // )
+  document.dispatchEvent(
+    new CustomEvent("runScript", {
+      bubbles: true,
+      detail: {
+        name: "あなた",
+        speach:
+          "あいうえお。かきくけこ。さしすせそ。たちつてと。なにぬねのはひふへほぱぴぷぺぽらりるれろ",
+      },
+    })
+  )
   // 動作確認用の入口
   document.addEventListener("runScript", (e: any) => {
     callbackFuncObserver(e.detail.name, "c:/a/b", e.detail.speach)
