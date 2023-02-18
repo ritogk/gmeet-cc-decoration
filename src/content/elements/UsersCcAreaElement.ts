@@ -34,7 +34,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private interval_excuting = false
   private usersAreaElement: UsersAreaElement
   private elementOpacityRate = 0.5
-  private elementSizeRate = 0.5
+  private elementSizeRate = 1
   private elementCcRows = 4
   private ccMarginRate = 1
 
@@ -208,8 +208,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
 
     // 4行を基準にして5行, 6行・・・を計算しているのできもい事になってる
     const height =
-      (baseHeight / (2.8 * (4 / this.elementCcRows))) *
-      (this.elementSizeRate * 2)
+      (baseHeight / (2.8 * (4 / this.elementCcRows))) * this.elementSizeRate
     style.height = `${height}px`
     const padding = ((baseWidth * 0.28) / 2) * this.ccMarginRate
     style.paddingLeft = `${padding}px`

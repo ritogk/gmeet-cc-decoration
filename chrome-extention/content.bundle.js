@@ -112,7 +112,7 @@ class UsersCcAreaElement {
     constructor(interval_excuting) {
         this.interval_excuting = false;
         this.elementOpacityRate = 0.5;
-        this.elementSizeRate = 0.5;
+        this.elementSizeRate = 1;
         this.elementCcRows = 4;
         this.ccMarginRate = 1;
         this.getElements = () => {
@@ -240,8 +240,7 @@ class UsersCcAreaElement {
                 overflow: "hidden",
             };
             // 4行を基準にして5行, 6行・・・を計算しているのできもい事になってる
-            const height = (baseHeight / (2.8 * (4 / this.elementCcRows))) *
-                (this.elementSizeRate * 2);
+            const height = (baseHeight / (2.8 * (4 / this.elementCcRows))) * this.elementSizeRate;
             style.height = `${height}px`;
             const padding = ((baseWidth * 0.28) / 2) * this.ccMarginRate;
             style.paddingLeft = `${padding}px`;
