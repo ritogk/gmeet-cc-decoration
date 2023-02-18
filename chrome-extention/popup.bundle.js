@@ -132,146 +132,189 @@ class Logger {
 
 /***/ }),
 
-/***/ "./src/popup/elements.ts":
-/*!*******************************!*\
-  !*** ./src/popup/elements.ts ***!
-  \*******************************/
+/***/ "./src/popup/elements/ccMarginRateElement.ts":
+/*!***************************************************!*\
+  !*** ./src/popup/elements/ccMarginRateElement.ts ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Elements": () => (/* binding */ Elements)
+/* harmony export */   "CcMarginRateElement": () => (/* binding */ CcMarginRateElement)
+/* harmony export */ });
+/* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
+
+class CcMarginRateElement {
+    constructor(ccMarginRate) {
+        this.getElement = () => {
+            return document.getElementById("ccMarginRate");
+        };
+        const element = this.getElement();
+        // 初期値
+        element.value = ccMarginRate.toString();
+        // 変更後にstorageに保存
+        element.addEventListener("change", (event) => {
+            if (event.target instanceof HTMLInputElement) {
+                (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.setStorage)("configCcMarginRate", event.target.value);
+            }
+        });
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/popup/elements/ccRowsElement.ts":
+/*!*********************************************!*\
+  !*** ./src/popup/elements/ccRowsElement.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CcRowsElement": () => (/* binding */ CcRowsElement)
+/* harmony export */ });
+/* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
+
+class CcRowsElement {
+    constructor(ccRows) {
+        this.getElement = () => {
+            return document.getElementById("ccRows");
+        };
+        const element = this.getElement();
+        // 初期値
+        element.value = ccRows.toString();
+        // 変更後にstorageに保存
+        element.addEventListener("change", (event) => {
+            if (event.target instanceof HTMLInputElement) {
+                (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.setStorage)("configCcRows", event.target.value);
+            }
+        });
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/popup/elements/ccSizeRateElement.ts":
+/*!*************************************************!*\
+  !*** ./src/popup/elements/ccSizeRateElement.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CcSizeRateElement": () => (/* binding */ CcSizeRateElement)
+/* harmony export */ });
+/* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
+
+class CcSizeRateElement {
+    constructor(ccSizeRate) {
+        this.getElement = () => {
+            return document.getElementById("ccSizeRate");
+        };
+        const element = this.getElement();
+        // 初期値
+        element.value = ccSizeRate.toString();
+        // 変更後にstorageに保存
+        element.addEventListener("change", (event) => {
+            if (event.target instanceof HTMLInputElement) {
+                (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.setStorage)("configCcSizeRate", event.target.value);
+            }
+        });
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/popup/elements/displayOriginalCcElement.ts":
+/*!********************************************************!*\
+  !*** ./src/popup/elements/displayOriginalCcElement.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DisplayOriginalCcElement": () => (/* binding */ DisplayOriginalCcElement)
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
+/* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
 
-class Elements {
-    constructor(opacityRate, displayOriginalCc, ccSizeRate, ccRows, ccMarginRate, callbackFuncChange) {
-        this.elemets = {
-            opacityRate: null,
-            displayOriginalCc: null,
-            ccSizeRate: null,
-            ccRows: null,
-            ccMarginRate: null,
-        };
+
+class DisplayOriginalCcElement {
+    constructor(displayOriginalCc) {
         this.getElements = () => {
-            return this.elemets;
+            return (document.getElementsByName("displayOriginalCc"));
         };
-        this.getOpacityRateElement = () => {
-            return this.elemets.opacityRate;
-        };
-        this.setOpacityRateElementValue = (opacityRate) => {
-            if (!this.elemets.opacityRate)
-                return;
-            this.elemets.opacityRate.value = opacityRate.toString();
-        };
-        this.getDisplayOriginalCcElement = () => {
-            return this.elemets.displayOriginalCc;
-        };
-        this.setDisplayOriginalCcElementChecked = (displayOriginalCc) => {
-            if (!this.elemets.displayOriginalCc)
-                return;
-            if (displayOriginalCc === _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
-                this.elemets.displayOriginalCc[0].checked = true;
-            }
-            if (displayOriginalCc === _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.NG) {
-                this.elemets.displayOriginalCc[1].checked = true;
-            }
-        };
-        this.getDisplayOriginalCcElementChecked = () => {
-            if (!this.elemets.displayOriginalCc)
-                return null;
-            if (this.elemets.displayOriginalCc[0].checked) {
-                return this.elemets.displayOriginalCc[0];
+        this.getSelectElement = () => {
+            const elements = this.getElements();
+            if (elements[0].checked) {
+                return elements[0];
             }
             else {
-                return this.elemets.displayOriginalCc[1];
+                return elements[1];
             }
         };
-        this.getCcSizeRateElement = () => {
-            return this.elemets.ccSizeRate;
-        };
-        this.setCcSizeRateElementValue = (ccSizeRate) => {
-            if (!this.elemets.ccSizeRate)
-                return;
-            this.elemets.ccSizeRate.value = ccSizeRate.toString();
-        };
-        this.getCcRowsElement = () => {
-            return this.elemets.ccRows;
-        };
-        this.setCcRowsElementValue = (ccRows) => {
-            if (!this.elemets.ccRows)
-                return;
-            this.elemets.ccRows.value = ccRows.toString();
-        };
-        this.getCcMarginRateElement = () => {
-            return this.elemets.ccMarginRate;
-        };
-        this.setCcMarginRateElementValue = (ccMarginRate) => {
-            if (!this.elemets.ccMarginRate)
-                return;
-            this.elemets.ccMarginRate.value = ccMarginRate.toString();
-        };
-        this.callbackFuncChange = callbackFuncChange;
-        this.elemets.opacityRate = (document.getElementsByName("opacityRate")[0]);
-        this.elemets.displayOriginalCc = (document.getElementsByName("displayOriginalCc"));
-        this.elemets.ccSizeRate = (document.getElementsByName("ccSizeRate")[0]);
-        this.elemets.ccRows = (document.getElementsByName("ccRows")[0]);
-        this.elemets.ccMarginRate = (document.getElementsByName("ccMarginRate")[0]);
-        this.elemets.displayOriginalCc[0].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK;
-        this.elemets.displayOriginalCc[1].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.NG;
+        const elements = this.getElements();
+        elements[0].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK;
+        elements[1].value = _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.NG;
         // 初期値
-        this.elemets.opacityRate.value = opacityRate.toString();
+        debugger;
         if (displayOriginalCc === _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
-            this.elemets.displayOriginalCc[0].checked = true;
+            elements[0].checked = true;
         }
         else {
-            this.elemets.displayOriginalCc[1].checked = true;
+            elements[1].checked = true;
         }
-        this.elemets.ccSizeRate.value = ccSizeRate.toString();
-        this.elemets.ccRows.value = ccRows.toString();
-        this.elemets.ccMarginRate.value = ccMarginRate.toString();
-        this.elemets.opacityRate.addEventListener("change", (event) => {
-            var _a, _b, _c, _d, _e, _f;
-            if (event.target instanceof HTMLInputElement) {
-                this.callbackFuncChange(Number(event.target.value), this.getDisplayOriginalCcElementChecked()
-                    .value, Number((_b = (_a = this.getCcSizeRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), Number((_d = (_c = this.getCcRowsElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"), Number((_f = (_e = this.getCcMarginRateElement()) === null || _e === void 0 ? void 0 : _e.value) !== null && _f !== void 0 ? _f : "0"));
-            }
-        });
-        this.elemets.displayOriginalCc[0].addEventListener("change", (event) => {
-            var _a, _b, _c, _d, _e, _f, _g, _h;
+        // 変更後にstorageに保存
+        elements[0].addEventListener("change", (event) => {
             if (event.target instanceof HTMLInputElement) {
                 if (!event.target.checked)
                     return;
-                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value, Number((_d = (_c = this.getCcSizeRateElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"), Number((_f = (_e = this.getCcRowsElement()) === null || _e === void 0 ? void 0 : _e.value) !== null && _f !== void 0 ? _f : "0"), Number((_h = (_g = this.getCcMarginRateElement()) === null || _g === void 0 ? void 0 : _g.value) !== null && _h !== void 0 ? _h : "0"));
+                console.log(1);
+                (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_1__.setStorage)("configDisplayOriginalCc", event.target.value);
             }
         });
-        this.elemets.displayOriginalCc[1].addEventListener("change", (event) => {
-            var _a, _b, _c, _d, _e, _f, _g, _h;
+        // 変更後にstorageに保存
+        elements[1].addEventListener("change", (event) => {
             if (event.target instanceof HTMLInputElement) {
                 if (!event.target.checked)
                     return;
-                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), event.target.value, Number((_d = (_c = this.getCcSizeRateElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"), Number((_f = (_e = this.getCcRowsElement()) === null || _e === void 0 ? void 0 : _e.value) !== null && _f !== void 0 ? _f : "0"), Number((_h = (_g = this.getCcMarginRateElement()) === null || _g === void 0 ? void 0 : _g.value) !== null && _h !== void 0 ? _h : "0"));
+                console.log(2);
+                (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_1__.setStorage)("configDisplayOriginalCc", event.target.value);
             }
         });
-        this.elemets.ccSizeRate.addEventListener("change", (event) => {
-            var _a, _b, _c, _d, _e, _f;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/popup/elements/opacityRateElement.ts":
+/*!**************************************************!*\
+  !*** ./src/popup/elements/opacityRateElement.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "OpacityRateElement": () => (/* binding */ OpacityRateElement)
+/* harmony export */ });
+/* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
+
+class OpacityRateElement {
+    constructor(opacityRate) {
+        this.getElement = () => {
+            return document.getElementById("opacityRate");
+        };
+        const element = this.getElement();
+        // 初期値
+        element.value = opacityRate.toString();
+        // 変更後にstorageに保存
+        element.addEventListener("change", (event) => {
             if (event.target instanceof HTMLInputElement) {
-                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), this.getDisplayOriginalCcElementChecked()
-                    .value, Number(event.target.value), Number((_d = (_c = this.getCcRowsElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"), Number((_f = (_e = this.getCcMarginRateElement()) === null || _e === void 0 ? void 0 : _e.value) !== null && _f !== void 0 ? _f : "0"));
-            }
-        });
-        this.elemets.ccRows.addEventListener("change", (event) => {
-            var _a, _b, _c, _d, _e, _f;
-            if (event.target instanceof HTMLInputElement) {
-                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), this.getDisplayOriginalCcElementChecked()
-                    .value, Number((_d = (_c = this.getCcSizeRateElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"), Number(event.target.value), Number((_f = (_e = this.getCcMarginRateElement()) === null || _e === void 0 ? void 0 : _e.value) !== null && _f !== void 0 ? _f : "0"));
-            }
-        });
-        this.elemets.ccMarginRate.addEventListener("change", (event) => {
-            var _a, _b, _c, _d, _e, _f;
-            if (event.target instanceof HTMLInputElement) {
-                this.callbackFuncChange(Number((_b = (_a = this.getOpacityRateElement()) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "0"), this.getDisplayOriginalCcElementChecked()
-                    .value, Number((_d = (_c = this.getCcSizeRateElement()) === null || _c === void 0 ? void 0 : _c.value) !== null && _d !== void 0 ? _d : "0"), Number((_f = (_e = this.getCcRowsElement()) === null || _e === void 0 ? void 0 : _e.value) !== null && _f !== void 0 ? _f : "0"), Number(event.target.value));
+                (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.setStorage)("configOpacityRate", event.target.value);
             }
         });
     }
@@ -347,37 +390,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "run": () => (/* binding */ run)
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
-/* harmony import */ var _popup_elements__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/popup/elements */ "./src/popup/elements.ts");
-/* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
-/* harmony import */ var _core_logger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/core/logger */ "./src/core/logger.ts");
+/* harmony import */ var _popup_elements_opacityRateElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/popup/elements/opacityRateElement */ "./src/popup/elements/opacityRateElement.ts");
+/* harmony import */ var _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/popup/elements/ccSizeRateElement */ "./src/popup/elements/ccSizeRateElement.ts");
+/* harmony import */ var _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/popup/elements/ccRowsElement */ "./src/popup/elements/ccRowsElement.ts");
+/* harmony import */ var _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/popup/elements/ccMarginRateElement */ "./src/popup/elements/ccMarginRateElement.ts");
+/* harmony import */ var _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/popup/elements/displayOriginalCcElement */ "./src/popup/elements/displayOriginalCcElement.ts");
+/* harmony import */ var _core_logger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/core/logger */ "./src/core/logger.ts");
+
+
+
 
 
 
 
 const run = async () => {
-    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_3__.Logger(false);
+    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(false);
     logger.log("start: popup");
     // config読み込み
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config((config) => { });
     await config.loadConfig();
     const configData = config.getConfig();
     logger.log(`load config: ${JSON.stringify(configData)}`);
-    // elementsの変更後のコールバック関数
-    const callbackFuncChangeElement = (opacityRate, displayOriginalCc, ccSizeRate, ccRows, ccMarginRate) => {
-        // configとストレージを更新
-        logger.log("changeElement");
-        configData.opacityRate = opacityRate;
-        configData.displayOriginalCc = displayOriginalCc;
-        configData.ccSizeRate = ccSizeRate;
-        configData.ccRows = ccRows;
-        configData.ccMaringRate = ccMarginRate;
-        (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configOpacityRate", opacityRate);
-        (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configDisplayOriginalCc", displayOriginalCc);
-        (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configCcSizeRate", ccSizeRate);
-        (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configCcRows", ccRows);
-        (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_2__.setStorage)("configCcMarginRate", ccMarginRate);
-    };
-    const elements = new _popup_elements__WEBPACK_IMPORTED_MODULE_1__.Elements(configData.opacityRate, configData.displayOriginalCc, configData.ccSizeRate, configData.ccRows, configData.ccMaringRate, callbackFuncChangeElement);
+    const opacityRateElement = new _popup_elements_opacityRateElement__WEBPACK_IMPORTED_MODULE_1__.OpacityRateElement(configData.opacityRate);
+    const ccSizeRateElement = new _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_2__.CcSizeRateElement(configData.ccSizeRate);
+    const ccRowsElement = new _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_3__.CcRowsElement(configData.ccRows);
+    const ccMarginRateElement = new _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_4__.CcMarginRateElement(configData.ccMaringRate);
+    const displayOriginalCcElement = new _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_5__.DisplayOriginalCcElement(configData.displayOriginalCc);
 };
 window.addEventListener("load", run, false);
 

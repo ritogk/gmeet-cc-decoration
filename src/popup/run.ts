@@ -1,6 +1,9 @@
-import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
-import { Elements } from "@/popup/elements"
-import { setStorage } from "@/core/chromeStorage"
+import { Config, ConfigObjectInterface } from "@/core/config"
+import { OpacityRateElement } from "@/popup/elements/opacityRateElement"
+import { CcSizeRateElement } from "@/popup/elements/ccSizeRateElement"
+import { CcRowsElement } from "@/popup/elements/ccRowsElement"
+import { CcMarginRateElement } from "@/popup/elements/ccMarginRateElement"
+import { DisplayOriginalCcElement } from "@/popup/elements/displayOriginalCcElement"
 import { Logger } from "@/core/logger"
 
 export const run = async (): Promise<void> => {
@@ -13,34 +16,12 @@ export const run = async (): Promise<void> => {
   const configData = config.getConfig()
   logger.log(`load config: ${JSON.stringify(configData)}`)
 
-  // elementsの変更後のコールバック関数
-  const callbackFuncChangeElement = (
-    opacityRate: number,
-    displayOriginalCc: DisplayOriginalCc,
-    ccSizeRate: number,
-    ccRows: number,
-    ccMarginRate: number
-  ) => {
-    // configとストレージを更新
-    logger.log("changeElement")
-    configData.opacityRate = opacityRate
-    configData.displayOriginalCc = displayOriginalCc
-    configData.ccSizeRate = ccSizeRate
-    configData.ccRows = ccRows
-    configData.ccMaringRate = ccMarginRate
-    setStorage("configOpacityRate", opacityRate)
-    setStorage("configDisplayOriginalCc", displayOriginalCc)
-    setStorage("configCcSizeRate", ccSizeRate)
-    setStorage("configCcRows", ccRows)
-    setStorage("configCcMarginRate", ccMarginRate)
-  }
-  const elements = new Elements(
-    configData.opacityRate,
-    configData.displayOriginalCc,
-    configData.ccSizeRate,
-    configData.ccRows,
-    configData.ccMaringRate,
-    callbackFuncChangeElement
+  const opacityRateElement = new OpacityRateElement(configData.opacityRate)
+  const ccSizeRateElement = new CcSizeRateElement(configData.ccSizeRate)
+  const ccRowsElement = new CcRowsElement(configData.ccRows)
+  const ccMarginRateElement = new CcMarginRateElement(configData.ccMaringRate)
+  const displayOriginalCcElement = new DisplayOriginalCcElement(
+    configData.displayOriginalCc
   )
 }
 
