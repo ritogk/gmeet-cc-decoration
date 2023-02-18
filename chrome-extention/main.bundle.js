@@ -252,17 +252,7 @@ class UsersCcAreaElement {
             style.webkitTextStroke = `${fontSize >= 23 ? 2 : 1}px #000`;
             return style;
         };
-        // 字幕エリアの透明度を変える
-        this.setElementOpacityRate = (opacityRate) => {
-            this.elementOpacityRate = opacityRate;
-            this.displayElements.forEach((x) => {
-                x.element.style.opacity = this.elementOpacityRate.toString();
-            });
-        };
-        // 字幕エリアのサイズを変える
-        this.setElementSizeRate = (ccSizeRate, ccRows) => {
-            this.elementSizeRate = ccSizeRate;
-            this.elementCcRows = ccRows;
+        this.changeElementsStyle = () => {
             this.displayElements.forEach((x) => {
                 const userVideoElement = this.usersAreaElement.findUserVideoElement(x.name);
                 if (!userVideoElement)
@@ -270,15 +260,34 @@ class UsersCcAreaElement {
                 const userAreaElement = this.usersAreaElement.findUserAreaElement(x.name);
                 if (!userAreaElement)
                     return;
-                const elementStyle = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
-                x.element.style.height = elementStyle.height;
-                x.element.style.paddingLeft = elementStyle.paddingLeft;
-                x.element.style.paddingRight = elementStyle.paddingRight;
-                x.element.style.fontSize = elementStyle.fontSize;
-                x.element.style.lineHeight = elementStyle.lineHeight;
-                x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke;
-                x.element.style.opacity = elementStyle.opacity;
+                const style = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
+                x.element.style.height = style.height;
+                x.element.style.fontSize = style.fontSize;
+                x.element.style.lineHeight = style.lineHeight;
+                x.element.style.webkitTextStroke = style.webkitTextStroke;
+                x.element.style.paddingLeft = style.paddingLeft;
+                x.element.style.paddingRight = style.paddingRight;
+                x.element.style.position = style.position;
+                x.element.style.bottom = style.bottom;
+                x.element.style.textAlign = style.textAlign;
+                x.element.style.backgroundColor = style.backgroundColor;
+                x.element.style.margin = style.margin;
+                x.element.style.zIndex = style.zIndex;
+                x.element.style.left = style.left;
+                x.element.style.right = style.right;
+                x.element.style.pointerEvents = style.pointerEvents;
+                x.element.style.overflow = style.overflow;
+                x.element.style.opacity = style.opacity;
             });
+        };
+        this.setOpacityRate = (opacityRate) => {
+            this.elementOpacityRate = opacityRate;
+        };
+        this.setSizeRate = (sizeRate) => {
+            this.elementSizeRate = sizeRate;
+        };
+        this.setCcRows = (ccRows) => {
+            this.elementCcRows = ccRows;
         };
         // 字幕 更新
         this.updateCcElement = (name, speach) => {
@@ -868,9 +877,10 @@ const main = async () => {
      */
     const callbackFuncChangeConfig = (config) => {
         logger.log(JSON.stringify(config));
-        // 字幕の透明度
-        usersCcAreaElement.setElementOpacityRate(config.opacityRate);
-        // screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate)
+        usersCcAreaElement.setOpacityRate(config.opacityRate);
+        usersCcAreaElement.setSizeRate(config.ccSizeRate);
+        usersCcAreaElement.setCcRows(config.ccRows);
+        usersCcAreaElement.changeElementsStyle();
         // 字幕の表示非表示制御
         if (config.displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
             ccAreaElement.showElement();
@@ -878,21 +888,22 @@ const main = async () => {
         else {
             ccAreaElement.hideElement();
         }
-        usersCcAreaElement.setElementSizeRate(config.ccSizeRate, config.ccRows);
     };
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config(callbackFuncChangeConfig);
     await config.loadConfig();
     logger.log(`load config: ${JSON.stringify(config.getConfig())}`);
     config.observeGoogleStorage();
     // elementの初期設定
-    usersCcAreaElement.setElementOpacityRate(config.getConfig().opacityRate);
+    usersCcAreaElement.setOpacityRate(config.getConfig().opacityRate);
     if (config.getConfig().displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
         ccAreaElement.showElement();
     }
     else {
         ccAreaElement.hideElement();
     }
-    usersCcAreaElement.setElementSizeRate(config.getConfig().ccSizeRate, config.getConfig().ccRows);
+    usersCcAreaElement.setSizeRate(config.getConfig().ccSizeRate);
+    usersCcAreaElement.setCcRows(config.getConfig().ccRows);
+    usersCcAreaElement.changeElementsStyle();
     // screenSharingCcAreaElement.setUserCcOpacityRate(
     //   config.getConfig().opacityRate
     // )

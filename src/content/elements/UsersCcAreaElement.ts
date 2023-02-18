@@ -6,8 +6,12 @@ export interface usersCcAreaElementInterface {
   getElement(name: string): Element | undefined
   createElement(name: string): void
   updateElement(name: string): void
-  setElementOpacityRate: (opacityRate: number) => void
-  setElementSizeRate: (ccSizeRate: number, ccRows: number) => void
+
+  setOpacityRate: (opacityRate: number) => void
+  setSizeRate: (ccSizeRate: number) => void
+  setCcRows: (ccRows: number) => void
+  changeElementsStyle: () => void
+
   findCcElement: (name: string) => HTMLSpanElement | undefined
   appendCcElement: (name: string, speach: string) => void
   updateCcElement: (name: string, speach: string) => void
@@ -218,18 +222,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     return style
   }
 
-  // 字幕エリアの透明度を変える
-  setElementOpacityRate = (opacityRate: number): void => {
-    this.elementOpacityRate = opacityRate
-    this.displayElements.forEach((x) => {
-      x.element.style.opacity = this.elementOpacityRate.toString()
-    })
-  }
-
-  // 字幕エリアのサイズを変える
-  setElementSizeRate = (ccSizeRate: number, ccRows: number): void => {
-    this.elementSizeRate = ccSizeRate
-    this.elementCcRows = ccRows
+  changeElementsStyle = (): void => {
     this.displayElements.forEach((x) => {
       const userVideoElement = this.usersAreaElement.findUserVideoElement(
         x.name
@@ -238,18 +231,40 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       const userAreaElement = this.usersAreaElement.findUserAreaElement(x.name)
       if (!userAreaElement) return
 
-      const elementStyle = this.generateElementStyle(
+      const style = this.generateElementStyle(
         userAreaElement.clientWidth,
         userAreaElement.clientHeight
       )
-      x.element.style.height = elementStyle.height
-      x.element.style.paddingLeft = elementStyle.paddingLeft
-      x.element.style.paddingRight = elementStyle.paddingRight
-      x.element.style.fontSize = elementStyle.fontSize
-      x.element.style.lineHeight = elementStyle.lineHeight
-      x.element.style.webkitTextStrokeWidth = elementStyle.webkitTextStroke
-      x.element.style.opacity = elementStyle.opacity
+      x.element.style.height = style.height
+      x.element.style.fontSize = style.fontSize
+      x.element.style.lineHeight = style.lineHeight
+      x.element.style.webkitTextStroke = style.webkitTextStroke
+      x.element.style.paddingLeft = style.paddingLeft
+      x.element.style.paddingRight = style.paddingRight
+      x.element.style.position = style.position
+      x.element.style.bottom = style.bottom
+      x.element.style.textAlign = style.textAlign
+      x.element.style.backgroundColor = style.backgroundColor
+      x.element.style.margin = style.margin
+      x.element.style.zIndex = style.zIndex
+      x.element.style.left = style.left
+      x.element.style.right = style.right
+      x.element.style.pointerEvents = style.pointerEvents
+      x.element.style.overflow = style.overflow
+      x.element.style.opacity = style.opacity
     })
+  }
+
+  setOpacityRate = (opacityRate: number) => {
+    this.elementOpacityRate = opacityRate
+  }
+
+  setSizeRate = (sizeRate: number) => {
+    this.elementSizeRate = sizeRate
+  }
+
+  setCcRows = (ccRows: number) => {
+    this.elementCcRows = ccRows
   }
 
   // 字幕 更新

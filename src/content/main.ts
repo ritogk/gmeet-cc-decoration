@@ -25,9 +25,10 @@ export const main = async (): Promise<void> => {
    */
   const callbackFuncChangeConfig = (config: ConfigObjectInterface) => {
     logger.log(JSON.stringify(config))
-    // 字幕の透明度
-    usersCcAreaElement.setElementOpacityRate(config.opacityRate)
-    // screenSharingCcAreaElement.setUserCcOpacityRate(config.opacityRate)
+    usersCcAreaElement.setOpacityRate(config.opacityRate)
+    usersCcAreaElement.setSizeRate(config.ccSizeRate)
+    usersCcAreaElement.setCcRows(config.ccRows)
+    usersCcAreaElement.changeElementsStyle()
 
     // 字幕の表示非表示制御
     if (config.displayOriginalCc == DisplayOriginalCc.OK) {
@@ -35,7 +36,6 @@ export const main = async (): Promise<void> => {
     } else {
       ccAreaElement.hideElement()
     }
-    usersCcAreaElement.setElementSizeRate(config.ccSizeRate, config.ccRows)
   }
   const config = new Config(callbackFuncChangeConfig)
   await config.loadConfig()
@@ -43,16 +43,15 @@ export const main = async (): Promise<void> => {
   config.observeGoogleStorage()
 
   // elementの初期設定
-  usersCcAreaElement.setElementOpacityRate(config.getConfig().opacityRate)
+  usersCcAreaElement.setOpacityRate(config.getConfig().opacityRate)
   if (config.getConfig().displayOriginalCc == DisplayOriginalCc.OK) {
     ccAreaElement.showElement()
   } else {
     ccAreaElement.hideElement()
   }
-  usersCcAreaElement.setElementSizeRate(
-    config.getConfig().ccSizeRate,
-    config.getConfig().ccRows
-  )
+  usersCcAreaElement.setSizeRate(config.getConfig().ccSizeRate)
+  usersCcAreaElement.setCcRows(config.getConfig().ccRows)
+  usersCcAreaElement.changeElementsStyle()
   // screenSharingCcAreaElement.setUserCcOpacityRate(
   //   config.getConfig().opacityRate
   // )
