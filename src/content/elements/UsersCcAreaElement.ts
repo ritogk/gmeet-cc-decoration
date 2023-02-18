@@ -6,12 +6,11 @@ export interface usersCcAreaElementInterface {
   getElement(name: string): Element | undefined
   createElement(name: string): void
   updateElement(name: string): void
-
   setOpacityRate: (opacityRate: number) => void
   setSizeRate: (ccSizeRate: number) => void
   setCcRows: (ccRows: number) => void
+  setCcMarginRate: (ccMarginRate: number) => void
   changeElementsStyle: () => void
-
   findCcElement: (name: string) => HTMLSpanElement | undefined
   appendCcElement: (name: string, speach: string) => void
   updateCcElement: (name: string, speach: string) => void
@@ -37,6 +36,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private elementOpacityRate = 0.5
   private elementSizeRate = 0.5
   private elementCcRows = 4
+  private ccMarginRate = 1
 
   constructor(interval_excuting: boolean) {
     this.interval_excuting = interval_excuting
@@ -211,7 +211,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       (baseHeight / (2.8 * (4 / this.elementCcRows))) *
       (this.elementSizeRate * 2)
     style.height = `${height}px`
-    const padding = (baseWidth * 0.28) / 2
+    const padding = ((baseWidth * 0.28) / 2) * this.ccMarginRate
     style.paddingLeft = `${padding}px`
     style.paddingRight = `${padding}px`
     const lineHeight = height / this.elementCcRows
@@ -265,6 +265,10 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
 
   setCcRows = (ccRows: number) => {
     this.elementCcRows = ccRows
+  }
+
+  setCcMarginRate = (ccMarginRate: number) => {
+    this.ccMarginRate = ccMarginRate
   }
 
   // 字幕 更新

@@ -114,6 +114,7 @@ class UsersCcAreaElement {
         this.elementOpacityRate = 0.5;
         this.elementSizeRate = 0.5;
         this.elementCcRows = 4;
+        this.ccMarginRate = 1;
         this.getElements = () => {
             var _a;
             return (_a = this.usersAreaElement
@@ -242,7 +243,7 @@ class UsersCcAreaElement {
             const height = (baseHeight / (2.8 * (4 / this.elementCcRows))) *
                 (this.elementSizeRate * 2);
             style.height = `${height}px`;
-            const padding = (baseWidth * 0.28) / 2;
+            const padding = ((baseWidth * 0.28) / 2) * this.ccMarginRate;
             style.paddingLeft = `${padding}px`;
             style.paddingRight = `${padding}px`;
             const lineHeight = height / this.elementCcRows;
@@ -288,6 +289,9 @@ class UsersCcAreaElement {
         };
         this.setCcRows = (ccRows) => {
             this.elementCcRows = ccRows;
+        };
+        this.setCcMarginRate = (ccMarginRate) => {
+            this.ccMarginRate = ccMarginRate;
         };
         // 字幕 更新
         this.updateCcElement = (name, speach) => {
@@ -684,6 +688,7 @@ class Config {
             displayOriginalCc: DisplayOriginalCc.OK,
             ccSizeRate: 0.5,
             ccRows: 5,
+            ccMaringRate: 0.5,
         };
         this.getConfig = () => {
             return this.config;
@@ -693,7 +698,7 @@ class Config {
             this.callbackFuncChangeConfig(this.config);
         };
         this.loadConfig = async () => {
-            var _a, _b, _c, _d;
+            var _a, _b, _c, _d, _e;
             this.config.opacityRate =
                 (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configOpacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
             this.config.displayOriginalCc =
@@ -702,6 +707,8 @@ class Config {
                 (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcSizeRate"))) !== null && _c !== void 0 ? _c : this.config.opacityRate;
             this.config.ccRows =
                 (_d = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcRows"))) !== null && _d !== void 0 ? _d : this.config.ccRows;
+            this.config.ccMaringRate =
+                (_e = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcMarginRate"))) !== null && _e !== void 0 ? _e : this.config.ccMaringRate;
         };
         this.observeGoogleStorage = () => {
             chrome.storage.onChanged.addListener((changes, namespace) => {
@@ -717,6 +724,9 @@ class Config {
                 }
                 if ("configCcRows" in changes) {
                     config.ccRows = changes.configCcRows.newValue;
+                }
+                if ("configCcMarginRate" in changes) {
+                    config.ccMaringRate = changes.configCcMarginRate.newValue;
                 }
                 this.setConfig(config);
             });
@@ -880,6 +890,7 @@ const main = async () => {
         usersCcAreaElement.setOpacityRate(config.opacityRate);
         usersCcAreaElement.setSizeRate(config.ccSizeRate);
         usersCcAreaElement.setCcRows(config.ccRows);
+        usersCcAreaElement.setCcMarginRate(config.ccMaringRate);
         usersCcAreaElement.changeElementsStyle();
         // 字幕の表示非表示制御
         if (config.displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
@@ -903,6 +914,7 @@ const main = async () => {
     }
     usersCcAreaElement.setSizeRate(config.getConfig().ccSizeRate);
     usersCcAreaElement.setCcRows(config.getConfig().ccRows);
+    usersCcAreaElement.setCcMarginRate(config.getConfig().ccMaringRate);
     usersCcAreaElement.changeElementsStyle();
     // screenSharingCcAreaElement.setUserCcOpacityRate(
     //   config.getConfig().opacityRate

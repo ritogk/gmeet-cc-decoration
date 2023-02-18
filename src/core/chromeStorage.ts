@@ -3,6 +3,7 @@ type ChromeStorageKey =
   | "configDisplayOriginalCc"
   | "configCcSizeRate"
   | "configCcRows"
+  | "configCcMarginRate"
 
 export const getStorage = async <T>(
   key: ChromeStorageKey

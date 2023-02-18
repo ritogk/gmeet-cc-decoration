@@ -28,6 +28,7 @@ export const main = async (): Promise<void> => {
     usersCcAreaElement.setOpacityRate(config.opacityRate)
     usersCcAreaElement.setSizeRate(config.ccSizeRate)
     usersCcAreaElement.setCcRows(config.ccRows)
+    usersCcAreaElement.setCcMarginRate(config.ccMaringRate)
     usersCcAreaElement.changeElementsStyle()
 
     // 字幕の表示非表示制御
@@ -51,6 +52,7 @@ export const main = async (): Promise<void> => {
   }
   usersCcAreaElement.setSizeRate(config.getConfig().ccSizeRate)
   usersCcAreaElement.setCcRows(config.getConfig().ccRows)
+  usersCcAreaElement.setCcMarginRate(config.getConfig().ccMaringRate)
   usersCcAreaElement.changeElementsStyle()
   // screenSharingCcAreaElement.setUserCcOpacityRate(
   //   config.getConfig().opacityRate
