@@ -212,6 +212,7 @@ class Elements {
             this.elemets.displayOriginalCc[1].checked = true;
         }
         this.elemets.ccSizeRate.value = ccSizeRate.toString();
+        this.elemets.ccRows.value = ccRows.toString();
         this.elemets.opacityRate.addEventListener("change", (event) => {
             var _a, _b, _c, _d;
             if (event.target instanceof HTMLInputElement) {
