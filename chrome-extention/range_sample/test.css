@@ -3,6 +3,7 @@
   position: relative;
 }
 
+/* スライダーの目盛りのスタイル */
 .range {
   appearance: none;
   -webkit-appearance: none;
@@ -19,7 +20,7 @@
   left: 0px;
   top: -5;
   width: 20px;
-  height: 30px;
+  height: 20px;
   text-align: center;
   color: #fff;
   line-height: 11px;
@@ -31,6 +32,7 @@
   content: attr(data-val) " ";
 }
 
+/* スライダーのポイントのスタイル */
 .range::-webkit-slider-thumb {
   appearance: none;
   -webkit-appearance: none;
