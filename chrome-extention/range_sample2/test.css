@@ -21,7 +21,7 @@
 }
 
 .range-thumb::before {
-  content: attr(data-val) " ";
+  content: attr(data-val);
 }
 
 .range::-webkit-slider-thumb {
