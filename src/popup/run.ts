@@ -5,6 +5,8 @@ import { CcRowsElement } from "@/popup/elements/ccRowsElement"
 import { CcMarginRateElement } from "@/popup/elements/ccMarginRateElement"
 import { DisplayOriginalCcElement } from "@/popup/elements/displayOriginalCcElement"
 import { Logger } from "@/core/logger"
+import "bootstrap"
+import "@/popup/elements/scss/main.scss"
 
 export const run = async (): Promise<void> => {
   const logger = new Logger(false)

@@ -1,3 +1,5 @@
+// const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+
 const path = require("path")
 module.exports = {
   // モード値を production に設定すると最適化された状態で、
@@ -24,6 +26,20 @@ module.exports = {
         test: /\.ts$/,
         // TypeScript をコンパイルする
         use: "ts-loader",
+      },
+      {
+        test: /\.(scss)$/,
+        use: [
+          {
+            loader: "style-loader", // inject CSS to page
+          },
+          {
+            loader: "css-loader", // translates CSS into CommonJS modules
+          },
+          {
+            loader: "sass-loader", // compiles Sass to CSS
+          },
+        ],
       },
     ],
   },
