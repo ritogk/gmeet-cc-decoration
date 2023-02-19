@@ -1,12 +1,10 @@
+:root {
+  --range-width: 17px;
+}
+
 /* CUSTOM RANGE INPUT */
 .range-div {
   position: relative;
-}
-
-.range {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
 }
 
 /* スライダーの上に表示させる文字 */
@@ -14,8 +12,7 @@
   position: absolute;
   left: 0px;
   top: 38;
-  width: 17px;
-  height: 30px;
+  width: var(--range-width);
   text-align: center;
   color: #fff;
   line-height: 11px;
@@ -31,8 +28,7 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  height: 20px;
-  width: 17px;
+  width: var(--range-width);
   background: #1299e6;
   border-radius: 30px;
   cursor: grab;

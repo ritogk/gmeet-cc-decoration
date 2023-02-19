@@ -7,7 +7,12 @@ window.onload = () => {
     var max =
       (Number(rangeElement.max) - Number(rangeElement.min)) /
       Number(rangeElement.step)
-    var tw = 17 // Thumb width. See CSS
+    var tw = Number(
+      getComputedStyle(document.querySelector(":root"))
+        .getPropertyValue("--range-width")
+        .trim()
+        .replace("px", "")
+    )
 
     rangeElement.addEventListener("input", (event) => {
       const value = event.target.value
