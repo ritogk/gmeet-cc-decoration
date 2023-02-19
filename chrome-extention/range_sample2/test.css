@@ -1,0 +1,39 @@
+/* CUSTOM RANGE INPUT */
+.range-div {
+  position: relative;
+}
+
+.range {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* スライダーの上に表示させる文字 */
+.range-thumb {
+  position: absolute;
+  left: 0px;
+  top: 38;
+  width: 17px;
+  height: 30px;
+  text-align: center;
+  color: #fff;
+  line-height: 11px;
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.range-thumb::before {
+  content: attr(data-val) " ";
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 20px;
+  width: 17px;
+  background: #1299e6;
+  border-radius: 30px;
+  cursor: grab;
+}
