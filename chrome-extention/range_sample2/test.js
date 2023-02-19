@@ -5,19 +5,20 @@ window.onload = () => {
     const thumbElement =
       rangeDivElement.getElementsByClassName("range-thumb")[0]
     const rangeElement = rangeDivElement.getElementsByClassName("range")[0]
-    const max =
+    // 0~?の範囲にマッピングした最大値
+    const mapMax =
       (Number(rangeElement.max) - Number(rangeElement.min)) /
       Number(rangeElement.step)
-    const tw = thumbElement.clientWidth
+    const thumbWidth = thumbElement.clientWidth
 
     rangeElement.addEventListener("input", (event) => {
       const value = event.target.value
-      const w = event.target.clientWidth
-      const val =
+      const width = event.target.clientWidth
+      // 0~?の範囲にマッピングした現在値
+      const mapValue =
         (Number(rangeElement.value) - Number(rangeElement.min)) /
         Number(rangeElement.step)
-      const xPX = (val * (w - tw)) / max
-      thumbElement.style.left = xPX
+      thumbElement.style.left = (mapValue * (width - thumbWidth)) / mapMax
       thumbElement.setAttribute("data-val", Number(value))
     })
     rangeElement.dispatchEvent(new Event("input"))
