@@ -872,7 +872,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const main = async () => {
-    const debug = true;
+    const debug = false;
     const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(debug);
     logger.log("start: application");
     const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_1__.UsersAreaElement();
