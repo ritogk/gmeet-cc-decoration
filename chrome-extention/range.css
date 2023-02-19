@@ -1,0 +1,35 @@
+:root {
+  --range-width: 17px;
+}
+
+/* CUSTOM RANGE INPUT */
+.range-div {
+  position: relative;
+}
+
+/* スライダーの上に表示させる文字 */
+.range-thumb {
+  position: absolute;
+  left: 0px;
+  top: 38px;
+  width: var(--range-width);
+  text-align: center;
+  color: #fff;
+  line-height: 11px;
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.range-thumb::before {
+  content: attr(data-val);
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: var(--range-width);
+  background: #0d6efd;
+  border-radius: 30px;
+  cursor: grab;
+}

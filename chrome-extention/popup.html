@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="./bootstrap.min.css" />
     <script src="./bootstrap.min.js"></script>
     <script src="./popup.bundle.js"></script>
+    <script src="./range.js"></script>
+    <link rel="stylesheet" href="./range.css" />
   </head>
   <body class="shadow-lg bg-dark text-white-50">
     <div class="border border-3 border-secondary" style="width: 400px">
@@ -57,16 +59,19 @@
           />
         </div>
         <div class="mb-3">
-          <label for="ccRows" class="form-label">字幕の行数</label>
-          <input
-            type="range"
-            name="ccRows"
-            class="form-range"
-            id="ccRows"
-            min="0"
-            max="10"
-            step="1"
-          />
+          <div class="range-div">
+            <label for="ccRows" class="form-label">字幕の行数</label>
+            <input
+              type="range"
+              name="ccRows"
+              class="form-range range"
+              id="ccRows"
+              min="0"
+              max="10"
+              step="1"
+            />
+            <span class="range-thumb"></span>
+          </div>
         </div>
         <div class="mb-3">
           <label for="ccMarginRate" class="form-label">字幕の余白</label>
