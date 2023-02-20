@@ -9343,6 +9343,52 @@ class OpacityRateElement {
 
 /***/ }),
 
+/***/ "./src/popup/main.ts":
+/*!***************************!*\
+  !*** ./src/popup/main.ts ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "main": () => (/* binding */ main)
+/* harmony export */ });
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
+/* harmony import */ var _popup_elements_opacityRateElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/popup/elements/opacityRateElement */ "./src/popup/elements/opacityRateElement.ts");
+/* harmony import */ var _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/popup/elements/ccSizeRateElement */ "./src/popup/elements/ccSizeRateElement.ts");
+/* harmony import */ var _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/popup/elements/ccRowsElement */ "./src/popup/elements/ccRowsElement.ts");
+/* harmony import */ var _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/popup/elements/ccMarginRateElement */ "./src/popup/elements/ccMarginRateElement.ts");
+/* harmony import */ var _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/popup/elements/displayOriginalCcElement */ "./src/popup/elements/displayOriginalCcElement.ts");
+/* harmony import */ var _core_logger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/core/logger */ "./src/core/logger.ts");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var _popup_elements_scss_main_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/popup/elements/scss/main.scss */ "./src/popup/elements/scss/main.scss");
+
+
+
+
+
+
+
+
+
+const main = async () => {
+    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(false);
+    logger.log("start: popup");
+    // config読み込み
+    const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config((config) => { });
+    await config.loadConfig();
+    const configData = config.getConfig();
+    logger.log(`load config: ${JSON.stringify(configData)}`);
+    const opacityRateElement = new _popup_elements_opacityRateElement__WEBPACK_IMPORTED_MODULE_1__.OpacityRateElement(configData.opacityRate);
+    const ccSizeRateElement = new _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_2__.CcSizeRateElement(configData.ccSizeRate);
+    const ccRowsElement = new _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_3__.CcRowsElement(configData.ccRows);
+    const ccMarginRateElement = new _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_4__.CcMarginRateElement(configData.ccMaringRate);
+    const displayOriginalCcElement = new _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_5__.DisplayOriginalCcElement(configData.displayOriginalCc);
+};
+
+
+/***/ }),
+
 /***/ "data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%272%27 fill=%27%23fff%27/%3e%3c/svg%3e":
 /*!******************************************************************************************************************************************************!*\
   !*** data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%27-4 -4 8 8%27%3e%3ccircle r=%272%27 fill=%27%23fff%27/%3e%3c/svg%3e ***!
@@ -9615,37 +9661,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "run": () => (/* binding */ run)
 /* harmony export */ });
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
-/* harmony import */ var _popup_elements_opacityRateElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/popup/elements/opacityRateElement */ "./src/popup/elements/opacityRateElement.ts");
-/* harmony import */ var _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/popup/elements/ccSizeRateElement */ "./src/popup/elements/ccSizeRateElement.ts");
-/* harmony import */ var _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/popup/elements/ccRowsElement */ "./src/popup/elements/ccRowsElement.ts");
-/* harmony import */ var _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/popup/elements/ccMarginRateElement */ "./src/popup/elements/ccMarginRateElement.ts");
-/* harmony import */ var _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/popup/elements/displayOriginalCcElement */ "./src/popup/elements/displayOriginalCcElement.ts");
-/* harmony import */ var _core_logger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/core/logger */ "./src/core/logger.ts");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
-/* harmony import */ var _popup_elements_scss_main_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/popup/elements/scss/main.scss */ "./src/popup/elements/scss/main.scss");
-
-
-
-
-
-
-
-
+/* harmony import */ var _popup_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/popup/main */ "./src/popup/main.ts");
 
 const run = async () => {
-    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(false);
-    logger.log("start: popup");
-    // config読み込み
-    const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config((config) => { });
-    await config.loadConfig();
-    const configData = config.getConfig();
-    logger.log(`load config: ${JSON.stringify(configData)}`);
-    const opacityRateElement = new _popup_elements_opacityRateElement__WEBPACK_IMPORTED_MODULE_1__.OpacityRateElement(configData.opacityRate);
-    const ccSizeRateElement = new _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_2__.CcSizeRateElement(configData.ccSizeRate);
-    const ccRowsElement = new _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_3__.CcRowsElement(configData.ccRows);
-    const ccMarginRateElement = new _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_4__.CcMarginRateElement(configData.ccMaringRate);
-    const displayOriginalCcElement = new _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_5__.DisplayOriginalCcElement(configData.displayOriginalCc);
+    (0,_popup_main__WEBPACK_IMPORTED_MODULE_0__.main)();
 };
 window.addEventListener("load", run, false);
 
