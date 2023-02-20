@@ -773,14 +773,6 @@ const main = async () => {
         }
     };
     const ccOveserver = new _content_core_ccOveserver__WEBPACK_IMPORTED_MODULE_5__.CcOveserver(callbackFuncObserver);
-    // ↓ 呼び出しスクリプト
-    document.dispatchEvent(new CustomEvent("runScript", {
-        bubbles: true,
-        detail: {
-            name: "あなた",
-            speach: "あいうえお。かきくけこ。さしすせそ。たちつてと。なにぬねのはひふへほぱぴぷぺぽらりるれろ",
-        },
-    }));
     // 動作確認用の入口
     document.addEventListener("runScript", (e) => {
         callbackFuncObserver(e.detail.name, "c:/a/b", e.detail.speach);

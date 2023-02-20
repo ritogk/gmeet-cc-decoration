@@ -132,17 +132,6 @@ export const main = async (): Promise<void> => {
   }
   const ccOveserver = new CcOveserver(callbackFuncObserver)
 
-  // ↓ 呼び出しスクリプト
-  document.dispatchEvent(
-    new CustomEvent("runScript", {
-      bubbles: true,
-      detail: {
-        name: "あなた",
-        speach:
-          "あいうえお。かきくけこ。さしすせそ。たちつてと。なにぬねのはひふへほぱぴぷぺぽらりるれろ",
-      },
-    })
-  )
   // 動作確認用の入口
   document.addEventListener("runScript", (e: any) => {
     callbackFuncObserver(e.detail.name, "c:/a/b", e.detail.speach)
