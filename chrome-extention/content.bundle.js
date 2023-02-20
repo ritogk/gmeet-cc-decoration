@@ -1025,8 +1025,10 @@ const run = () => {
     const controlAreaElement = new _content_elements_original_controlAreaElement__WEBPACK_IMPORTED_MODULE_1__.ControlAreaElement();
     const usersAreaElement = new _content_elements_original_UsersAreaElement__WEBPACK_IMPORTED_MODULE_2__.UsersAreaElement();
     const jsLoaded = () => {
+        // 全ての要素が描画されるまで待つ
         if (ccAreaElement.getElement() &&
             controlAreaElement.getElement() &&
+            controlAreaElement.getCcBottomElement() &&
             usersAreaElement.getElement()) {
             clearInterval(jsInitCheckTimer);
             (0,_content_main__WEBPACK_IMPORTED_MODULE_3__.main)();

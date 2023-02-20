@@ -7,9 +7,11 @@ const run = (): void => {
   const controlAreaElement = new ControlAreaElement()
   const usersAreaElement = new UsersAreaElement()
   const jsLoaded = (): void => {
+    // 全ての要素が描画されるまで待つ
     if (
       ccAreaElement.getElement() &&
       controlAreaElement.getElement() &&
+      controlAreaElement.getCcBottomElement() &&
       usersAreaElement.getElement()
     ) {
       clearInterval(jsInitCheckTimer)
