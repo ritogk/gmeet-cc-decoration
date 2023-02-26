@@ -6,7 +6,7 @@ import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
 import { ScreenSharingCcAreaElement } from "@/content/elements/ScreenSharingCcAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
 import { Logger } from "@/core/logger"
-import { env } from "@/envLocal"
+import { env } from "@/core/envLocal"
 
 export const main = async (): Promise<void> => {
   const debug = env.debugMode

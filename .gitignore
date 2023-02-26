@@ -2,4 +2,4 @@ dist/
 node_modules/
 *.js.map
 chrome-extention/*.js
-src/envLocal.ts
+src/core/envLocal.ts
