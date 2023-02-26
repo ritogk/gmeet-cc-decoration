@@ -41,25 +41,24 @@ export const main = async (): Promise<void> => {
   }
   const config = new Config(callbackFuncChangeConfig)
   await config.loadConfig()
-  logger.log(`load config: ${JSON.stringify(config.getConfig())}`)
+  const configData = config.getConfig()
+  logger.log(`load config: ${JSON.stringify(configData)}`)
   config.observeGoogleStorage()
 
   // elementの初期設定
-  usersCcAreaElement.setOpacityRate(config.getConfig().opacityRate)
-  usersCcAreaElement.setBackgroundOpacityRate(
-    config.getConfig().backgroundOpacityRate
-  )
-  if (config.getConfig().displayOriginalCc == DisplayOriginalCc.OK) {
+  usersCcAreaElement.setOpacityRate(configData.opacityRate)
+  usersCcAreaElement.setBackgroundOpacityRate(configData.backgroundOpacityRate)
+  if (configData.displayOriginalCc == DisplayOriginalCc.OK) {
     ccAreaElement.showElement()
   } else {
     ccAreaElement.hideElement()
   }
-  usersCcAreaElement.setSizeRate(config.getConfig().ccSizeRate)
-  usersCcAreaElement.setCcRows(config.getConfig().ccRows)
-  usersCcAreaElement.setCcMarginRate(config.getConfig().ccMaringRate)
+  usersCcAreaElement.setSizeRate(configData.ccSizeRate)
+  usersCcAreaElement.setCcRows(configData.ccRows)
+  usersCcAreaElement.setCcMarginRate(configData.ccMaringRate)
   usersCcAreaElement.changeElementsStyle()
   // screenSharingCcAreaElement.setUserCcOpacityRate(
-  //   config.getConfig().opacityRate
+  //   configData.opacityRate
   // )
 
   /**
