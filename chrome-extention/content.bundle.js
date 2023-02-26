@@ -102,7 +102,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const userCcAreaClassName = "user-cc-area-class-name";
-const userCcClassName = "user-cc-class-name";
+const userCcClassName = " ";
 var CcSize;
 (function (CcSize) {
     CcSize[CcSize["SMALL"] = 0] = "SMALL";
@@ -178,9 +178,7 @@ class UsersCcAreaElement {
             const userCcAreaElement = (userAreaElement.querySelector("." + userCcAreaClassName));
             if (!userCcAreaElement)
                 return;
-            if (userCcAreaElement) {
-                userCcAreaElement.scrollTop = 1000;
-            }
+            userCcAreaElement.scrollTop = 1000;
             const style = this.generateElementStyle(userAreaElement.clientWidth, userAreaElement.clientHeight);
             userCcAreaElement.style.height = style.height;
             userCcAreaElement.style.fontSize = style.fontSize;

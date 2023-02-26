@@ -20,7 +20,7 @@ export interface usersCcAreaElementInterface {
 }
 
 const userCcAreaClassName = "user-cc-area-class-name"
-const userCcClassName = "user-cc-class-name"
+const userCcClassName = " "
 
 enum CcSize {
   SMALL,
@@ -113,9 +113,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       userAreaElement.querySelector("." + userCcAreaClassName)
     )
     if (!userCcAreaElement) return
-    if (userCcAreaElement) {
-      userCcAreaElement.scrollTop = 1000
-    }
+    userCcAreaElement.scrollTop = 1000
 
     const style = this.generateElementStyle(
       userAreaElement.clientWidth,
