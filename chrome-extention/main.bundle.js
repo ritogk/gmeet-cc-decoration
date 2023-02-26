@@ -336,8 +336,11 @@ class UsersCcAreaElement {
         // 整形する
         this.formatSpeach = (speach) => {
             let str = "";
+            // よくでてくる「?」を空白文字に置き換える。
+            str = speach.replace(/\?/g, " ");
+            str = str.replace(/\？/g, " ");
             // 連続する「。」を削除
-            str = speach.replace(/\。。/g, "。");
+            str = str.replace(/\。。/g, "。");
             // 「。」で改行させる
             str = str.replace(/\。/g, "。<br>");
             return str;
