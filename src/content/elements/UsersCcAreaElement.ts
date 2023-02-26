@@ -157,6 +157,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     userCcElement.style.zIndex = style.zIndex
     userCcElement.style.fontWeight = style.fontWeight
     userCcElement.style.pointerEvents = style.pointerEvents
+    userCcElement.style.wordBreak = style.wordBreak
 
     this.getElement(name)?.appendChild(userCcElement)
   }
@@ -304,6 +305,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     zIndex: string
     fontWeight: string
     pointerEvents: string
+    wordBreak: string
   } => {
     const style = {
       color: "white",
@@ -311,6 +313,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       zIndex: "1000001",
       fontWeight: "700",
       pointerEvents: "none",
+      wordBreak: "break-all",
     }
     return style
   }

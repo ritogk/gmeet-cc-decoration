@@ -217,6 +217,7 @@ class UsersCcAreaElement {
             userCcElement.style.zIndex = style.zIndex;
             userCcElement.style.fontWeight = style.fontWeight;
             userCcElement.style.pointerEvents = style.pointerEvents;
+            userCcElement.style.wordBreak = style.wordBreak;
             (_a = this.getElement(name)) === null || _a === void 0 ? void 0 : _a.appendChild(userCcElement);
         };
         // 字幕エリアのstyleを生成する
@@ -328,6 +329,7 @@ class UsersCcAreaElement {
                 zIndex: "1000001",
                 fontWeight: "700",
                 pointerEvents: "none",
+                wordBreak: "break-all",
             };
             return style;
         };
