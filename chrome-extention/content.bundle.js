@@ -102,7 +102,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const userCcAreaClassName = "user-cc-area-class-name";
-const userCcClassName = " ";
+const userCcClassName = "user-cc-class-name";
 var CcSize;
 (function (CcSize) {
     CcSize[CcSize["SMALL"] = 0] = "SMALL";

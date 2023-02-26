@@ -20,7 +20,7 @@ export interface usersCcAreaElementInterface {
 }
 
 const userCcAreaClassName = "user-cc-area-class-name"
-const userCcClassName = " "
+const userCcClassName = "user-cc-class-name"
 
 enum CcSize {
   SMALL,
