@@ -6,9 +6,10 @@ import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
 import { ScreenSharingCcAreaElement } from "@/content/elements/ScreenSharingCcAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
 import { Logger } from "@/core/logger"
+import { env } from "@/envLocal"
 
 export const main = async (): Promise<void> => {
-  const debug = false
+  const debug = env.debugMode
 
   const logger = new Logger(debug)
   logger.log("start: application")
