@@ -26,6 +26,7 @@ export const main = async (): Promise<void> => {
   const callbackFuncChangeConfig = (config: ConfigObjectInterface) => {
     logger.log(JSON.stringify(config))
     usersCcAreaElement.setOpacityRate(config.opacityRate)
+    usersCcAreaElement.setBackgroundOpacityRate(config.backgroundOpacityRate)
     usersCcAreaElement.setSizeRate(config.ccSizeRate)
     usersCcAreaElement.setCcRows(config.ccRows)
     usersCcAreaElement.setCcMarginRate(config.ccMaringRate)
@@ -45,6 +46,9 @@ export const main = async (): Promise<void> => {
 
   // elementの初期設定
   usersCcAreaElement.setOpacityRate(config.getConfig().opacityRate)
+  usersCcAreaElement.setBackgroundOpacityRate(
+    config.getConfig().backgroundOpacityRate
+  )
   if (config.getConfig().displayOriginalCc == DisplayOriginalCc.OK) {
     ccAreaElement.showElement()
   } else {

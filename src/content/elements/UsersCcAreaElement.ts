@@ -7,6 +7,7 @@ export interface usersCcAreaElementInterface {
   createElement(name: string): void
   updateElement(name: string): void
   setOpacityRate: (opacityRate: number) => void
+  setBackgroundOpacityRate: (opacityRate: number) => void
   setSizeRate: (ccSizeRate: number) => void
   setCcRows: (ccRows: number) => void
   setCcMarginRate: (ccMarginRate: number) => void
@@ -34,6 +35,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   private interval_excuting = false
   private usersAreaElement: UsersAreaElement
   private elementOpacityRate = 0.5
+  private elementBackgroundOpacityRate = 0.3
   private elementSizeRate = 1
   private elementCcRows = 4
   private ccMarginRate = 1
@@ -196,7 +198,7 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
       position: "absolute",
       bottom: "0",
       textAlign: "left",
-      backgroundColor: "rgba(0,0,0,0.28)",
+      backgroundColor: `rgba(0,0,0,${this.elementBackgroundOpacityRate})`,
       margin: "0",
       zIndex: "1000000",
       left: "0",
@@ -255,6 +257,10 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
 
   setOpacityRate = (opacityRate: number) => {
     this.elementOpacityRate = opacityRate
+  }
+
+  setBackgroundOpacityRate = (opacityRate: number) => {
+    this.elementBackgroundOpacityRate = opacityRate
   }
 
   setSizeRate = (sizeRate: number) => {

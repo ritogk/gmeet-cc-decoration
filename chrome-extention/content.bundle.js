@@ -115,6 +115,7 @@ class UsersCcAreaElement {
     constructor(interval_excuting) {
         this.interval_excuting = false;
         this.elementOpacityRate = 0.5;
+        this.elementBackgroundOpacityRate = 0.3;
         this.elementSizeRate = 1;
         this.elementCcRows = 4;
         this.ccMarginRate = 1;
@@ -233,7 +234,7 @@ class UsersCcAreaElement {
                 position: "absolute",
                 bottom: "0",
                 textAlign: "left",
-                backgroundColor: "rgba(0,0,0,0.28)",
+                backgroundColor: `rgba(0,0,0,${this.elementBackgroundOpacityRate})`,
                 margin: "0",
                 zIndex: "1000000",
                 left: "0",
@@ -284,6 +285,9 @@ class UsersCcAreaElement {
         };
         this.setOpacityRate = (opacityRate) => {
             this.elementOpacityRate = opacityRate;
+        };
+        this.setBackgroundOpacityRate = (opacityRate) => {
+            this.elementBackgroundOpacityRate = opacityRate;
         };
         this.setSizeRate = (sizeRate) => {
             this.elementSizeRate = sizeRate;
@@ -678,6 +682,7 @@ const main = async () => {
     const callbackFuncChangeConfig = (config) => {
         logger.log(JSON.stringify(config));
         usersCcAreaElement.setOpacityRate(config.opacityRate);
+        usersCcAreaElement.setBackgroundOpacityRate(config.backgroundOpacityRate);
         usersCcAreaElement.setSizeRate(config.ccSizeRate);
         usersCcAreaElement.setCcRows(config.ccRows);
         usersCcAreaElement.setCcMarginRate(config.ccMaringRate);
@@ -696,6 +701,7 @@ const main = async () => {
     config.observeGoogleStorage();
     // elementの初期設定
     usersCcAreaElement.setOpacityRate(config.getConfig().opacityRate);
+    usersCcAreaElement.setBackgroundOpacityRate(config.getConfig().backgroundOpacityRate);
     if (config.getConfig().displayOriginalCc == _core_config__WEBPACK_IMPORTED_MODULE_0__.DisplayOriginalCc.OK) {
         ccAreaElement.showElement();
     }
@@ -840,6 +846,7 @@ class Config {
     constructor(callbackFunc) {
         this.config = {
             opacityRate: 0.5,
+            backgroundOpacityRate: 0.3,
             displayOriginalCc: DisplayOriginalCc.OK,
             ccSizeRate: 0.5,
             ccRows: 5,
@@ -853,23 +860,29 @@ class Config {
             this.callbackFuncChangeConfig(this.config);
         };
         this.loadConfig = async () => {
-            var _a, _b, _c, _d, _e;
+            var _a, _b, _c, _d, _e, _f;
             this.config.opacityRate =
                 (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configOpacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
+            this.config.backgroundOpacityRate =
+                (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configBackgroundOpacityRate"))) !== null && _b !== void 0 ? _b : this.config.backgroundOpacityRate;
             this.config.displayOriginalCc =
-                (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configDisplayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
+                (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configDisplayOriginalCc"))) !== null && _c !== void 0 ? _c : this.config.displayOriginalCc;
             this.config.ccSizeRate =
-                (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcSizeRate"))) !== null && _c !== void 0 ? _c : this.config.opacityRate;
+                (_d = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcSizeRate"))) !== null && _d !== void 0 ? _d : this.config.opacityRate;
             this.config.ccRows =
-                (_d = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcRows"))) !== null && _d !== void 0 ? _d : this.config.ccRows;
+                (_e = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcRows"))) !== null && _e !== void 0 ? _e : this.config.ccRows;
             this.config.ccMaringRate =
-                (_e = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcMarginRate"))) !== null && _e !== void 0 ? _e : this.config.ccMaringRate;
+                (_f = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcMarginRate"))) !== null && _f !== void 0 ? _f : this.config.ccMaringRate;
         };
         this.observeGoogleStorage = () => {
             chrome.storage.onChanged.addListener((changes, namespace) => {
                 const config = this.config;
                 if ("configOpacityRate" in changes) {
                     config.opacityRate = changes.configOpacityRate.newValue;
+                }
+                if ("configBackgroundOpacityRate" in changes) {
+                    config.backgroundOpacityRate =
+                        changes.configBackgroundOpacityRate.newValue;
                 }
                 if ("configDisplayOriginalCc" in changes) {
                     config.displayOriginalCc = changes.configDisplayOriginalCc.newValue;

@@ -1,5 +1,6 @@
 import { Config, ConfigObjectInterface } from "@/core/config"
 import { OpacityRateElement } from "@/popup/elements/opacityRateElement"
+import { BackgroundOpacityRateElement } from "@/popup/elements/backgroundOpacityRateElement"
 import { CcSizeRateElement } from "@/popup/elements/ccSizeRateElement"
 import { CcRowsElement } from "@/popup/elements/ccRowsElement"
 import { CcMarginRateElement } from "@/popup/elements/ccMarginRateElement"
@@ -19,6 +20,9 @@ export const main = async (): Promise<void> => {
   logger.log(`load config: ${JSON.stringify(configData)}`)
 
   const opacityRateElement = new OpacityRateElement(configData.opacityRate)
+  const backgroundOpacityRateElement = new BackgroundOpacityRateElement(
+    configData.backgroundOpacityRate
+  )
   const ccSizeRateElement = new CcSizeRateElement(configData.ccSizeRate)
   const ccRowsElement = new CcRowsElement(configData.ccRows)
   const ccMarginRateElement = new CcMarginRateElement(configData.ccMaringRate)

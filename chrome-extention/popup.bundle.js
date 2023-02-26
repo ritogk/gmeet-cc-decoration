@@ -9046,6 +9046,7 @@ class Config {
     constructor(callbackFunc) {
         this.config = {
             opacityRate: 0.5,
+            backgroundOpacityRate: 0.3,
             displayOriginalCc: DisplayOriginalCc.OK,
             ccSizeRate: 0.5,
             ccRows: 5,
@@ -9059,23 +9060,29 @@ class Config {
             this.callbackFuncChangeConfig(this.config);
         };
         this.loadConfig = async () => {
-            var _a, _b, _c, _d, _e;
+            var _a, _b, _c, _d, _e, _f;
             this.config.opacityRate =
                 (_a = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configOpacityRate"))) !== null && _a !== void 0 ? _a : this.config.opacityRate;
+            this.config.backgroundOpacityRate =
+                (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configBackgroundOpacityRate"))) !== null && _b !== void 0 ? _b : this.config.backgroundOpacityRate;
             this.config.displayOriginalCc =
-                (_b = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configDisplayOriginalCc"))) !== null && _b !== void 0 ? _b : this.config.displayOriginalCc;
+                (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configDisplayOriginalCc"))) !== null && _c !== void 0 ? _c : this.config.displayOriginalCc;
             this.config.ccSizeRate =
-                (_c = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcSizeRate"))) !== null && _c !== void 0 ? _c : this.config.opacityRate;
+                (_d = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcSizeRate"))) !== null && _d !== void 0 ? _d : this.config.opacityRate;
             this.config.ccRows =
-                (_d = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcRows"))) !== null && _d !== void 0 ? _d : this.config.ccRows;
+                (_e = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcRows"))) !== null && _e !== void 0 ? _e : this.config.ccRows;
             this.config.ccMaringRate =
-                (_e = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcMarginRate"))) !== null && _e !== void 0 ? _e : this.config.ccMaringRate;
+                (_f = (await (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.getStorage)("configCcMarginRate"))) !== null && _f !== void 0 ? _f : this.config.ccMaringRate;
         };
         this.observeGoogleStorage = () => {
             chrome.storage.onChanged.addListener((changes, namespace) => {
                 const config = this.config;
                 if ("configOpacityRate" in changes) {
                     config.opacityRate = changes.configOpacityRate.newValue;
+                }
+                if ("configBackgroundOpacityRate" in changes) {
+                    config.backgroundOpacityRate =
+                        changes.configBackgroundOpacityRate.newValue;
                 }
                 if ("configDisplayOriginalCc" in changes) {
                     config.displayOriginalCc = changes.configDisplayOriginalCc.newValue;
@@ -9118,6 +9125,38 @@ class Logger {
             console.log(text);
         };
         this.isOutput = isOutput;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/popup/elements/backgroundOpacityRateElement.ts":
+/*!************************************************************!*\
+  !*** ./src/popup/elements/backgroundOpacityRateElement.ts ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BackgroundOpacityRateElement": () => (/* binding */ BackgroundOpacityRateElement)
+/* harmony export */ });
+/* harmony import */ var _core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/chromeStorage */ "./src/core/chromeStorage.ts");
+
+class BackgroundOpacityRateElement {
+    constructor(opacityRate) {
+        this.getElement = () => {
+            return document.getElementById("backgroundOpacityRate");
+        };
+        const element = this.getElement();
+        // 初期値
+        element.value = opacityRate.toString();
+        // 変更後にstorageに保存
+        element.addEventListener("change", (event) => {
+            if (event.target instanceof HTMLInputElement) {
+                (0,_core_chromeStorage__WEBPACK_IMPORTED_MODULE_0__.setStorage)("configBackgroundOpacityRate", event.target.value);
+            }
+        });
     }
 }
 
@@ -9355,13 +9394,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/config */ "./src/core/config.ts");
 /* harmony import */ var _popup_elements_opacityRateElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/popup/elements/opacityRateElement */ "./src/popup/elements/opacityRateElement.ts");
-/* harmony import */ var _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/popup/elements/ccSizeRateElement */ "./src/popup/elements/ccSizeRateElement.ts");
-/* harmony import */ var _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/popup/elements/ccRowsElement */ "./src/popup/elements/ccRowsElement.ts");
-/* harmony import */ var _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/popup/elements/ccMarginRateElement */ "./src/popup/elements/ccMarginRateElement.ts");
-/* harmony import */ var _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/popup/elements/displayOriginalCcElement */ "./src/popup/elements/displayOriginalCcElement.ts");
-/* harmony import */ var _core_logger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/core/logger */ "./src/core/logger.ts");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
-/* harmony import */ var _popup_elements_scss_main_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/popup/elements/scss/main.scss */ "./src/popup/elements/scss/main.scss");
+/* harmony import */ var _popup_elements_backgroundOpacityRateElement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/popup/elements/backgroundOpacityRateElement */ "./src/popup/elements/backgroundOpacityRateElement.ts");
+/* harmony import */ var _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/popup/elements/ccSizeRateElement */ "./src/popup/elements/ccSizeRateElement.ts");
+/* harmony import */ var _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/popup/elements/ccRowsElement */ "./src/popup/elements/ccRowsElement.ts");
+/* harmony import */ var _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/popup/elements/ccMarginRateElement */ "./src/popup/elements/ccMarginRateElement.ts");
+/* harmony import */ var _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/popup/elements/displayOriginalCcElement */ "./src/popup/elements/displayOriginalCcElement.ts");
+/* harmony import */ var _core_logger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/core/logger */ "./src/core/logger.ts");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var _popup_elements_scss_main_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/popup/elements/scss/main.scss */ "./src/popup/elements/scss/main.scss");
+
 
 
 
@@ -9372,7 +9413,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const main = async () => {
-    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_6__.Logger(false);
+    const logger = new _core_logger__WEBPACK_IMPORTED_MODULE_7__.Logger(false);
     logger.log("start: popup");
     // config読み込み
     const config = new _core_config__WEBPACK_IMPORTED_MODULE_0__.Config((config) => { });
@@ -9380,10 +9421,11 @@ const main = async () => {
     const configData = config.getConfig();
     logger.log(`load config: ${JSON.stringify(configData)}`);
     const opacityRateElement = new _popup_elements_opacityRateElement__WEBPACK_IMPORTED_MODULE_1__.OpacityRateElement(configData.opacityRate);
-    const ccSizeRateElement = new _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_2__.CcSizeRateElement(configData.ccSizeRate);
-    const ccRowsElement = new _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_3__.CcRowsElement(configData.ccRows);
-    const ccMarginRateElement = new _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_4__.CcMarginRateElement(configData.ccMaringRate);
-    const displayOriginalCcElement = new _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_5__.DisplayOriginalCcElement(configData.displayOriginalCc);
+    const backgroundOpacityRateElement = new _popup_elements_backgroundOpacityRateElement__WEBPACK_IMPORTED_MODULE_2__.BackgroundOpacityRateElement(configData.backgroundOpacityRate);
+    const ccSizeRateElement = new _popup_elements_ccSizeRateElement__WEBPACK_IMPORTED_MODULE_3__.CcSizeRateElement(configData.ccSizeRate);
+    const ccRowsElement = new _popup_elements_ccRowsElement__WEBPACK_IMPORTED_MODULE_4__.CcRowsElement(configData.ccRows);
+    const ccMarginRateElement = new _popup_elements_ccMarginRateElement__WEBPACK_IMPORTED_MODULE_5__.CcMarginRateElement(configData.ccMaringRate);
+    const displayOriginalCcElement = new _popup_elements_displayOriginalCcElement__WEBPACK_IMPORTED_MODULE_6__.DisplayOriginalCcElement(configData.displayOriginalCc);
 };
 
 

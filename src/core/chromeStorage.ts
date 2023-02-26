@@ -1,5 +1,6 @@
 type ChromeStorageKey =
   | "configOpacityRate"
+  | "configBackgroundOpacityRate"
   | "configDisplayOriginalCc"
   | "configCcSizeRate"
   | "configCcRows"

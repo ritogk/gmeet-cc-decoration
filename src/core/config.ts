@@ -13,6 +13,7 @@ export enum DisplayOriginalCc {
 
 export interface ConfigObjectInterface {
   opacityRate: number
+  backgroundOpacityRate: number
   displayOriginalCc: DisplayOriginalCc
   ccSizeRate: number
   ccRows: number
@@ -25,6 +26,7 @@ export interface ConfigObjectInterface {
 export class Config implements ConfigInterface {
   private config: ConfigObjectInterface = {
     opacityRate: 0.5,
+    backgroundOpacityRate: 0.3,
     displayOriginalCc: DisplayOriginalCc.OK,
     ccSizeRate: 0.5,
     ccRows: 5,
@@ -49,6 +51,9 @@ export class Config implements ConfigInterface {
   loadConfig = async (): Promise<void> => {
     this.config.opacityRate =
       (await getStorage("configOpacityRate")) ?? this.config.opacityRate
+    this.config.backgroundOpacityRate =
+      (await getStorage("configBackgroundOpacityRate")) ??
+      this.config.backgroundOpacityRate
     this.config.displayOriginalCc =
       (await getStorage("configDisplayOriginalCc")) ??
       this.config.displayOriginalCc
@@ -65,6 +70,10 @@ export class Config implements ConfigInterface {
       const config = this.config
       if ("configOpacityRate" in changes) {
         config.opacityRate = changes.configOpacityRate.newValue
+      }
+      if ("configBackgroundOpacityRate" in changes) {
+        config.backgroundOpacityRate =
+          changes.configBackgroundOpacityRate.newValue
       }
       if ("configDisplayOriginalCc" in changes) {
         config.displayOriginalCc = changes.configDisplayOriginalCc.newValue
