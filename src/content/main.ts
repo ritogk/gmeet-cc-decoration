@@ -8,8 +8,15 @@ import { CcOveserver } from "@/content/core/ccOveserver"
 import { Logger } from "@/core/logger"
 import { env } from "@/core/envLocal"
 
+import { Selector } from "@/content/core/selectors"
+
 export const main = async (): Promise<void> => {
   const debug = env.debugMode
+
+  const selectors = new Selector()
+  await selectors.loadSelector()
+  console.log(selectors.getCcArea())
+  console.log(selectors.getCcMainArea())
 
   const logger = new Logger(debug)
   logger.log("start: application")
