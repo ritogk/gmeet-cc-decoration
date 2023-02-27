@@ -18,13 +18,24 @@ export interface selectorInterface {
  * 字幕の変更監視クラス
  */
 export class Selector implements selectorInterface {
-  private ccMainArea = ""
-  private ccArea = ""
-  private usersArea = ""
-  private controlArea = ""
-  private controlCcButton = ""
-  constructor() {
-    this.loadSelector()
+  private static _instance: selectorInterface
+
+  private static ccMainArea = ""
+  private static ccArea = ""
+  private static usersArea = ""
+  private static controlArea = ""
+  private static controlCcButton = ""
+
+  private constructor() {}
+
+  public static getInstance(): selectorInterface {
+    // instanceがなければ生成
+    if (!this._instance) {
+      this._instance = new Selector()
+    }
+
+    // 自身が持つインスタンスを返す
+    return this._instance
   }
 
   loadSelector = async (): Promise<void> => {
@@ -40,32 +51,33 @@ export class Selector implements selectorInterface {
           ccArea: string
           usersArea: string
         } = JSON.parse(atob(data.content))
-        this.ccMainArea = selectors.ccMainArea
-        this.ccArea = selectors.ccArea
-        this.usersArea = selectors.usersArea
-        this.controlArea = selectors.controlArea
-        this.controlCcButton = selectors.controlCcButton
+
+        Selector.ccArea = selectors.ccArea
+        Selector.usersArea = selectors.usersArea
+        Selector.controlArea = selectors.controlArea
+        Selector.ccMainArea = selectors.ccMainArea
+        Selector.controlCcButton = selectors.controlCcButton
         return Promise<void>
       })
   }
 
   getControlCcButton = (): string => {
-    return this.controlCcButton
+    return Selector.controlCcButton
   }
 
   getCcMainArea = (): string => {
-    return this.ccMainArea
+    return Selector.ccMainArea
   }
 
   getCcArea = (): string => {
-    return this.ccArea
+    return Selector.ccArea
   }
 
   getUsersArea = (): string => {
-    return this.usersArea
+    return Selector.usersArea
   }
 
   getControlArea = (): string => {
-    return this.controlArea
+    return Selector.controlArea
   }
 }
