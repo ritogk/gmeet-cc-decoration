@@ -2,7 +2,12 @@ import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
 import { ControlAreaElement } from "@/content/elements/original/controlAreaElement"
 import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { main } from "@/content/main"
-const run = (): void => {
+import { Selector } from "@/content/core/selector"
+
+const run = async () => {
+  const selector = Selector.getInstance()
+  await selector.loadSelector()
+
   const ccAreaElement = new CcAreaElement()
   const controlAreaElement = new ControlAreaElement()
   const usersAreaElement = new UsersAreaElement()

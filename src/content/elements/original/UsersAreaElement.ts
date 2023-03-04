@@ -1,4 +1,4 @@
-import { selector } from "@/content/core/selector"
+import { Selector } from "@/content/core/selector"
 export interface usersAreaElementInterface {
   getElement(): HTMLElement | null
   findUserAreaElement: (name: string) => Element | undefined
@@ -11,7 +11,9 @@ export interface usersAreaElementInterface {
  */
 export class UsersAreaElement implements usersAreaElementInterface {
   getElement = (): HTMLElement | null => {
-    return document.querySelector<HTMLElement>(selector.usersArea)
+    return document.querySelector<HTMLElement>(
+      Selector.getInstance().getSelector().usersArea
+    )
   }
 
   // ユーザーエリアの要素を取得

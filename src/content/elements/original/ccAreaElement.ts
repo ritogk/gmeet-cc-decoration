@@ -1,4 +1,4 @@
-import { selector } from "@/content/core/selector"
+import { Selector } from "@/content/core/selector"
 
 export interface ccAreaElementInterface {
   hideElement(): void
@@ -26,10 +26,14 @@ export class CcAreaElement implements ccAreaElementInterface {
   }
 
   getElement = (): HTMLElement | null => {
-    return document.querySelector<HTMLElement>(selector.ccMainArea)
+    return document.querySelector<HTMLElement>(
+      Selector.getInstance().getSelector().ccMainArea
+    )
   }
 
   getCcElement = (): HTMLElement | null => {
-    return document.querySelector<HTMLElement>(selector.ccArea)
+    return document.querySelector<HTMLElement>(
+      Selector.getInstance().getSelector().ccArea
+    )
   }
 }
