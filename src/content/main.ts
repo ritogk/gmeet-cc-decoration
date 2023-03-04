@@ -13,7 +13,7 @@ import { Selector } from "@/content/core/selectors"
 export const main = async (): Promise<void> => {
   const debug = env.debugMode
 
-  const selectors = new Selector()
+  const selectors = Selector.getInstance()
   await selectors.loadSelector()
   console.log(selectors.getCcArea())
   console.log(selectors.getCcMainArea())
