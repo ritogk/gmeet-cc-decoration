@@ -3,7 +3,6 @@ import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { UsersCcAreaElement } from "@/content/elements/UsersCcAreaElement"
 import { ControlCcButtonElement } from "@/content/elements/original/controlCcButtonElement"
 import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
-import { ScreenSharingCcAreaElement } from "@/content/elements/ScreenSharingCcAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
 import { Logger } from "@/core/logger"
 import { env } from "@/core/envLocal"
@@ -17,7 +16,6 @@ export const main = async (): Promise<void> => {
   const usersAreaElement = new UsersAreaElement()
   const usersCcAreaElement = new UsersCcAreaElement(debug)
   const ccAreaElement = new CcAreaElement()
-  // const screenSharingCcAreaElement = new ScreenSharingCcAreaElement()
   let screenShared = false
 
   /**
@@ -58,9 +56,6 @@ export const main = async (): Promise<void> => {
   usersCcAreaElement.setCcRows(configData.ccRows)
   usersCcAreaElement.setCcMarginRate(configData.ccMaringRate)
   usersCcAreaElement.changeElementsStyle()
-  // screenSharingCcAreaElement.setUserCcOpacityRate(
-  //   configData.opacityRate
-  // )
 
   /**
    * コントロールボタン押下後のコールバック関数
@@ -72,16 +67,13 @@ export const main = async (): Promise<void> => {
       ccOveserver.run()
       logger.log("start: observer")
       usersCcAreaElement.runInterval()
-      // screenSharingCcAreaElement.runInterval()
       logger.log("run: interval")
     } else {
       ccOveserver.stop()
       logger.log("stop: observer")
       usersCcAreaElement.stopInterval()
-      // screenSharingCcAreaElement.stopInterval()
       logger.log("stop: interval")
       usersCcAreaElement.deleteElements()
-      // screenSharingCcAreaElement.deleteElement()
       logger.log("delete: cc elements")
     }
   }
@@ -108,21 +100,12 @@ export const main = async (): Promise<void> => {
       // 画面共有on
       if (!screenShared) {
         usersCcAreaElement.deleteElements()
-        // screenSharingCcAreaElement.deleteElement()
         screenShared = true
       }
-      // if (!screenSharingCcAreaElement.getElement()) {
-      //   screenSharingCcAreaElement.createElement()
-      //   screenSharingCcAreaElement.appendCcElement(name, speach)
-      // } else {
-      //   screenSharingCcAreaElement.updateElement()
-      //   screenSharingCcAreaElement.updateCcElement(name, speach)
-      // }
     } else {
       // 画面共有off
       if (screenShared) {
         usersCcAreaElement.deleteElements()
-        // screenSharingCcAreaElement.deleteElement()
         screenShared = false
       }
     }
