@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "author": "ritogk",
-  "name": "字幕ぷらす GoogleMeet",
-  "description": "GoogleMeetの字幕をもっと認知しやすくするための拡張機能です。",
-  "version": "1.0.0",
+  "name": "Google Meet リラックス",
+  "description": "重要会議、完全記憶不要、緊張解消、脳内リソース拡大、目と耳でバランスよく情報処理",
+  "version": "1.1.0",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
