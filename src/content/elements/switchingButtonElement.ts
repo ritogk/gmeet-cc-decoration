@@ -1,4 +1,4 @@
-import { ControlAreaElement } from "@/content/elements/original/controlAreaElement"
+import { ControlCcButtonElement } from "@/content/elements/original/controlCcButtonElement"
 export interface SwitchingButtonElementInterface {
   createElement(): void
   deleteElement(): void
@@ -26,7 +26,7 @@ export class SwitchingButtonElement implements SwitchingButtonElementInterface {
     element.addEventListener("mouseleave", this.callbackFuncMouseLeave)
     element.addEventListener("click", this.callbackFuncClick)
 
-    const ccButtonElement = new ControlAreaElement().getCcBottomElement()
+    const ccButtonElement = new ControlCcButtonElement().getElement()
     if (ccButtonElement !== null && ccButtonElement.parentNode != null) {
       ccButtonElement.parentNode.insertBefore(
         element,

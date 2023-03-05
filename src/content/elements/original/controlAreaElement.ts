@@ -2,7 +2,6 @@ import { Selector } from "@/content/core/selector"
 
 export interface ControlAreaElementInterface {
   getElement(): HTMLElement | null
-  getCcBottomElement(): HTMLElement | null
 }
 
 /**
@@ -12,12 +11,6 @@ export class ControlAreaElement implements ControlAreaElementInterface {
   getElement = (): HTMLElement | null => {
     return document.querySelector<HTMLElement>(
       Selector.getInstance().getSelector().controlArea
-    )
-  }
-
-  getCcBottomElement = (): HTMLElement | null => {
-    return document.querySelector(
-      Selector.getInstance().getSelector().controlCcButton
     )
   }
 }

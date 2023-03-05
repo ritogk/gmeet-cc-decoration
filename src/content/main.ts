@@ -1,7 +1,7 @@
 import { Config, ConfigObjectInterface, DisplayOriginalCc } from "@/core/config"
 import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { UsersCcAreaElement } from "@/content/elements/UsersCcAreaElement"
-import { SwitchingButtonElement } from "@/content/elements/switchingButtonElement"
+import { ControlCcButtonElement } from "@/content/elements/original/controlCcButtonElement"
 import { CcAreaElement } from "@/content/elements/original/ccAreaElement"
 import { ScreenSharingCcAreaElement } from "@/content/elements/ScreenSharingCcAreaElement"
 import { CcOveserver } from "@/content/core/ccOveserver"
@@ -85,8 +85,8 @@ export const main = async (): Promise<void> => {
       logger.log("delete: cc elements")
     }
   }
-  const controlButtonElement = new SwitchingButtonElement(callbackFuncClick)
-  controlButtonElement.createElement()
+  const controlCcButtonElement = new ControlCcButtonElement()
+  controlCcButtonElement.addEventListenerClick(callbackFuncClick)
 
   /**
    * 字幕変更検知後のコールバック関数
