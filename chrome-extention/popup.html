@@ -8,94 +8,98 @@
   </head>
   <body class="shadow-lg bg-dark text-white-50">
     <div class="border border-3 border-secondary" style="width: 400px">
-      <div class="m-3">
-        <div class="mb-3">
-          <label for="opacityRate" class="form-label">字幕の透明度</label>
-          <input
-            type="range"
-            name="opacityRate"
-            class="form-range"
-            id="opacityRate"
-            min="0"
-            max="1"
-            step="0.1"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="backgroundOpacityRate" class="form-label"
-            >背景の透明度</label
-          >
-          <input
-            type="range"
-            name="backgroundOpacityRate"
-            class="form-range"
-            id="backgroundOpacityRate"
-            min="0"
-            max="1"
-            step="0.1"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="ccSizeRate" class="form-label">字幕の大きさ</label>
-          <input
-            type="range"
-            name="ccSizeRate"
-            class="form-range"
-            id="ccSizeRate"
-            min="0.5"
-            max="1.5"
-            step="0.1"
-          />
-        </div>
-        <div class="mb-3">
-          <div class="range-div">
-            <label for="ccRows" class="form-label">字幕の行数</label>
+      <div class="card m-2 bg-transparent border-gray">
+        <div class="card-body">
+          <h5 class="card-title">字幕</h5>
+          <div class="mb-3">
+            <label for="opacityRate" class="form-label">全体の透明度</label>
             <input
               type="range"
-              name="ccRows"
-              class="form-range range"
-              id="ccRows"
+              name="opacityRate"
+              class="form-range"
+              id="opacityRate"
               min="0"
-              max="10"
-              step="1"
+              max="1"
+              step="0.1"
             />
-            <span class="range-thumb"></span>
           </div>
-        </div>
-        <div class="mb-3">
-          <label for="ccMarginRate" class="form-label">字幕の余白</label>
-          <input
-            type="range"
-            name="ccMarginRate"
-            class="form-range"
-            id="ccMarginRate"
-            min="0.5"
-            max="1.5"
-            step="0.1"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="mb-2">既存の字幕</label>
-          <div class="btn-group w-100">
+          <div class="mb-3">
+            <label for="backgroundOpacityRate" class="form-label"
+              >背景の透明度</label
+            >
             <input
-              type="radio"
-              class="btn-check w-50"
-              name="displayOriginalCc"
-              id="option1"
-              autocomplete="off"
+              type="range"
+              name="backgroundOpacityRate"
+              class="form-range"
+              id="backgroundOpacityRate"
+              min="0"
+              max="1"
+              step="0.1"
             />
-            <label class="btn btn-primary" for="option1">表示</label>
+          </div>
+          <div class="mb-3">
+            <label for="ccSizeRate" class="form-label">大きさ</label>
             <input
-              type="radio"
-              class="btn-check w-50"
-              name="displayOriginalCc"
-              id="option2"
-              autocomplete="off"
+              type="range"
+              name="ccSizeRate"
+              class="form-range"
+              id="ccSizeRate"
+              min="0.5"
+              max="1.5"
+              step="0.1"
             />
-            <label class="btn btn-primary" for="option2">非表示</label>
+          </div>
+          <div class="mb-3">
+            <div class="range-div">
+              <label for="ccRows" class="form-label">行数</label>
+              <input
+                type="range"
+                name="ccRows"
+                class="form-range range"
+                id="ccRows"
+                min="0"
+                max="10"
+                step="1"
+              />
+              <span class="range-thumb"></span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="ccMarginRate" class="form-label">余白</label>
+            <input
+              type="range"
+              name="ccMarginRate"
+              class="form-range"
+              id="ccMarginRate"
+              min="0.5"
+              max="1.5"
+              step="0.1"
+            />
           </div>
         </div>
       </div>
+      <div class="mx-2 mb-3">
+        <label class="mb-2">既存の字幕</label>
+        <div class="btn-group w-100">
+          <input
+            type="radio"
+            class="btn-check w-50"
+            name="displayOriginalCc"
+            id="option1"
+            autocomplete="off"
+          />
+          <label class="btn btn-primary" for="option1">表示</label>
+          <input
+            type="radio"
+            class="btn-check w-50"
+            name="displayOriginalCc"
+            id="option2"
+            autocomplete="off"
+          />
+          <label class="btn btn-primary" for="option2">非表示</label>
+        </div>
+      </div>
+      <div class="m-3"></div>
     </div>
   </body>
 </html>
