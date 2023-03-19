@@ -329,9 +329,6 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     let str = speach
     // 空白文字が邪魔なので消す。
     str = str.replace(/\ /g, "")
-    // よくでてくる「?」を空白文字に置き換える。
-    str = str.replace(/\?/g, " ")
-    str = str.replace(/\？/g, " ")
     // 連続する「。」を削除
     str = str.replace(/\。。/g, "。")
     // 「。」で改行させる
