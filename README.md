@@ -1,5 +1,7 @@
 ## GoogmeMeet リラックス
-https://youtu.be/W5FAvfqpH08
+
+[Chromeストア](https://chrome.google.com/webstore/detail/google-meet-%E3%83%AA%E3%83%A9%E3%83%83%E3%82%AF%E3%82%B9/mghgglappambkhleddnmoldpndopkhdi?hl=ja&authuser=0)  
+[Youtube](https://youtu.be/W5FAvfqpH08)
 ![2023-03-19_10h29_23](https://user-images.githubusercontent.com/72111956/226149038-7c21e8c1-84c2-4a9a-ade6-c177e7fcce8c.png)
 この拡張機能は会議をよりリラックスして行うためのものです。  
 1字1句の聞き逃してはならないような会議で、リラックスするための機能を提供し、その人が本来持つ能力を引き出せます。
