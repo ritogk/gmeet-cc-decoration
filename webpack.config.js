@@ -2,9 +2,6 @@
 
 const path = require("path")
 module.exports = {
-  // モード値を production に設定すると最適化された状態で、
-  // development に設定するとソースマップ有効でJSファイルが出力される
-  mode: "development",
   // メインとなるJavaScriptファイル（エントリーポイント）
   entry: {
     content: "./src/content/run.ts",
@@ -54,4 +51,11 @@ module.exports = {
       "@": path.resolve(__dirname, "src"),
     },
   },
+}
+
+if (process.env.NODE_ENV !== "production") {
+  module.exports.mode = "development"
+  module.exports.devtool = "inline-source-map"
+} else {
+  module.exports.mode = "production"
 }
