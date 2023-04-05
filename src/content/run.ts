@@ -5,16 +5,6 @@ import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { main } from "@/content/main"
 import { Selector } from "@/content/core/selector"
 import { sendMessage } from "@/core/slack"
-import { SlackApi, Channel } from "@ritogk/private-api"
-
-const slackApi = new SlackApi()
-
-slackApi.apiSlackSendPost({
-  apiSlackSendPostRequest: {
-    channel: Channel.LogXserverVps,
-    text: "testdayo!",
-  },
-})
 
 const run = async () => {
   const selector = Selector.getInstance()
@@ -38,7 +28,7 @@ const run = async () => {
     const controlArea = controlAreaElement.getElement()
     const controlCcButton = controlCcButtonElement.getElement()
     const usersArea = usersAreaElement.getElement()
-    if (ccArea && controlArea && controlCcButton && usersArea) {
+    if (ccArea && controlArea && controlCcButton && usersArea && false) {
       clearInterval(jsInitCheckTimer)
       main()
     } else {
