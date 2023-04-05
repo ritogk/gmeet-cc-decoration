@@ -39,7 +39,9 @@ const run = async () => {
           { controlCcButton: controlCcButton ? "○" : "✕" },
           { usersArea: usersArea ? "○" : "✕" },
         ]
-        sendMessage(JSON.stringify(errorReport))
+        sendMessage(
+          `lang: ${navigator.language}\n${JSON.stringify(errorReport)}`
+        )
         clearInterval(jsInitCheckTimer)
       }
     }
