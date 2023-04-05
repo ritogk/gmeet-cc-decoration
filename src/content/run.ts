@@ -28,7 +28,7 @@ const run = async () => {
     const controlArea = controlAreaElement.getElement()
     const controlCcButton = controlCcButtonElement.getElement()
     const usersArea = usersAreaElement.getElement()
-    if (ccArea && controlArea && controlCcButton && usersArea && false) {
+    if (ccArea && controlArea && controlCcButton && usersArea) {
       clearInterval(jsInitCheckTimer)
       main()
     } else {
