@@ -5,6 +5,16 @@ import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { main } from "@/content/main"
 import { Selector } from "@/content/core/selector"
 import { sendMessage } from "@/core/slack"
+import { SlackApi, Channel } from "@ritogk/private-api"
+
+const slackApi = new SlackApi()
+
+slackApi.apiSlackSendPost({
+  apiSlackSendPostRequest: {
+    channel: Channel.LogXserverVps,
+    text: "testdayo!",
+  },
+})
 
 const run = async () => {
   const selector = Selector.getInstance()

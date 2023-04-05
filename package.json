@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ritogk/gmeet-cc-decoration#readme",
   "dependencies": {
+    "@ritogk/private-api": "^1.0.1",
     "bootstrap": "^5.2.3",
     "jquery": "^3.6.3",
     "popper.js": "^1.16.1"
