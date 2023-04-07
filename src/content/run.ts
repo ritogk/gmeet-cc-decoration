@@ -33,15 +33,15 @@ const run = async () => {
       main()
     } else {
       if (Date.now() - meetShowedTime >= 15000) {
-        const errorReport = [
-          { ccArea: ccArea ? "○" : "✕" },
-          { controlArea: controlArea ? "○" : "✕" },
-          { controlCcButton: controlCcButton ? "○" : "✕" },
-          { usersArea: usersArea ? "○" : "✕" },
-        ]
-        sendMessage(
-          `lang: ${navigator.language}\n${JSON.stringify(errorReport)}`
-        )
+        const errorReport = {
+          lang: navigator.language,
+          ccArea: ccArea ? "○" : "✕",
+          controlArea: controlArea ? "○" : "✕",
+          controlCcButton: controlCcButton ? "○" : "✕",
+          usersArea: usersArea ? "○" : "✕",
+          bodyOuterText: document.querySelector<HTMLElement>("*")?.outerText,
+        }
+        sendMessage(JSON.stringify(errorReport, null, 2))
         clearInterval(jsInitCheckTimer)
       }
     }
