@@ -1,5 +1,6 @@
 import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { removeElement } from "@/core/dom"
+import { getLanguage } from "@/core/i18n"
 export interface usersCcAreaElementInterface {
   getElements(): NodeListOf<Element> | undefined
   deleteElements(): void
@@ -327,8 +328,10 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
   // 整形する
   private formatSpeach = (speach: string): string => {
     let str = speach
-    // 空白文字が邪魔なので消す。
-    str = str.replace(/\ /g, "")
+    if (getLanguage() == "ja") {
+      // 空白文字が邪魔なので消す。
+      str = str.replace(/\ /g, "")
+    }
     // 連続する「。」を削除
     str = str.replace(/\。。/g, "。")
     // 「。」で改行させる
