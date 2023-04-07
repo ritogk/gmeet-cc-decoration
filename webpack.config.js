@@ -58,4 +58,6 @@ if (process.env.NODE_ENV !== "production") {
   module.exports.devtool = "inline-source-map"
 } else {
   module.exports.mode = "production"
+  module.exports.devtool = false
+  module.exports.optimization.minimize = true
 }
