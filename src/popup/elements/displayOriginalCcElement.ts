@@ -1,5 +1,6 @@
 import { DisplayOriginalCc } from "@/core/config"
 import { setStorage } from "@/core/chromeStorage"
+import { getMessage } from "@/core/i18n"
 
 interface DisplayOriginalCcElementInterface {
   getElements(): NodeListOf<HTMLInputElement> | null
@@ -37,6 +38,17 @@ export class DisplayOriginalCcElement
         setStorage("configDisplayOriginalCc", event.target.value)
       }
     })
+
+    // ラベルの言語を変更
+    const LabelHideElement = document.getElementById("LabelHide")
+    if (LabelHideElement) {
+      LabelHideElement.innerText = getMessage("Hide")
+    }
+    // ラベルの言語を変更
+    const LabelShowElement = document.getElementById("LabelShow")
+    if (LabelShowElement) {
+      LabelShowElement.innerText = getMessage("Show")
+    }
   }
 
   getElements = (): NodeListOf<HTMLInputElement> => {

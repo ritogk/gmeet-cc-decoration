@@ -1,4 +1,5 @@
 import { setStorage } from "@/core/chromeStorage"
+import { getMessage } from "@/core/i18n"
 
 interface CcMarginRateElementInterface {
   getElement(): HTMLInputElement | null
@@ -15,6 +16,11 @@ export class CcMarginRateElement implements CcMarginRateElementInterface {
         setStorage("configCcMarginRate", event.target.value)
       }
     })
+    // ラベルの言語を変更
+    const labelElement = document.getElementById("LabelMargins")
+    if (labelElement) {
+      labelElement.innerText = getMessage("Margins")
+    }
   }
 
   getElement = (): HTMLInputElement => {

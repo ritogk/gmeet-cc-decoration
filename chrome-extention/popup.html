@@ -10,9 +10,14 @@
     <div class="border border-3 border-secondary" style="width: 400px">
       <div class="card m-2 bg-transparent border-gray">
         <div class="card-body">
-          <h5 class="card-title">字幕</h5>
+          <h5 id="LabelCustomCc" class="card-title">字幕</h5>
           <div class="mb-3">
-            <label for="opacityRate" class="form-label">全体の透明度</label>
+            <label
+              for="opacityRate"
+              id="LabelOverallTransparency"
+              class="form-label"
+              >全体の透明度</label
+            >
             <input
               type="range"
               name="opacityRate"
@@ -24,7 +29,10 @@
             />
           </div>
           <div class="mb-3">
-            <label for="backgroundOpacityRate" class="form-label"
+            <label
+              for="backgroundOpacityRate"
+              id="LabelBackgroundTransparency"
+              class="form-label"
               >背景の透明度</label
             >
             <input
@@ -38,7 +46,9 @@
             />
           </div>
           <div class="mb-3">
-            <label for="ccSizeRate" class="form-label">大きさ</label>
+            <label for="ccSizeRate" id="LabelSize" class="form-label"
+              >大きさ</label
+            >
             <input
               type="range"
               name="ccSizeRate"
@@ -51,7 +61,9 @@
           </div>
           <div class="mb-3">
             <div class="range-div">
-              <label for="ccRows" class="form-label">行数</label>
+              <label for="ccRows" id="LabelNumberOfLines" class="form-label"
+                >行数</label
+              >
               <input
                 type="range"
                 name="ccRows"
@@ -65,7 +77,9 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="ccMarginRate" class="form-label">余白</label>
+            <label for="ccMarginRate" id="LabelMargins" class="form-label"
+              >余白</label
+            >
             <input
               type="range"
               name="ccMarginRate"
@@ -79,7 +93,7 @@
         </div>
       </div>
       <div class="mx-2 mb-3">
-        <label class="mb-2">オリジナル</label>
+        <label id="LabelOriginalCc" class="mb-2">オリジナル</label>
         <div class="btn-group w-100">
           <input
             type="radio"
@@ -88,7 +102,9 @@
             id="option1"
             autocomplete="off"
           />
-          <label class="btn btn-primary" for="option1">表示</label>
+          <label id="LabelShow" class="btn btn-primary" for="option1"
+            >表示</label
+          >
           <input
             type="radio"
             class="btn-check w-50"
@@ -96,7 +112,9 @@
             id="option2"
             autocomplete="off"
           />
-          <label class="btn btn-primary" for="option2">非表示</label>
+          <label id="LabelHide" class="btn btn-primary" for="option2"
+            >非表示</label
+          >
         </div>
       </div>
       <div class="m-3"></div>

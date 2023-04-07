@@ -4,5 +4,32 @@
   },
   "Description": {
     "message": "重要会議、完全記憶不要、緊張解消、脳内リソース拡大、目と耳でバランスよく情報処理"
+  },
+  "CustomCc": {
+    "message": "カスタムCC"
+  },
+  "OverallTransparency": {
+    "message": "全体の透明度"
+  },
+  "BackgroundTransparency": {
+    "message": "背景の透明度"
+  },
+  "Size": {
+    "message": "サイズ"
+  },
+  "NumberOfLines": {
+    "message": "行数"
+  },
+  "Margins": {
+    "message": "余白"
+  },
+  "OriginalCc": {
+    "message": "オリジナルCC"
+  },
+  "Show": {
+    "message": "表示"
+  },
+  "Hide": {
+    "message": "非表示"
   }
 }

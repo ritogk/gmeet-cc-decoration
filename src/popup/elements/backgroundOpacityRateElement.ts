@@ -1,4 +1,5 @@
 import { setStorage } from "@/core/chromeStorage"
+import { getMessage } from "@/core/i18n"
 
 interface backgroundOpacityRateElement {
   getElement(): HTMLInputElement | null
@@ -17,6 +18,11 @@ export class BackgroundOpacityRateElement
         setStorage("configBackgroundOpacityRate", event.target.value)
       }
     })
+    // ラベルの言語を変更
+    const labelElement = document.getElementById("LabelBackgroundTransparency")
+    if (labelElement) {
+      labelElement.innerText = getMessage("BackgroundTransparency")
+    }
   }
 
   getElement = (): HTMLInputElement => {

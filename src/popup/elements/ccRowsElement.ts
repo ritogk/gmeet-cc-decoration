@@ -1,4 +1,5 @@
 import { setStorage } from "@/core/chromeStorage"
+import { getMessage } from "@/core/i18n"
 
 interface ccRowsElementInterface {
   getElement(): HTMLInputElement | null
@@ -50,6 +51,12 @@ export class CcRowsElement implements ccRowsElementInterface {
         thumbElement.setAttribute("data-val", value)
       })
       rangeElement.dispatchEvent(new Event("input"))
+    }
+
+    // ラベルの言語を変更
+    const labelElement = document.getElementById("LabelNumberOfLines")
+    if (labelElement) {
+      labelElement.innerText = getMessage("NumberOfLines")
     }
   }
 

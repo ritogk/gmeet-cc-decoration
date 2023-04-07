@@ -4,5 +4,32 @@
   },
   "Description": {
     "message": "Important meeting, no need to memorize everything, stress relief, expand brain resources, process information visually and auditorily with balance"
+  },
+  "CustomCc": {
+    "message": "Custom Cc"
+  },
+  "OverallTransparency": {
+    "message": "Overall Transparency"
+  },
+  "BackgroundTransparency": {
+    "message": "Background Transparency"
+  },
+  "Size": {
+    "message": "Size"
+  },
+  "NumberOfLines": {
+    "message": "Number Of Lines"
+  },
+  "Margins": {
+    "message": "Margins"
+  },
+  "OriginalCc": {
+    "message": "Original Cc"
+  },
+  "Show": {
+    "message": "Show"
+  },
+  "Hide": {
+    "message": "Hide"
   }
 }
