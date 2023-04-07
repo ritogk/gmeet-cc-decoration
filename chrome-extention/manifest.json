@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
   "author": "ritogk",
-  "name": "Google Meet リラックス",
-  "description": "重要会議、完全記憶不要、緊張解消、脳内リソース拡大、目と耳でバランスよく情報処理",
+  "name": "__MSG_Name__",
+  "description": "__MSG_Description__",
   "version": "1.2.1",
+  "default_locale": "en",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
