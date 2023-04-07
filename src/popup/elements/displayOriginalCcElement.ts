@@ -26,7 +26,6 @@ export class DisplayOriginalCcElement
     elements[0].addEventListener("change", (event: any) => {
       if (event.target instanceof HTMLInputElement) {
         if (!event.target.checked) return
-        console.log(1)
         setStorage("configDisplayOriginalCc", event.target.value)
       }
     })
@@ -34,7 +33,6 @@ export class DisplayOriginalCcElement
     elements[1].addEventListener("change", (event: any) => {
       if (event.target instanceof HTMLInputElement) {
         if (!event.target.checked) return
-        console.log(2)
         setStorage("configDisplayOriginalCc", event.target.value)
       }
     })
