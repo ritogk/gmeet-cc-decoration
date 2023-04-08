@@ -45,9 +45,6 @@ export class CcRowsElement implements ccRowsElementInterface {
           Number(rangeElement.step)
         thumbElement.style.left =
           Math.ceil((mapValue * (width - thumbWidth)) / mapMax) + "px"
-        console.log(value)
-        console.log(mapValue)
-        console.log(event.target)
         thumbElement.setAttribute("data-val", value)
       })
       rangeElement.dispatchEvent(new Event("input"))
