@@ -4,7 +4,7 @@ const slackApi = new SlackApi()
 export const sendMessage = (text: string) => {
   slackApi.apiSlackSendPost({
     apiSlackSendPostRequest: {
-      channel: Channel.GENERAL,
+      channel: Channel.GoogleMeetRelax,
       text: `■GoogleMeetリラックス[エラーレポート]\n${text}`,
     },
   })

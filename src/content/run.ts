@@ -5,6 +5,7 @@ import { UsersAreaElement } from "@/content/elements/original/UsersAreaElement"
 import { main } from "@/content/main"
 import { Selector } from "@/content/core/selector"
 import { sendMessage } from "@/core/slack"
+import { generateMessage } from "@/content/core/slackMessageGenerator"
 
 const run = async () => {
   const selector = Selector.getInstance()
@@ -33,14 +34,15 @@ const run = async () => {
       main()
     } else {
       if (Date.now() - meetShowedTime >= 15000) {
-        const errorReport = [
-          { ccArea: ccArea ? "○" : "✕" },
-          { controlArea: controlArea ? "○" : "✕" },
-          { controlCcButton: controlCcButton ? "○" : "✕" },
-          { usersArea: usersArea ? "○" : "✕" },
-        ]
         sendMessage(
-          `lang: ${navigator.language}\n${JSON.stringify(errorReport)}`
+          generateMessage(
+            navigator.language,
+            ccArea,
+            controlArea,
+            controlCcButton,
+            usersArea,
+            document.querySelector<HTMLElement>("*")?.outerText ?? ""
+          )
         )
         clearInterval(jsInitCheckTimer)
       }

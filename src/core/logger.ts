@@ -10,6 +10,5 @@ export class Logger implements loggerInterface {
 
   log = (text: string): void => {
     if (!this.isOutput) return
-    console.log(text)
   }
 }
