@@ -33,7 +33,7 @@ const run = async () => {
       clearInterval(jsInitCheckTimer)
       main()
     } else {
-      if (Date.now() - meetShowedTime >= 120000) {
+      if (Date.now() - meetShowedTime >= 500000) {
         sendMessage(
           generateMessage(
             navigator.language,
