@@ -57,6 +57,10 @@ export class UsersCcAreaElement implements usersCcAreaElementInterface {
     this.displayElements.forEach((x) => {
       removeElement(x.element, 2000)
     })
+    // 字幕が残る場合があるので、一括削除する
+    document.querySelectorAll("." + userCcAreaClassName).forEach((x) => {
+      removeElement(x as HTMLElement, 2000)
+    })
   }
 
   getElement = (name: string): Element | undefined => {
